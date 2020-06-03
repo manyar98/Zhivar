@@ -833,7 +833,7 @@ namespace Zhivar.Web.Controllers.Contract
                 resualt.listTemplateDate = new List<TemplateDate>();
                 resualt.listTemplateDate = createTemplateDate(ref rockData);
 
-                List<SazeOfContractInTime> list = new List<SazeOfContractInTime>();// await GetListSazeOfContractInTime(rockData);
+                List<SazeOfContractInTime> list = await GetListSazeOfContractInTime(rockData);
 
 
                 if (rockData.ContactID != null && rockData.ContactID > 0)

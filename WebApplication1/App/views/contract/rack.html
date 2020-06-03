@@ -2,12 +2,17 @@
 <script src="../../../Scripts/Custome/context.js"></script>
 <style type="text/css">
 
-    body , html{
-        overflow-x:hidden !important
+    body, html {
+        overflow-x: hidden !important
     }
-    .fiexedrow{
-        top:0;
-        position:sticky !important
+
+    .fiexedrow {
+        position:fixed;
+        width: 95%;
+        background: white;
+        top: 0;
+        left: 35px;
+        z-index: 10000;
     }
 
     .timeline {
@@ -21,84 +26,101 @@
         display: flex;
         flex-direction: column;
     }
+
         .timeline .timeline-chart-col {
             overflow: hidden;
         }
+
         .timeline .timeline-def-col {
             background: #313c42;
             color: #f1f1f1;
             text-align: center;
         }
+
         .timeline .timeline-header > div, .timeline .timeline-def-col-header {
             font-weight: bold;
-            padding: 15px 5px;
+             padding: 15px 5px;
             overflow: hidden;
             height: 70px;
             border-bottom: 1px solid #ccc;
-            flex:1;
+            flex: 1;
         }
+
         .timeline .timeline-header, .timeline .timeline-roomtype-header {
             display: flex;
             flex-wrap: nowrap;
             flex: 1 100%;
         }
+
             .timeline .timeline-header span.timeline-header-day-of-week {
                 font-size: 0.5em;
             }
+
             .timeline .timeline-header span.timeline-header-date {
                 white-space: nowrap;
                 font-size: 0.7em;
             }
+
             .timeline .timeline-header > div.today, .timeline .timeline-cell.today {
                 background: #fde9a0;
             }
+
         .timeline .timeline-body {
             overflow-y: scroll;
         }
+
         .timeline .timeline-def-col {
             background: #313c42;
             color: #f1f1f1;
             text-align: center;
         }
+
             .timeline .timeline-def-col .timeline-def-col-roomtype {
                 font-weight: bold;
             }
+
             .timeline .timeline-def-col .timeline-def-col-roomtype, .timeline .timeline-def-col .timeline-def-col-room {
                 height: 29.935px; /*29.73px;*/
                 line-height: 30px;
                 position: relative;
                 font-size: 0.8em;
             }
+
         .timeline .timeline-roomtype-header {
             height: 30px;
             background: #f1f1f1;
             line-height: 30px;
         }
+
         .timeline .timeline-header, .timeline .timeline-roomtype-header {
             display: flex;
             flex-wrap: nowrap;
             flex: 1 100%;
         }
+
         .timeline div.timeline-cell {
             border-left: 1px solid #ccc;
             border-bottom: 1px solid #ccc;
             flex: 1;
             text-align: center;
         }
+
         .timeline .timeline-roomtype-body .timeline-room {
             position: relative;
             height: 30px;
         }
+
         .timeline .timeline-room {
             display: flex;
             flex-wrap: nowrap;
             flex: 1 100%;
         }
+
         .timeline .timeline-reservation.checked-out {
             border: unset;
             background-color: #cacfd2;
-
         }
+
         .timeline .timeline-reservation {
             position: absolute;
             top: 0;
@@ -112,6 +134,7 @@
             height: 22px;
             overflow: hidden;
         }
+
             .timeline .timeline-reservation.timeline-reservation-content {
                 position: absolute;
                 top: 0;
@@ -120,18 +143,22 @@
                 background-color: rgba(0, 0, 0, 0);
                 border-radius: 0;
             }
+
             .timeline .timeline-reservation.late-checked-in {
                 background-color: #808080;
                 border-color: #808080;
                 right: 0;
             }
+
     .__react_component_tooltip.place-top {
         margin-top: -10px;
     }
+
     .__react_component_tooltip.type-dark {
         color: #fff;
         background-color: #222;
     }
+
     .__react_component_tooltip {
         border-radius: 3px;
         display: inline-block;
@@ -146,12 +173,14 @@
         /*visibility: hidden;*/
         z-index: 999;
     }
+
         .__react_component_tooltip:before, .__react_component_tooltip:after {
             content: "";
             width: 0;
             height: 0;
             position: absolute;
         }
+
         .__react_component_tooltip.place-top:after {
             border-left: 8px solid transparent;
             border-right: 8px solid transparent;
@@ -159,17 +188,20 @@
             left: 50%;
             margin-left: -8px;
         }
+
         .__react_component_tooltip.type-dark.place-top:after {
             border-top-color: #222;
             border-top-style: solid;
             border-top-width: 6px;
         }
+
         .__react_component_tooltip:before, .__react_component_tooltip:after {
             content: "";
             width: 0;
             height: 0;
             position: absolute;
         }
+
         .__react_component_tooltip.place-top:before {
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
@@ -177,9 +209,11 @@
             left: 50%;
             margin-left: -10px;
         }
+
     .timeline .timeline-room.room-not-assigned {
         background-color: #ffa07a;
     }
+
     .timeline .timeline-def-col .timeline-def-col-roomtype .room-status, .timeline .timeline-def-col .timeline-def-col-room .room-status {
         display: inline-block;
         width: 7px;
@@ -190,32 +224,39 @@
         left: 0px;
         top: 8px;
     }
+
     .timeline .timeline-chart-col {
         overflow: hidden;
     }
+
     .timeline .timeline-def-col {
         background: #313c42;
         color: #f1f1f1;
         text-align: center;
     }
+
     .timeline .timeline-def-col-header {
-        line-height: 40px;
+        line-height: 54px;
     }
+
     .timeline .timeline-header > div, .timeline .timeline-def-col-header {
         font-weight: bold;
-        padding: 15px 5px;
+        padding: 4px 5px;
         overflow: hidden;
         height: 70px;
         border-bottom: 1px solid #ccc;
     }
+
     .timeline .timeline-header, .timeline .timeline-roomtype-header {
         display: flex;
         flex-wrap: nowrap;
         flex: 1 100%;
     }
+
     .timeline div.row {
         margin: 0;
     }
+
     .timeline .timeline-body {
         overflow-y: scroll;
     }
@@ -237,36 +278,43 @@
     * {
         box-sizing: border-box;
     }
+
     div {
         display: block;
     }
+
     .rtl {
         direction: rtl;
     }
+
     .clearfix:before, .clearfix:after, .container:before, .container:after, .container-fluid:before, .container-fluid:after, .row:before, .row:after, .form-horizontal .form-group:before, .form-horizontal .form-group:after, .nav:before, .nav:after, .navbar:before, .navbar:after, .navbar-header:before, .navbar-header:after, .navbar-collapse:before, .navbar-collapse:after, .panel-body:before, .panel-body:after {
         content: " ";
         display: table;
     }
+
     .clearfix:after, .container:after, .container-fluid:after, .row:after, .form-horizontal .form-group:after, .nav:after, .navbar:after, .navbar-header:after, .navbar-collapse:after, .panel-body:after {
         clear: both;
     }
+
     .timeline .timeline-body::-webkit-scrollbar {
         display: none;
         margin-left: 3px;
         width: 5px;
     }
+
     .timeline .timeline-body::-webkit-scrollbar-thumb {
         background-color: darkgrey;
         outline: 1px solid slategrey;
     }
+
     .timeline .timeline-header > div, .timeline .timeline-roomtype-header > div {
         flex: 1;
         text-align: center;
     }
 </style>
 <div ng-controller="rackController">
-   <edit-reservation open="editReservationModal" reservation="reservation" onsuccess="getEditedReservation" iscreated="isCreatedRes" lstsaze="lstSaze"></edit-reservation>
-   <edit-contract-stop open="editContractStopModal" contractid="stop_ContractID" sazeid="stop_SazeID" onsuccess="getEditedReservation" iscreated="isCreatedStop" isstopgroup="isStopGroup"></edit-contract-stop>
+    <edit-reservation open="editReservationModal" reservation="reservation" onsuccess="getEditedReservation" iscreated="isCreatedRes" lstsaze="lstSaze"></edit-reservation>
+    <edit-contract-stop open="editContractStopModal" contractid="stop_ContractID" sazeid="stop_SazeID" onsuccess="getEditedReservation" iscreated="isCreatedStop" isstopgroup="isStopGroup"></edit-contract-stop>
     <div class="well">
         <ncy-breadcrumb></ncy-breadcrumb>
         <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
@@ -300,7 +348,7 @@
                                     <label class="col-md-1  control-label">تاریخ شروع:</label>
                                     <div class="col-md-3">
                                         <!--<input date-picker="" display-numbers="" type="text" id="startDate" ng-model="model.StartDisplayDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ شروع " data-original-title="" title="" aria-describedby="popover216080">-->
-                                        <input date-picker=""  type="text" id="startDate" ng-model="model.StartDisplayDate" class="pdate">
+                                        <input date-picker="" type="text" id="startDate" ng-model="model.StartDisplayDate" class="pdate">
                                     </div>
 
                                     <label class="col-md-1 control-label">تاریخ پایان:</label>
@@ -345,7 +393,7 @@
             </div>
             <div style="margin-top: 5px; display: flex; flex: 1 1 0%; overflow: hidden;">
                 <div class="timeline">
-                    <div class="row fiexedrow">
+                    <div id="rowfexed">
                         <div class="timeline-chart-col col-xs-2">
                             <div class="timeline-def-col">
                                 <div class="timeline-def-col-header">‌گروه رسانه ها</div>
@@ -431,7 +479,7 @@
                                                 </div>
                                             </div>
                                             <div ng-show="sazeOfContractInTime.CheckedOut">
-                                                <div class="react-contextmenu-wrapper" ng-mousemove="showTooltip2(sazeOfContractInTime.ID,1)" ng-mouseleave="showTooltip2(sazeOfContractInTime.ID,0)" >
+                                                <div class="react-contextmenu-wrapper" ng-mousemove="showTooltip2(sazeOfContractInTime.ID,1)" ng-mouseleave="showTooltip2(sazeOfContractInTime.ID,0)">
                                                     <div class="timeline-reservation checked-out" ng-style="{{sazeOfContractInTime.Styles}}" style="opacity: 1; cursor: move; text-align: left;">
                                                         <div class="timeline-reservation timeline-reservation-content checked-out" style="width: 100%; opacity: 1; cursor: move; text-align: left; "></div>
                                                         <div class="timeline-reservation timeline-reservation-content late-checked-in" style="width: 0%; opacity: 1; cursor: move; text-align: left; "></div>
@@ -530,7 +578,7 @@
             <div style="color: #ffffff; background-color:#f0ad4e ; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; box-sizing: border-box;  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px; border-radius: 2px; flex: 1 1 0%; margin-top: 10px; padding: 5px;">
                 <div style="width: 100%; display: flex; justify-content: space-around;">
                     <div style="width: calc(90% - 30px); display: flex; justify-content: space-between; flex-wrap: wrap;">
-                   
+
                         <div><b>درصد اشغالی({{typeName}}): </b>{{totalOccupy |number}}%</div>
                         <div><b>اجاره رفته({{typeName}}): </b>‌ {{totalCountOfRent |number}}</div>
                         <div><b>ارزش اجاره رفته({{typeName}}): </b>‌ {{totalCostRentTo |digitGroup}} ریال</div>
@@ -651,5 +699,13 @@
         </div>
     </div>
 
-
 </div>
+<script>
+    $(window).scroll(function () {
+        if ($("body , html").scrollTop() >= 280) {
+            $("#rowfexed").addClass("fiexedrow");
+        } else {
+            $("#rowfexed").removeClass("fiexedrow");
+        }
+    });
+</script>
