@@ -1,0 +1,230 @@
+﻿<div class="container ng-scope" ng-controller="closeFinanYearController">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <alert message="alertMessage" messages="alertMessages" alert-type="alertType" ng-show="alert"></alert>
+
+    <div class="row hesabfa-content-page center-block" ng-show="!loading">
+        <div ng-show="!closed">
+            <p class="hesabfa-page-top-help-box">
+                <span class="fa fa-info-circle fa-2x" style="color: #2ab27b;"></span>&nbsp;&nbsp;
+                <span>
+                    توجه: قبل از بستن دوره مالی، ترازنامه و مانده حسابهای خود را بررسی کنید و در صورت نیاز ثبت های اصلاحی را انجام دهید.
+                    <br>
+                    <!--نکته: سیستم بصورت اتوماتیک، قبل از بستن دوره مالی از دیتابیس شما یک نسخه پشتیبان تهیه میکند، اگر پس از بستن دوره مالی همه چیز خوب پیش نرفت
+                    یا نکته و ثبتی را فراموش کردید، از پشتیبانی بخواهید تا دیتابیس شما را به قبل از بستن دوره مالی برگرداند.-->
+                </span>
+            </p>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <label>نام دوره مالی جاری:</label>
+                </div>
+                <div class="col-sm-4 ng-binding">{{ currentFinanYear.Name|number }}</div>
+                <div class="col-sm-3 ng-binding">
+                    <label>تاریخ شروع:</label> {{ currentFinanYear.DisplayStartDate|number }}
+                </div>
+                <div class="col-sm-3 ng-binding">
+                    <label>تاریخ پایان:</label> {{ currentFinanYear.DisplayEndDate|number }}
+                </div>
+            </div>
+            <div class="row m-t-5">
+                <div class="col-sm-2">
+                    <label>نام دوره مالی جدید:</label>
+                </div>
+                <div class="col-sm-4">
+                    <input display-numbers="" type="text" class="form-control input-sm" ng-model="newFinanYear.Name">
+                </div>
+                <div class="col-sm-3 form-inline">
+                    <div class="form-group">
+                        <label>تاریخ شروع:</label>
+                        <input date-picker="" display-numbers="" type="text" class="form-control input-sm" id="newFinanYearStartDate" ng-model="newFinanYear.DisplayStartDate" style="width: 100px;">
+                    </div>
+                </div>
+                <div class="col-sm-3 form-inline">
+                    <div class="form-group">
+                        <label>تاریخ پایان:</label>
+                        <input date-picker="" display-numbers="" type="text" class="form-control input-sm" id="newFinanYearEndDate" ng-model="newFinanYear.DisplayEndDate" style="width: 100px;">
+                    </div>
+                </div>
+            </div>
+            <div class="row m-t-5">
+                <div class="col-sm-2">
+                    <label>تاریخ بستن سال مالی:</label>
+                </div>
+                <div class="col-sm-2">
+                    <input date-picker="" display-numbers="" type="text" class="form-control input-sm" ng-model="closingDate" id="closingDate">
+                </div>
+                <div class="col-sm-8"></div>
+            </div>
+
+            <div class="bs-callout bs-callout-success">
+                <h4 class="ng-binding">
+                    <span ng-show="netIncome >= 0">سود</span>
+                    <span ng-show="netIncome < 0">زیان</span>
+                    خالص برای {{ currentFinanYear.Name|number }}:
+                    <span ng-show="netIncome >= 0" class="txt-dark ng-binding">{{ netIncome |digitGroup}} {{ getCurrency() }}</span>
+                    <span ng-show="netIncome < 0" class="red ng-binding">{{ netIncome |digitGroup}} {{ getCurrency() }}</span>
+                </h4>
+            </div>
+
+            <div class="bs-callout bs-callout-danger">
+                <h4>مالیات بر درآمد</h4>
+                <p>
+                    اگر شما مالیات بر درآمد می پردازید در اینجا میزان مالیات بر درآمد خود را مشخص کنید.
+                    (بصورت درصد یا مبلغ)
+                </p>
+                <div class="row">
+                    <div class="col-sm-4 form-inline">
+                        <div class="form-group">
+                            <label>درصد مالیات بر درآمد:</label>
+                            <div class="input-group">
+                                <input display-numbers="" keyboard-filter="float" type="text" class="form-control input-sm" ng-model="incomeTaxRate" ng-blur="incomeTaxChange()" style="width: 100px;">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 form-inline">
+                        <div class="form-group">
+                            <label>مبلغ مالیات بر درآمد:</label>
+                            <div class="input-group">
+                                <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="form-control input-sm" ng-model="incomeTaxAmount" ng-blur="incomeTaxAmountChange()" style="width: 180px;">
+                                <span class="input-group-addon ng-binding">{{ getCurrency() }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bs-callout bs-callout-primary">
+                <h4>
+                    <span ng-show="netIncomeAfterTax >= 0">سود</span>
+                    <span ng-show="netIncomeAfterTax < 0">زیان</span>
+                    ویژه (
+                    <span ng-show="netIncomeAfterTax >= 0">سود</span>
+                    <span ng-show="netIncomeAfterTax < 0">زیان</span>
+                    خالص پس از کسر مالیات):
+                    <span ng-show="netIncomeAfterTax >= 0" class="txt-dark ng-binding">{{ netIncomeAfterTax |digitGroup}} {{ getCurrency() }}</span>
+                    <span ng-show="netIncomeAfterTax < 0" class="red ng-binding">{{ netIncomeAfterTax |digitGroup}} {{ getCurrency() }}</span>
+                </h4>
+            </div>
+
+            <div class="bs-callout bs-callout-info">
+                <h4>
+                    تقسیم
+                    <span ng-show="netIncomeAfterTax >= 0">سود</span>
+                    <span ng-show="netIncomeAfterTax < 0">زیان</span>
+                </h4>
+                <p class="ng-binding">
+                    اگر
+                    <span ng-show="netIncomeAfterTax >= 0">سود</span>
+                    <span ng-show="netIncomeAfterTax < 0">زیان</span>
+                    دوره مالی را بین سهامداران تقسیم میکنید در اینجا مقدار آن را مشخص کنید.
+                    <br>
+                    <span ng-show="netIncomeAfterTax >= 0">سود</span>
+                    <span ng-show="netIncomeAfterTax < 0">زیان</span>
+                    ویژه شما برای {{ currentFinanYear.Name|number }} ، مبلغ {{ netIncomeAfterTax |digitGroup}} {{ getCurrency() }} می باشد.
+                    چند درصد از این
+                    <span ng-show="netIncomeAfterTax >= 0">سود</span>
+                    <span ng-show="netIncomeAfterTax < 0">زیان</span>
+                    را بین سهامداران تقسیم و چند درصد از آن را بعنوان
+                    <span ng-show="netIncomeAfterTax >= 0">سود</span>
+                    <span ng-show="netIncomeAfterTax < 0">زیان</span>
+                    انباشته به دوره
+                    مالی بعد منتقل میکنید.
+                </p>
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="input-group">
+                            <input display-numbers="" keyboard-filter="float" type="text" class="form-control input-sm" ng-model="profitDivisionRate" ng-blur="profitDivisionChange()">
+                            <span class="input-group-addon" id="basic-addon2">%</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        از
+                        <span ng-show="netIncomeAfterTax >= 0">سود</span>
+                        <span ng-show="netIncomeAfterTax < 0">زیان</span>
+                        بین سهامداران تقسیم میشود.
+                    </div>
+                    <div class="col-xs-4 form-inline">
+                        <div class="input-group">
+                            <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="form-control input-sm" ng-model="profitDivisionAmount" ng-blur="profitDivisionAmountChange()" style="width: 180px;">
+                            <span class="input-group-addon ng-binding">{{ getCurrency() }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-5">
+                    <div class="col-xs-2">
+                        <div class="input-group">
+                            <input display-numbers="" keyboard-filter="float" type="text" class="form-control input-sm" ng-model="saveProfitePercent" disabled="disabled">
+                            <span class="input-group-addon" id="basic-addon3">%</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        از
+                        <span ng-show="netIncomeAfterTax >= 0">سود</span>
+                        <span ng-show="netIncomeAfterTax < 0">زیان</span>
+                        بعنوان
+                        <span ng-show="netIncomeAfterTax >= 0">سود</span>
+                        <span ng-show="netIncomeAfterTax < 0">زیان</span>
+                        انباشته به دوره مالی بعد منتقل میشود.
+                    </div>
+                    <div class="col-xs-4 ng-binding">مبلغ: {{ retainedEarningsAmount |digitGroup}} {{ getCurrency() }}</div>
+                </div>
+                <h4 style="margin-top: 15px; margin-bottom: 15px;">لسیت سهامداران</h4>
+                <table class="table table-bordered table-striped table-hover" id="grid">
+                    <thead>
+                        <tr class="active" style="font-size: 9pt; font-weight: bold;">
+                            <td>ردیف</td>
+                            <td>نام سهامدار</td>
+                            <td>درصد سهم</td>
+                            <td class="ng-binding">
+                                مبلغ
+                                <span ng-show="netIncomeAfterTax >= 0">سود</span>
+                                <span ng-show="netIncomeAfterTax < 0">زیان</span>
+                                سهامدار ({{ getCurrency() }})
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="shareholder in shareholders" class="ng-scope">
+                            <td class="text-center ng-binding">{{($index+1) |digitGroup }}</td>
+                            <td class="text-primary" style="text-align:center"><strong class="ng-binding"> {{shareholder.Name}}</strong></td>
+                            <td class="text-center ng-binding" style="text-align:center">{{shareholder.SharePercent |digitGroup  }}</td>
+                            <td class="ng-binding" style="text-align:center">{{((netIncomeAfterTax * 100)/shareholder.SharePercent) |digitGroup  }}</td>
+                        </tr>
+                        <!-- ngRepeat: shareholder in shareholders -->
+                    </tbody>مبلغ مالیات بر درآمد
+                </table>
+            </div>
+
+            <div class="row text-center" ng-show="!calling">
+                <button type="button" class="btn btn-primary" ng-click="closeFinanYear()">بستن دوره مالی و ایجاد دوره مالی جدید</button>
+                <button type="button" class="btn btn-default" ng-click="cancel()">انصراف</button>
+            </div>
+            <div class="row mr-t-5 text-center" ng-show="calling">
+                در حال بستن دوره مالی و ایجاد دوره مالی جدید...
+                <br>
+                این عملیات ممکن است کمی زمانبر باشد
+                <br>
+                <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+            </div>
+        </div>
+        <div ng-show="closed" class="text-center">
+            <div class="mr-b-10" ng-show="showCloseFinanYearAgainBtn">
+                <button type="button" class="btn btn-default btn-smoke" ng-show="showCloseFinanYearAgainBtn" ng-click="letsCloseFinanYearAgain()">
+                    بستن مجدد دوره مالی و انتقال مانده ها به دوره مالی بعد
+                </button>
+            </div>
+            <button type="button" class="btn btn-success" ng-click="goToNewFinanYear()">رفتن به دوره مالی جدید</button>
+        </div>
+    </div>
+
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری...</div>
+    </div>
+
+</div>

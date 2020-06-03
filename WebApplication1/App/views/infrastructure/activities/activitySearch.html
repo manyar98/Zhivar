@@ -1,0 +1,32 @@
+<div ng-controller="activitySearchController" ng-init="initialize()" id="activitySearchWrapper">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <form name="" class="form-horizontal" action="#">
+        <div class="abs anim k-rtl" ng-show="operationAccess.canView">
+            <div kendo-grid="grid" options="mainGridOptions" k-ng-delay="mainGridOptions"></div>
+        </div>
+    </form>
+    <script type="text/ng-template" id="activityDetailPopup.html">
+        <form action="#" ng-init="formInit()" id="modal-activity-detail">
+            <div class="modal-header">
+                <h3 class="modal-title" ng-bind="gridDetails"></h3>
+                <i class="fa fa-close" title="بستن" ng-click="closePopup()"></i>
+            </div>
+            <div class="modal-body" id="activityDetailsWrapper">
+                <div class="row">
+                    <div class="col-md-12 k-rtl">
+                        <div kendo-grid="modalGrid" options="mainGridOptionsModal" k-ng-delay="mainGridOptionsModal"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <style type="text/css">
+            .modal-dialog {
+                margin: 0.5% auto !important;
+                width: 99% !important;
+            }
+        </style>
+    </script>
+</div>

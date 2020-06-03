@@ -1,0 +1,97 @@
+﻿<div class="modal fade ng-scope in" id="viewDocumentModal" tabindex="-1" role="dialog" aria-labelledby="viewDocumentModalLabel" aria-hidden="false" style="display: none;">
+    <div class="modal fade in" style="height: 465px;"></div>
+    <div class="modal-dialog modal-lg ui-draggable" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-info ui-draggable-handle">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="viewDocumentModalLabel">
+                    سند حسابداری شماره
+                    <span class="orange ng-binding">{{document.Number |number}}</span>
+                </h4>
+            </div>
+            <form class="ng-pristine ng-valid">
+                <div class="modal-body">
+
+                    <div class="row ng-scope">
+                        <div class="col-sm-6">
+                            <label class="txt-bold">شـرح:&nbsp;</label><span class="hesabfa-txt-11 ng-binding">{{document.Description|number }}</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group ng-binding">
+                                <label class="txt-bold">تاریخ:&nbsp;</label>{{document.DisplayDate |number}}
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group ng-binding">
+                                <label class="txt-bold">شماره سند:&nbsp;</label>{{document.Number2 |number }}
+                            </div>
+                        </div>
+                        <!--<div class="col-sm-2">
+                            <div class="form-group ng-binding">
+                                <label class="txt-bold">شماره عطف:&nbsp;</label>
+                            </div>
+                        </div>-->
+                    </div>
+
+                    <div class="separator1 ng-scope"></div>
+
+                    <table class="table table-bordered table-hover ng-scope">
+                        <thead>
+                            <tr class="active" style="font-size: 9pt;font-weight: bold;">
+                                <td>#</td>
+                                <td>کد حساب</td>
+                                <td>حساب</td>
+                                <td>شــرح</td>
+                                <td>بدهکار <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></td>
+                                <td>بستانکار <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- ngRepeat: transaction in document.Transactions -->
+                            <tr ng-repeat="transaction in document.Transactions" class="ng-scope">
+                                <td style="width: 30px;padding: 5px; vertical-align: middle; text-align: center;" class="ng-binding">{{($index+1) |number}}</td>
+                                <td style="width: 80px; padding: 5px; vertical-align: middle; text-align: center;" class="ng-binding">{{transaction.AccountComplteCoding |number}}</td>
+                                <td style="padding: 5px; text-align:center;" class="text-primary ng-binding">
+                                    {{transaction.AccountName}}
+                                    <!--<span class="text-warning ng-binding"> / کالا 1</span>-->
+                                </td>
+                                <td style="padding: 5px; text-align:center;" class="ng-binding">{{transaction.Description |number}}</td>
+                                <td style="padding: 5px; vertical-align: middle; text-align: center;" class="ng-binding">{{transaction.Debit |digitGroup}}</td>
+                                <td style="padding: 5px; vertical-align: middle; text-align: center;" class="ng-binding">{{transaction.Credit |digitGroup}}</td>
+                            </tr><!-- end ngRepeat: transaction in document.Transactions -->
+
+
+                        </tbody>
+                    </table>
+
+                    <div class="row ng-scope" style="padding-left: 15px;">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <div class="row text-left" style="border-bottom: 1px solid rgb(69, 69, 69)" ng-class="totalRowClass()">
+                                <div class="col-xs-4 h5 txt-bold">جمع <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></div>
+                                <div class="col-xs-4 h5 txt-bold ng-binding">{{getTotalDebit() |digitGroup}}</div>
+                                <div class="col-xs-4 h5 txt-bold ng-binding">{{getTotalCredit() |digitGroup}}</div>
+                            </div>
+                            <div class="row" style="border-top: 1px solid rgb(69, 69, 69); margin-top: 1px;margin-bottom: 10px;"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-smoke" data-dismiss="modal">بستن</button>
+                    <button ng-show="document.IsManual &amp;&amp; showEditDocBtn" class="btn btn-info pull-right ng-hide" ng-click="redirect('editDocument',document.ID)">ویرایش</button>
+
+                    <button ng-show="document.IsManual &amp;&amp; showDeleteDocBtn" type="button" class="btn btn-danger pull-right ng-hide" ng-click="deleteDocument(document)" style="margin-right: 5px;">حذف</button>
+                    <button ng-show="showPrintDocBtn" class="btn btn-default btn-smoke pull-right" ng-click="printDocument()" style="margin-right: 5px;">
+                        <span class="fa fa-print" aria-hidden="true"></span>&nbsp;
+                        چاپ
+                    </button>
+                    <button ng-show="showPrintDocBtn" class="btn btn-default btn-smoke pull-right" ng-click="pdfDocument()" style="margin-right: 5px;">
+                        <span class="fa fa-file-pdf-o" aria-hidden="true"></span>&nbsp;
+                        PDF
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

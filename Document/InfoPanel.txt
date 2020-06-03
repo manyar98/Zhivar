@@ -1,0 +1,20 @@
+https://tegrahost.com 
+{
+	username:rolaikurd@gmail.com
+	pass:kurdistan1946
+}
+
+https://www.payam-resan.com
+{
+	username:rolaikurd
+	pass:kurdistan1946
+
+}
+
+https://plesk2.tegrahost.com:8443/smb/file-manager/list
+{
+	IP address: 95.38.61.182
+	user:Developer@smbt.ir
+	pasword:Mromidmohamadi4327
+
+}

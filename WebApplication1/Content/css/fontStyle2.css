@@ -1,0 +1,12 @@
+﻿@font-face {
+    font-family: 'BYeKan';
+    src: url( "../fonts/W_YEKAN_0.TTF" );
+    src: local( "?" ), url( "../fonts/W_YEKAN_0.TTF" )format( "truetype" );
+}
+
+body {
+    font-family: BYeKan;
+    direction: rtl;
+    text-align: right;
+    font-size: 16px;
+}

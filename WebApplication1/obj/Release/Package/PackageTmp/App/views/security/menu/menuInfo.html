@@ -1,0 +1,94 @@
+﻿<div ng-controller="menuInfoController" ng-init="init()" id="menuInfoWrapper">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <form name="menuInfo" class="form-horizontal" action="#">
+        <div class="row">
+            <div ng-class="subMenu ? 'col-md-4':'col-md-12'">
+                <div class="form-group">
+                    <label class="control-label" ng-class="subMenu ? 'col-md-3':'col-md-1'">عنوان:</label>
+                    <div ng-class="subMenu ? 'col-md-9':'col-md-3'">
+                        <input type="text" text-required='عنوان اجباریست' ng-model="model.Name" class="form-control" tabindex="1">
+                    </div>
+                </div>
+            </div>
+            <div ng-class="subMenu ? 'col-md-4':'col-md-12'">
+                <div class="form-group">
+                    <label class="control-label" ng-class="subMenu ? 'col-md-3':'col-md-1'">کد:</label>
+                    <div ng-class="subMenu ? 'col-md-9':'col-md-3'">
+                        <input type="text" text-required='کد اجباریست' ng-model="model.Code" class="form-control" tabindex="2">
+                    </div>
+                </div>
+            </div>
+            <div ng-class="subMenu ? 'col-md-4':'col-md-12'">
+                <div class="form-group" ng-show="subMenu">
+                    <label class="control-label" ng-class="subMenu ? 'col-md-3':'col-md-1'">ترتیب:</label>
+                    <div class="k-rtl" ng-class="subMenu ? 'col-md-9':'col-md-3'">
+                        <input type="text" text-required='ترتیب اجباریست' name="OrderNo" k-disabled="!subMenu" text-numeric ng-model="model.OrderNo" class="form-control" tabindex="4" />
+                    </div>
+                </div>
+            </div>
+            <div ng-class="subMenu ? 'col-md-4':'col-md-12'">
+                <div class="form-group" ng-show="subMenu">
+                    <label class="control-label" ng-class="subMenu ? 'col-md-3':'col-md-1'">آدرس:</label>
+                    <div ng-class="subMenu ? 'col-md-9':'col-md-3'">
+                        <input type="text" text-required='آدرس اجباریست' k-disabled="!subMenu" name="Tag1" ng-model="model.Tag1" class="form-control text-left dir-left" tabindex="5" />
+                    </div>
+                </div>
+            </div>
+            <div ng-class="subMenu ? 'col-md-4':'col-md-12'">
+                <div class="form-group" ng-show="subMenu">
+                    <label class="control-label" ng-class="subMenu ? 'col-md-3':'col-md-1'">آیکون:</label>
+                    <div ng-class="subMenu ? 'col-md-9':'col-md-3'">
+                        <input type="text" name="Tag2" ng-model="model.Tag2" class="form-control" tabindex="6" />
+                    </div>
+                </div>
+            </div>
+            <div ng-class="subMenu ? 'col-md-4':'col-md-12'">
+                <div class="form-group" ng-show="subMenu">
+                    <label class="control-label" ng-class="subMenu ? 'col-md-3':'col-md-1'">استایل متن:</label>
+                    <div ng-class="subMenu ? 'col-md-9':'col-md-3'">
+                        <input type="text" name="Tag4" ng-model="model.Tag4" class="form-control" placeholder="blink new bold" tabindex="9" />
+                    </div>
+                </div>
+            </div>
+            <div ng-class="subMenu ? 'col-md-4':'col-md-12'">
+                <div class="form-group" ng-show="subMenu">
+                    <label class="control-label" ng-class="subMenu ? 'col-md-3':'col-md-1'">نوع لینک:</label>
+                    <div class="col-md-9 padRight-0">
+                        <div class="radio radio-info radio-inline" tabindex="7">
+                            <input type="radio" id="typeRadio1" ng-model="model.Tag3" value="1" name="typeRadio1">
+                            <label for="typeRadio1"> داخلی </label>
+                        </div>
+                        <div class="radio radio-inline" tabindex="8">
+                            <input type="radio" id="typeRadio2" ng-model="model.Tag3" value="2" name="typeRadio1">
+                            <label for="typeRadio2"> خارجی </label>
+                        </div>
+                        <label class="link-descript">مقصود از لینک خارجی: ارتباط با سایر سامانه ها می باشد.</label>
+                    </div>
+                </div>
+            </div>
+            <div ng-class="subMenu ? 'col-md-4':'col-md-12'">
+                <div class="form-group">
+                    <label class="control-label" ng-class="subMenu ? 'col-md-3':'col-md-1'">وضعیت:</label>
+                    <div class="col-md-9">
+                        <div class="radio radio-info radio-inline" tabindex="10">
+                            <input type="radio" id="inlineRadio1" ng-model="model.IsActive" value="1" name="radioInline">
+                            <label for="inlineRadio1"> فعال </label>
+                        </div>
+                        <div class="radio radio-inline" tabindex="11">
+                            <input type="radio" id="inlineRadio2" ng-model="model.IsActive" value="0" name="radioInline">
+                            <label for="inlineRadio2"> غیر فعال </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-wrapper" ng-class="subMenu ? '':'new-wrapper'">
+            <input type="hidden" value="model.ID" />
+            <button-validation mode="normal" class-style="btn btn-success" click="action(model)">ثبت</button-validation>
+            <button class="btn btn-danger" ng-click="redirect()" type="button" tabindex="10">انصراف</button>
+        </div>
+    </form>
+</div>

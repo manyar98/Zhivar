@@ -1,0 +1,47 @@
+<div ng-controller="userOperationSearchController" ng-init="init()" id="userOperationSearchWrapper">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <form name="operationSearch" class="form-horizontal form-mrg-top" action="#">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 site-panel" ng-show="operationAccess.canInsert">
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 col-xs-3 control-label">نام کاربری:</label>
+                <div class="col-md-8 col-sm-8 col-xs-9">
+                    <input type="text" text-required='نام کاربری اجباریست' ng-model="model.UserName" class="form-control" tabindex="1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 col-xs-3 control-label">کد:</label>
+                <div class="col-md-8 col-sm-8 col-xs-9">
+                    <input type="text" text-required='کد اجباریست' ng-model="model.OperationCode" class="form-control" tabindex="2">
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12" ng-show="operationAccess.canInsert">
+                <div class="button-wrapper pull-left" style="margin-left:33%;">
+                    <button-validation mode="normal" class-style="btn btn-search" click="search(model)" tabindex="3">جستجو</button-validation>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 operation-search-result" ng-show="searchResultShow" ng-class="searchResultRedColor ? 'red':'green'">
+                <hr />
+                <label ng-bind="returnModel.FullName" style="text-decoration: underline; padding: 0 3px;"></label>
+                <span>
+                    با نام کاربری
+                </span>
+                <label ng-bind="returnModel.UserName" style="text-decoration: underline; padding: 0 3px;"></label>
+                <span>
+                    دسترسی به
+                </span>
+                <label style="text-decoration: underline; padding: 0 3px;">{{returnModel.OprType}}&nbsp;&nbsp;{{returnModel.OprName}}</label>
+                <span>
+                    با کد
+                </span>
+                <label ng-bind="returnModel.OperationCode" style="text-decoration: underline; padding: 0 3px;"></label>
+                <span>
+                    را دارا
+                </span>
+                <label ng-bind="returnModel.HasAccess" style="text-decoration: underline; padding: 0 3px;"></label>
+            </div>
+        </div>
+    </form>
+</div>

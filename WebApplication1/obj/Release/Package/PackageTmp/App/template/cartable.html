@@ -1,0 +1,165 @@
+<div id="cartable-template">
+    <div class="col-md-2 cartable-right-panel">
+        <!--<div class="col-md-12 k-rtl position-ddl-wrapper">
+            <select kendo-dropdownlist id="ddlPosition" class="form-control"
+                    k-ng-model="model.position.RoleID" k-data-source="positionDataSource" k-data-text-field="'RoleName'" k-data-value-field="'RoleID'"
+                    k-value-primitive="true" k-on-change="positionChange(model.position.RoleID)"  k-option-label="'لطفا نقش مدنظر را انتخاب نمایید'"></select>
+        </div>-->
+        <div class="col-md-12 tree">
+            <div class="tree-header">
+                موارد ارسالی 
+                <!--برای سمت انتخاب شده:-->
+            </div>
+            <ul>
+                <li class="workflowItem" ng-repeat="menuItem in workflowItems" id="{{menuItem.WorkflowId}}">
+                    <span class="sub-menu" ng-class="$index > 0 ? 'border-sub-menu' : ''" ng-click="getSubMenuItems(menuItem.WorkflowId)" title="{{menuItem.Title}}">
+                       <i class="menu-icon fa fa-desktop"></i>
+                         <span class="badge badge-inverse" ng-bind="menuItem.MessageCount |number"></span>
+                        {{menuItem.Title}}
+                    </span>
+                    <ul>
+                        <li ng-repeat="subMenuItem in menuItem.SubMenuItems" ng-click="loadGrid(subMenuItem)" id="{{subMenuItem.StepId}}">
+                            <span><i class="icon-time"></i> {{subMenuItem.Title}}</span>
+                            <span class="badge badge-detail" ng-bind="subMenuItem.MessageCount |number"></span>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-12 tree-refresh-button">
+            <button type="button" ng-click="cartableInitalize()" class="btn btn-back">
+                <i class="fa fa-refresh"></i>
+                <span>بارگذاری مجدد کارتابل</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="col-md-10 cartable-left-panel">
+        <div id="panel-grid-type" class="k-rtl">
+            <div id="grid" kendo-grid options="mainGridOptions" k-ng-delay="mainGridOptions"></div>
+        </div>
+
+        <div class="col-md-12 cartable-buttons" ng-show="model.PanelAction">
+            <button type="button" ng-repeat="typeAction in typeActions" ng-click="openConfirmModal(typeAction)" class="btn btn-primary">
+                <span ng-bind="typeAction.ActionTitle"></span>
+            </button>
+        </div>
+
+        <script type="text/ng-template" id="cartable-confirm-template.html">
+            <form id="cartable-confirm-modal-wrapper" ng-init="formInit()" class="form-horizontal">
+                <div>
+                    <div class="modal-header">
+                        <h3 class="modal-title" ng-bind="modalTitle"></h3>
+                        <i class="fa fa-close" title="بستن" data-dismiss="modal" aria-label="Close" ng-click="closePopup()"></i>
+                    </div>
+                    <div class="modal-body">
+                        <div id="cartable-nextSteps" class="alert alert-info col-md-12">
+                            <div ng-repeat="nextStep in model.NextSteps" class="form-group">
+                                <label class="col-md-1 control-label">ارسال به:</label>
+                                <div class="col-md-5 k-rtl">
+                                    <label class="label-readonly" ng-bind="nextStep.RoleName"></label>
+                                </div>
+                                <label class="col-md-1 control-label">جهت:</label>
+                                <div class="col-md-5">
+                                    <label class="label-readonly" ng-bind="nextStep.Title"></label>
+                                </div>
+                                <div class="col-md-11 col-md-offset-1">
+                                    <div class="radio radio-inline" ng-repeat="user in nextStep.UserInfoes">
+                                        <input type="radio" id="{{nextStep.RoleId}}" value="{{user.UserId}}" name="{{nextStep.Id}}" checked="{{$index == 0}}" />
+                                        <label ng-click="labelClick($event)" ng-bind-template="{{user.Gender == 1 ? 'جناب آقای' : 'سرکار خانم'}} {{user.FirstName}} {{user.LastName}}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label"> توضیحات:</label>
+                                <div class="col-md-11 cartable-description">
+                                    <textarea ng-model="model.UserComment" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button-validation mode="modal" class-style="btn btn-primary" click="action(model)">{{model.ActionTitle}}</button-validation>
+                    </div>
+                </div>
+                <info-window mode="confirm" accept="acceptConfirm()" is-open="confirmAction.active" title="پیغام" message="{{confirmAction.message}}"></info-window>
+            </form>
+            <style type="text/css">
+                .modal-dialog {
+                    margin-top: .5% !important;
+                    width: 75% !important;
+                }
+
+                    .modal-dialog .modal-content {
+                        width: 100% !important;
+                    }
+
+                .radio.radio-inline,
+                .radio-inline {
+                    width: 33% !important;
+                }
+
+                    .radio.radio-inline:not(:first-child),
+                    .radio-inline:not(:first-child) {
+                        margin-right: 0px !important;
+                    }
+
+                .radio label:hover,
+                .radio input:hover {
+                    cursor: pointer !important;
+                }
+
+                .radio label::before {
+                    background-color: #fff;
+                    border: 1px solid #cccccc;
+                    border-radius: 50%;
+                    content: "";
+                    display: inline-block;
+                    height: 17px;
+                    margin-right: 0 !important;
+                    position: absolute;
+                    right: -20px !important;
+                    transition: border 0.15s ease-in-out 0s;
+                    width: 17px;
+                }
+
+                .radio label::after {
+                    background-color: #555555;
+                    border-radius: 50%;
+                    content: " ";
+                    display: inline-block;
+                    height: 11px;
+                    left: auto !important;
+                    margin-right: -20px;
+                    position: absolute;
+                    right: 3px !important;
+                    top: 3px;
+                    transform: scale(0, 0);
+                    transition: transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33) 0s;
+                    width: 11px;
+                }
+            </style>
+        </script>
+
+        <script type="text/ng-template" id="cartable-panel-flow.html">
+            <div id="flow-modal-wrapper">
+                <div class="modal-header">
+                    <h3 class="modal-title" ng-bind="model.Title"></h3>
+                    <i class="fa fa-close" title="بستن" data-dismiss="modal" aria-label="Close" ng-click="closePopup()"></i>
+                </div>
+                <div class="modal-body k-rtl">
+                    <div id="grid" kendo-grid options="mainGridOptions" k-ng-delay="mainGridOptions"></div>
+                </div>
+            </div>
+            <style type="text/css">
+                .modal-dialog {
+                    width: 98% !important;
+                    margin: 1% auto;
+                }
+            </style>
+        </script>
+
+    </div>
+</div>

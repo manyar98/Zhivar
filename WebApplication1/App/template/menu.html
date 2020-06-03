@@ -1,0 +1,115 @@
+﻿<style>
+    a:link,
+    a:visited,
+    a:hover,
+    a:focus,
+    a:active {
+        color: blue;
+        font: 12px BYeKan, Tahoma;
+    }
+</style>
+<!-- #nav-container start -->
+<section id="nav-container">
+
+    <section class="container_12">
+        <section class="grid_12">
+            <!-- #nav start -->
+            <nav id="nav">
+                <ul>
+                    <li class="current-menu-item">
+                        <span class="nav-icon icon-home"></span>
+                        <a href="@Url.Action(" Index", "Home" , new {area="" })">خانه  </a>
+                    </li>
+
+                    <li>
+                        <span class="nav-icon icon-user"></span>
+                        <a href="/login">ورود</a>
+                        <ul>
+                            <li> <a style="font:12px BYeKan, Tahoma;" href="/login">ورود  </a></li>
+                            <li> <a style="font:12px BYeKan, Tahoma;" href="@Url.Action(" Register", "Account" , new { area="" , returnUrl=Request.Url?.AbsolutePath })">ثبت نام</a></li>
+
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <span class="nav-icon icon-camera"></span>
+                        <a href="#">نمونه کار</a>
+                        <ul>
+                            <li> <a style="font:12px BYeKan, Tahoma;" href="#">پروفایل 1</a></li>
+                            <li> <a style="font:12px BYeKan, Tahoma;" href="#">پروفایل 2</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <span class="nav-icon icon-list"></span>
+                        <a href="#">وبلاگ</a>
+
+                        <ul>
+                            <li> <a style="font:12px BYeKan, Tahoma;" href="#"> وبلاگ</a></li>
+                            <li> <a style="font:12px BYeKan, Tahoma;" href="#"> وبلاگ های دیگر</a></li>
+                            <li> <a style="font:12px BYeKan, Tahoma;" href="#">وبلاگ های دیگر</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <span class="nav-icon icon-cogs"></span>
+                        <a href="#">انواع رسانه</a>
+                        <ul>
+                            <li> <a style="font:12px BYeKan, Tahoma;" href="#">جاده ای</a></li>
+                            <li>
+                                <a style="font:12px BYeKan, Tahoma;" href="#">شهری</a>
+                                <ul>
+                                    <li> <a style="font:12px BYeKan, Tahoma;" href="#">شهری 1</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <span class="nav-icon icon-map-marker"></span>
+                        <a href="#">تماس با ما</a>
+                    </li>
+                </ul>
+            </nav><!-- #nav end -->
+            <!-- responsive navigation start -->
+            <select id="nav-responsive">
+                <option selected="" value="">کاملا واکنش گرا</option>
+
+                <option value="index-2.html">صفحه اصلی نسخه 1</option>
+
+                <option value="about.html">درباره ما</option>
+                <option value="services.html">خدمات</option>
+                <option value="faq.html">سوالات متداول</option>
+                <option value="page-sidebar-left.html">چپ</option>
+                <option value="page-sidebar-right.html">راست</option>
+
+                <option value="portfolio1.html">نمونه کار ستون1</option>
+                <option value="portfolio2.html">نمونه کار ستون 2</option>
+                <option value="portfolio2-alt.html">جایگزین نمونه کار2</option>
+                <option value="portfolio3.html">جایگزین نمونه کار3</option>
+                <option value="portfolio3-alt.html">جایگزین نمونه کار4</option>
+                <option value="portfolio4.html">نمونه کار ستون 3</option>
+                <option value="portfolio4-alt.html">جایگزین نمونه کار3</option>
+                <option value="portfolio-gallery.html">نونه کار گالری</option>
+                <option value="portfolio-single.html">نمونه کار تک</option>
+
+                <option value="blog.html">وبلاگ پیش فرض</option>
+                <option value="blog-alt.html">جایگزین وبلاگ</option>
+                <option value="blog-single.html">تک وبلاگ</option>
+
+                <option value="shortcodes.html">لورم اپیسوم</option>
+                <option value="contact.html">تماس با ما</option>
+            </select><!-- responsive navigation end -->
+
+            <section id="search-box">
+                <form action="#" method="get">
+                    <input id="m_search" name="s" type="text" placeholder="جستجو..." />
+                    <input class="search-submit" type="submit" />
+                </form>
+            </section>
+        </section><!-- .grid_12 end -->
+    </section><!-- .container_12 end -->
+
+</section><!-- #nav-container end -->

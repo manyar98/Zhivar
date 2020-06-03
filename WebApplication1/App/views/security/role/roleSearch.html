@@ -1,0 +1,14 @@
+<div ng-controller="roleSearchController" ng-init="init()">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <form name="role" class="form-horizontal" action="#">
+        <div class="abs anim k-rtl" ng-show="operationAccess.canView">
+            <kendo-treelist options="mainGridOptions" k-toolbar="toolbarTemplate"></kendo-treelist>
+        </div>
+    </form>
+    <info-window mode="confirm" accept="deleteRow()" is-open="confirmDelete.active" title="حذف" message="آیا شما از حذف این مورد اطمینان دارید؟"></info-window>
+</div>
+
+

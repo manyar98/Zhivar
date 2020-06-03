@@ -1,0 +1,16 @@
+<div ng-controller="errorController" ng-init="init()" id="errorWrapper">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <div class="row">
+        <button class="btn pull-left" ng-click="redirect()"><i class="fa fa-share "></i>بازگشت</button>
+    </div>
+   
+    <form name="operation" class="form-horizontal" action="#">
+        <div ng-bind-html="errorMessage | trustHtml" class="errorPageMessage"></div>
+        <div class="errorPageStackTraceWrapper">
+            <div ng-bind-html="errorStackTrace | trustHtml" class="errorPageStackTrace"></div>
+        </div>
+    </form>
+</div>

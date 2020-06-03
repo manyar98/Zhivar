@@ -1,0 +1,81 @@
+<div ng-controller="exceptionSearchController" ng-init="initialize()" id="exceptionSearchWrapper">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <form name="" class="form-horizontal" action="#">
+        <div class="abs anim k-rtl">
+            <div kendo-grid="grid" options="mainGridOptions" k-ng-delay="mainGridOptions"></div>
+        </div>
+    </form>
+    <script type="text/ng-template" id="exceptionDetailPopup.html">
+        <form action="#" ng-init="formInit()" id="modal-exception-detail">
+            <div class="modal-header">
+                <h3 class="modal-title">اطلاعات خطای سیستم:</h3>
+                <i class="fa fa-close" title="بستن" ng-click="closePopup()"></i>
+            </div>
+            <div class="modal-body" id="exceptionDetailsWrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-group-first">
+                            <span class="col-sm-1 control-label">کد:</span>
+                            <div class="col-sm-3">
+                                <label ng-bind="exceptionDetails.Code" style="color:red;" class="control-label" />
+                            </div>
+                            <span class="col-sm-1 control-label">نوع خطا:</span>
+                            <div class="col-sm-3">
+                                <label ng-bind="exceptionDetails.ExceptionType" class="control-label" />
+                            </div>
+                            <span class="col-sm-1 control-label">تاریخ و زمان:</span>
+                            <div class="col-sm-3">
+                                <label ng-bind="exceptionDetails.Date | persianDateTime" class="control-label" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group form-group-second">
+                            <span class="col-sm-1 control-label">شرح کامل:</span>
+                            <div class="error-descript">
+                                <label ng-bind-html="exceptionDetails.DetailMessage | trustHtml" class="error-descript-label control-label extended-form-label"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group form-group-third">
+                            <label class="col-sm-2 control-label">نام ماشین:</label>
+                            <div class="col-sm-4">
+                                <label ng-bind="exceptionDetails.MachineName" class="control-label" />
+                            </div>
+                            <label class="col-sm-2 control-label">IP ماشین:</label>
+                            <div class="col-sm-4">
+                                <label ng-bind="exceptionDetails.MachineIP" class="control-label" />
+                            </div>
+                            <label class="col-sm-2 control-label">نسخه سیستم عامل:</label>
+                            <div class="col-sm-4">
+                                <label ng-bind="exceptionDetails.OSVersion" class="control-label" />
+                            </div>
+                            <label class="col-sm-2 control-label">نام نرم افزار:</label>
+                            <div class="col-sm-4">
+                                <label class="control-label" ng-bind="project.name"></label>
+                            </div>
+                            <label class="col-sm-2 control-label">نام کاربر سیستم:</label>
+                            <div class="col-sm-4">
+                                <label ng-bind="exceptionDetails.UserName" class="control-label" />
+                            </div>
+                            <label class="col-sm-2 control-label">نام کنترل:</label>
+                            <div class="col-sm-4">
+                                <label ng-bind="exceptionDetails.DomainName" class="control-label" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </script>
+</div>
+<style type="text/css">
+    .modal-dialog {
+        margin: 0.5% auto !important;
+        width: 99% !important;
+    }
+</style>

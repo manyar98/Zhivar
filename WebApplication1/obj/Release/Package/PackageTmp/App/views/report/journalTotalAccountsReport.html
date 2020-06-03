@@ -1,0 +1,109 @@
+﻿
+<div class="container ng-scope" ng-controller="journalTotalAccountsReportController" style="width:100%">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <!--					<div style="margin-top: -5px; margin-bottom: 5px;">فیلتر های گزارش</div>-->
+                    <div class="col-sm-4">
+                        دفتر روزنامه در سطح معین
+                        <!-- <div id="selectStatus"></div>-->
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <!--						<date-range on-range-change="getJournal()" from-date="fromDate" to-date="toDate"></date-range>-->
+                    </div>
+                    <div class="col-sm-4 text-left">
+                        <button class="btn btn-default btn-smoke" ng-click="print()">
+                            <span class="fa fa-print"></span>&nbsp;
+                            چاپ
+                        </button>
+                        <button class="btn btn-default btn-smoke" ng-click="pdf()">
+                            <span class="fa fa-file-pdf-o"></span>&nbsp;
+                            PDF
+                        </button>
+                        <!--						<button class="btn btn-default btn-smoke" ng-click="excel()">-->
+                        <!--							<span class="fa fa-file-excel-o"></span>&nbsp;-->
+                        <!--							Excel-->
+                        <!--						</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-show="!buildingReport &amp;&amp; !loading">
+        <div class="col-sm-12">
+            <table class="table table-bordered table-striped table-hover" id="grid">
+                <thead>
+                    <tr class="active" style="font-size: 9pt; font-weight: bold;">
+                        <td style="width: 50px;">ردیف</td>
+                        <td style="width: 50px;">سند</td>
+                        <td style="width: 50px;">تاریخ</td>
+                        <td>شرح</td>
+                        <td style="width: 150px;">بدهکار</td>
+                        <td style="width: 150px;">بستانکار</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background-color: silver;">
+                        <td class="text-center"></td>
+                        <td style="margin: 0px;"></td>
+                        <td style="margin: 0px;"></td>
+                        <td style="margin: 0px;text-align:center">نقل از صفحه قبل</td>
+                        <td style="margin: 0px;" class="ng-binding">{{ grid.currentPage &gt; 1 ? money(pageSummation[grid.currentPage-1][0]) : "" }}</td>
+                        <td style="margin: 0px;" class="ng-binding">{{ grid.currentPage &gt; 1 ? money(pageSummation[grid.currentPage-1][1]) : "" }}</td>
+                    </tr>
+                    <!-- ngRepeat: trans in grid.pageData -->
+                    <tr ng-repeat="trans in grid.pageData" ng-click="showDocument(trans.Id);" class="hand ng-scope">
+                        <td class="text-center ng-binding">{{trans.Id |number}}</td>
+                        <td style="margin: 0px; text-align:center" class="ng-binding">{{trans.AccountId |number}}</td>
+                        <td style="margin: 0px; text-align:center" class="ng-binding">{{trans.DisplayDate|number}}</td>
+                        <td style="margin: 0px; text-align:right" class="ng-binding">{{trans.Name }}</td>
+                        <td style="margin: 0px; text-align:center" class="ng-binding">{{trans.Debit| digitGroup}}</td>
+                        <td style="margin: 0px; text-align:center" class="ng-binding">{{trans.Credit| digitGroup}}</td>
+                    </tr>
+
+                    <tr style="background-color: silver;">
+                        <td class="text-center"></td>
+                        <td style="margin: 0px;"></td>
+                        <td style="margin: 0px;"></td>
+                        <td style="margin: 0px;text-align:center">نقل به صفحه بعد</td>
+                        <td style="margin: 0px;" class="ng-binding">{{ money(pageSummation[grid.currentPage][0]) }}</td>
+                        <td style="margin: 0px;" class="ng-binding">{{ money(pageSummation[grid.currentPage][1]) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- ngInclude: '/dashboard/widgets/grid-footer.html' -->
+            <div ng-include="'/App/template/grid-footer.html'" class="ng-scope">
+                
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری دفتر روزنامه...</div>
+    </div>
+
+    <div class="row" ng-show="buildingReport &amp;&amp; !loading">
+        <div class="col-sm-12">
+            در حال ساختن دفتر روزنامه...
+            <div class="progress">
+                <div class="progress-bar ng-binding" role="progressbar" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100" ng-style="{'width':percent+'%'}">
+                    {{ percent }}%
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ngInclude: '/dashboard/viewDocumentModal.html?ver=1.2.9.1' -->
+    <div id="textHeightMeasurement" style="position: fixed; left: -1000px; top: -1000px;"></div>
+
+    <div style="margin-top: 50px;"></div>
+</div>

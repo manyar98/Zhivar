@@ -1,0 +1,128 @@
+﻿﻿<div class="container ng-scope" ng-controller="noeChapController">
+
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <edit-Noe-Chap open="editItemModal" noechap="item" onsuccess="getEditedItem" next="true"></edit-Noe-Chap>
+
+    <div class="center-block" ng-show="!loading">
+
+        <!-- Nav tabs -->
+
+
+        <div class="row mr-10">
+            <div class="col-md-12">
+                <button class="btn btn-info btn-sm mr-b-10" ng-click="addItem()">
+                    <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                    افزودن یک آیتم
+                </button>
+                <button class="btn btn-default btn-smoke btn-sm mr-b-10" ng-click="deleteItems()" ng-disabled="grid.getSelectedItems().length == 0">
+                    <span class="fa fa-trash" aria-hidden="true"></span>&nbsp;
+                    حذف
+                </button>
+                <!--<button class="btn btn-default btn-smoke btn-sm mr-b-10" data-toggle="modal" data-target="#importExcelModal" ng-show="havePermission('excelImport')">
+                    <span class="fa fa-file-excel-o" aria-hidden="true"></span>&nbsp;
+                    ورود از اکسل
+                </button>-->
+                <!--<button class="btn btn-default btn-smoke btn-sm mr-b-10" data-toggle="modal" ng-click="exportItemsToExcel()" ng-show="havePermission('excelExport')">
+                    <span class="fa fa-file-excel-o" aria-hidden="true"></span>&nbsp;
+                    خروج به اکسل
+                </button>
+                <div class="btn-group form-inline mr-b-10" id="printBtns" style="margin-top:10px">
+                    <button type="button" class="btn btn-default btn-smoke btn-sm dropdown-toggle mr-b-10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-print" aria-hidden="true"></span>
+                        چاپ <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="" ng-click="print()">چاپ لیست کالاها و خدمات</a></li>
+                        <li><a href="" ng-click="printBarcodeLabelDialog()">چاپ برچسب بارکد (PDF)</a></li>
+                    </ul>
+                </div>-->
+                <button type="button" class="btn btn-default btn-smoke btn-sm dropdown-toggle mr-b-10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="print()">
+                    <span class="fa fa-print" aria-hidden="true"></span>
+                    چاپ <span class="caret"></span>
+                </button>
+                <button class="btn btn-default btn-smoke mr-b-10" ng-click="pdf()">
+                    <span class="fa fa-file-pdf-o" aria-hidden="true"></span>
+                    PDF
+                </button>
+                <!--<a class="btn btn-success mr-b-10 pull-left" href="#/updateItemPrice" ng-show="havePermission('newItem')">
+                    <span class="fa fa-refresh" aria-hidden="true"></span>
+                    به روز رسانی لیست قیمت
+                </a>-->
+                <!--<button type="button" class="btn btn-success mr-b-10 pull-left"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="goToUpdateItemPrice()">
+                    <span class="fa fa-refresh" aria-hidden="true"></span>
+                    به روز رسانی لیست قیمت
+                </button>-->
+            </div>
+        </div>
+
+        <div id="gridContainer"></div>
+    </div>
+
+    <div id="printLabelPopupContent" class="hidden">
+        <div class="gridLabelCount"></div>
+        <div class="m-t-20">
+            <h4>تنظیمات چاپ</h4>
+        </div>
+        <div class="m-t-20">
+            <div style="display: inline-block; margin-right: 30px">
+                <label>تیتر لیبل</label>
+                <input display-numbers="" type="text" ng-model="label.title" class="form-control input-sm m-l-20" style="width: 150px; display: inline-block;">
+            </div>
+            <div style="display: inline-block; margin-right: 30px">
+                <label>عرض لیبل</label>
+                <input display-numbers="" keyboard-filter="integer" type="text" ng-model="label.width" class="form-control input-sm m-l-20" style="width: 50px; display: inline-block;" maxlength="3"> mm
+            </div>
+
+            <div style="display: inline-block; margin-right: 30px">
+                <label class="m-r-20">طول لیبل</label>
+                <input display-numbers="" keyboard-filter="integer" type="text" ng-model="label.height" class="form-control input-sm m-l-20" style="width: 50px; display: inline-block;" maxlength="3"> mm
+            </div>
+        </div>
+
+        <div class="m-t-20">
+            <div class="chkItemName m-l-20 m-r-20"></div>
+            <div class="chkItemCode m-l-20 m-r-20"></div>
+            <div class="chkBarcode m-l-20 m-r-20"></div>
+            <div class="chkPrice m-l-20 m-r-20"></div>
+            <div class="chkBorder m-l-20 m-r-20"></div>
+        </div>
+
+        <div class="row m-t-20">
+            <div class="col-xs-10">
+                <div class="radPrintType m-r-15"></div>
+            </div>
+            <div class="col-xs-2">
+                <button type="button" class="btn btn-info pull-left" ng-click="printLabels()">چاپ</button>
+            </div>
+        </div>
+
+
+    </div>
+    <div id="printLabelPopup">
+    </div>
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری لیست نوع چاپ ها...</div>
+    </div>
+
+
+
+    <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+                    <div>در حال گرفتن خروجی اکسل از اطلاعات نوع چاپ...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="textHeightMeasurement" style="position: fixed; left: -1000px; top: -1000px;"></div>
+    <img id="imgLogo" style="position: fixed; top: -1500px; left: -1500px; z-index: -1; max-width: 140px; max-height: 70px;" src="">
+
+</div>

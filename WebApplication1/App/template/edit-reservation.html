@@ -1,0 +1,221 @@
+﻿<div class="modal fade" id="editReservationModal" tabindex="-1" role="dialog" aria-labelledby="editReservationModalLabel">
+    <edit-contact open="editContactModal" contact="contact" onsuccess="getEditedContact" class="ng-isolate-scope"></edit-contact>
+    <div class="modal-dialog" role="document" style="width:80%">
+        <div class="modal-content">
+            <div class="modal-header modal-header-info">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title ng-binding" id="editReservationModalLabel">
+                    رزرو
+                </h4>
+            </div>
+            <form class="ng-pristine ng-valid ng-valid-maxlength">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="panel-body hesabfa-panel-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="invoiceContact" class="title1">طرف حساب</label>
+
+                                            <div id="comboContactReservation">
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="invoiceDate" class="title1 ng-binding">تاریخ رزرو</label>
+                                                <input date-picker="" display-numbers="" type="text" id="invoiceDate" ng-model="reservation.DisplayRegisterDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ رزرو " data-original-title="" title="" aria-describedby="popover216080">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="invoiceDate" class="title1 ng-binding">مدت اعتبار</label>
+                                                <input display-numbers="" type="text" class="form-control input-sm ng-valid" id="inputValiditDuration" ng-model="reservation.ValiditDuration" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="مدت اعتبار" data-original-title="" title="">
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr class="active" style="font-size: 9pt; font-weight: bold;">
+                                            <td>#</td>
+                                            <td> رسانه</td>
+                                            <td>تاریخ شروع اکران/عملیات</td>
+                                            <td>مدت اجاره</td>
+                                            <td>نوع اجاره</td>
+                                            <td>فی اجاره <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></td>
+                                            <td>بازاریاب</td>
+                                            <td>طراح</td>
+                                            <td>چاپ</td>
+                                            <td>نصب</td>
+                                            <td></td>
+
+
+
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                        <tr ng-repeat="reservationDetail in reservation.ReservationDetails" style="height: 37px!important;" class="ng-scope">
+                                            <td style="width: 30px; padding: 0px; vertical-align: middle; text-align: center;" ng-mouseover="MoveBtns = true" ng-mouseleave="MoveBtns = false">
+                                                <span ng-show="!MoveBtns" class="ng-binding">{{$index+1 |number}}</span>
+                                                <div ng-show="MoveBtns" style="font-size: 9pt; color: silver;" class="ng-hide">
+                                                    <span class="fa fa-arrow-up move-up" aria-hidden="true" title="انتقال به بالا" ng-click="MoveBtns = false; moveUpRow(reservationDetail)"></span>
+                                                    <span class="fa fa-arrow-down move-down" aria-hidden="true" title="انتقال به پایین" ng-click="MoveBtns = false; moveDownRow(reservationDetail)"></span>
+                                                </div>
+                                            </td>
+                                            <td style="min-width: 240px; padding: 0px;" class="invoice-td" id="tdItem{{$index}}" ng-click="moveRowEditor($index,$event)">
+
+                                                <div ng-hide="reservationDetail.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding ng-hide">{{reservationDetail.Saze.Title}}</div>
+                                            </td>
+                                            <td style="min-width: 100px; padding: 0px;" class="invoice-td" id="tdDate{{$index}}" ng-click="moveRowEditor($index,$event)">
+
+                                                <div ng-hide="reservationDetail.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{reservationDetail.StartDisplayDate |number}}</div>
+                                            </td>
+                                            <td style="width: 60px; padding: 0px;" class="invoice-td" id="tdStock{{$index}}" ng-click="moveRowEditor($index,$event)">
+
+                                                <div ng-hide="reservationDetail.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{reservationDetail.Quantity |number}}</div>
+                                            </td>
+
+
+                                            <td style="width: 180px; padding: 0px;" class="invoice-td" id="tdNoeEjare{{$index}}" ng-click="moveRowEditor($index,$event)">
+                                                <div ng-hide="reservationDetail.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding ng-hide">{{reservationDetail.NoeEjare.Title}}</div>
+
+                                            </td>
+
+                                            <td style="width: 120px; padding: 0px;" class="invoice-td" id="tdUnitPrice{{$index}}" ng-click="moveRowEditor($index,$event)">
+                                                <div ng-hide="reservationDetail.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{reservationDetail.UnitPrice |digitGroup}}</div>
+
+                                            </td>
+                                            <td style="width: 80px; padding: 0px;" class="invoice-td" id="tdBazaryab{{$index}}" ng-click="moveRowEditor($index,$event)">
+                                                <div ng-hide="reservationDetail.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{reservationDetail.PriceBazareab |digitGroup}}</div>
+
+                                            </td>
+                                            <td style="width: 80px; padding: 0px;" class="invoice-td" id="tdTarah{{$index}}" ng-click="moveRowEditor($index,$event)">
+                                                <div ng-hide="reservationDetail.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{reservationDetail.PriceTarah |digitGroup}}</div>
+
+                                            </td>
+                                            <td style="width: 80px; padding: 0px;" class="invoice-td" id="tdChap{{$index}}" ng-click="moveRowEditor($index,$event)">
+                                                <div ng-hide="reservationDetail.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{reservationDetail.PriceChap |digitGroup}}</div>
+
+                                            </td>
+                                            <td style="width: 80px; padding: 0px;" class="invoice-td" id="tdNasb{{$index}}" ng-click="moveRowEditor($index,$event)">
+                                                <div ng-hide="reservationDetail.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{reservationDetail.PriceNasab |digitGroup}}</div>
+
+                                            </td>
+                                            <td style="width: 20px; padding: 0px; vertical-align: middle; text-align: center;">
+                                                <span class="fa fa-remove fa-fw close-grid-row" aria-hidden="true" ng-click="deleteRow(reservationDetail)"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div id="hideme" style="display: none;">
+                                    <div id="comboItemReservation">
+                                    </div>
+
+                                    <div>
+                                        <input date-picker="" display-numbers="" type="text" id="inputStartDate" ng-model="actRow.StartDisplayDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ شروع اکران... " data-original-title="" title="" aria-describedby="popover216080">
+                                    </div>
+
+                                    <div>
+                                        <input display-numbers="" keyboard-filter="float" type="text" id="inputQuantity" class="input-grid-factor input-sm" ng-model="actRow.Quantity" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="مدت اجاره ...">
+                                    </div>
+
+                                    <div id="comboNoeEjareReservation">
+                                    </div>
+                                    <div>
+
+                                        <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputUnitPrice" class="input-grid-factor input-sm" ng-model="actRow.UnitPrice" ng-change="actRow.calcTax=true" ng-blur="calculateInvoice()" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="مبلغ اجاره: ">
+                                    </div>
+
+                                    <div>
+
+                                        <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputPriceBazareab" class="input-grid-factor input-sm" ng-model="actRow.PriceBazareab" ng-change="actRow.calcTax=true" ng-blur="calculateInvoice()" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="هزینه بازاریاب: ">
+                                    </div>
+
+                                    <div>
+
+                                        <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputPriceTarah" class="input-grid-factor input-sm" ng-model="actRow.PriceTarah" ng-change="actRow.calcTax=true" ng-blur="calculateInvoice()" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="هزینه طراحی: ">
+                                    </div>
+
+                                    <div>
+
+                                        <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputPriceChap" class="input-grid-factor input-sm" ng-model="actRow.PriceChap" ng-change="actRow.calcTax=true" ng-blur="calculateInvoice()" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="هزینه چاپ: ">
+                                    </div>
+
+                                    <div>
+
+                                        <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputPriceNasab" class="input-grid-factor input-sm" ng-model="actRow.PriceNasab" ng-change="actRow.calcTax=true" ng-blur="calculateInvoice()" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="هزینه نصب: ">
+                                    </div>
+                                </div>
+
+
+                                <div class="row" style="padding-left: 15px;">
+                                    <div class="col-md-8 col-sm-12">
+                                        <div class="row">
+                                            <div class="col-md-12 text-right">
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="btn-group">
+                                                                    <button type="button" ng-click="addRow()" onclick="return false;" class="btn btn-default btn-sm">
+                                                                        <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                                                        افزودن سطر
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-default btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <span class="caret"></span>
+                                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="" ng-click="addRow(5)">افزودن ۵ سطر</a></li>
+                                                                        <li><a href="" ng-click="addRow(10)">افزودن ۱۰ سطر</a></li>
+                                                                        <li><a href="" ng-click="addRow(20)">افزودن ۲۰ سطر</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="saveReservation()" type="button" ng-show="!calling">
+                        <i class="fa fa-search"></i>
+                        ثبت
+                    </button>
+
+                    <button class="btn btn-danger" ng-click="closePopup()" type="button" data-dismiss="modal" ng-show="!calling" tabindex="8"><i class="fa fa-ban"></i>انصراف</button>
+
+                    <div ng-show="calling" class="text-center ng-hide"><span><img src="../../../Content/img/ajax-loader4.gif"></span></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

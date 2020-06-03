@@ -1,0 +1,21 @@
+<div ng-controller="activityDetailsController" id="activityDetailsWrapper" ng-init="initialize()">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <form class="form-horizontal" action="#">
+        <div class="row">
+            <div class="col-md-12" ng-show="operationAccess.canView">
+                <div class="actdetail">
+                    <label for="gridDetails" ng-bind="gridDetails">detail</label>
+                </div>
+            </div>
+            <div class="col-md-12 k-rtl" ng-show="operationAccess.canView">
+                <div kendo-grid="grid" options="mainGridOptions" k-ng-delay="mainGridOptions"></div>
+            </div>
+        </div>
+        <div class="button-wrapper">
+            <button type="button" class="btn btn-danger" ng-click="redirect()"></button>
+        </div>
+    </form>
+</div>

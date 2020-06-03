@@ -1,0 +1,87 @@
+﻿<button class="btn btn-default btn-sm btn-select-date-range ng-binding" ng-click="showDatePopup=true" style="width: 100%">انتخاب بازه زمانی</button>
+<div id="datePopup" class="dx-overlay dx-popup dx-widget dx-visibility-change-handler dx-state-invisible">
+    <div class="dx-overlay-content dx-popup-normal dx-popup-draggable dx-rtl dx-resizable" tabindex="0" style="width: 1079.2px; height: auto; z-index: 1501; margin: 0px; left: 0px; top: 0px; transform: translate(135px, -39px) scale(1); transition: none 0s ease 0s; opacity: 1;">
+        <div dx-toolbar-base="options" class="ng-scope dx-toolbar dx-widget dx-rtl dx-visibility-change-handler dx-collection dx-popup-title" role="toolbar">
+            <div class="dx-toolbar-items-container">
+                <div class="dx-toolbar-before">
+                    <div class="dx-item dx-toolbar-item dx-toolbar-label" style="max-width: 135px;">
+                        <div class="dx-item-content dx-toolbar-item-content">
+                            <div>انتخاب بازه زمانی</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dx-toolbar-center" style="margin: 0px 150px 0px 38px; float: right;"></div>
+                <div class="dx-toolbar-after">
+                    <div class="dx-item dx-toolbar-item dx-toolbar-button">
+                        <div class="dx-item-content dx-toolbar-item-content">
+                            <div class="dx-closebutton dx-button dx-button-normal dx-widget dx-rtl dx-button-has-icon" role="button" aria-label="close" tabindex="0">
+                                <div class="dx-button-content">
+                                    <i class="dx-icon dx-icon-close"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dx-popup-content" style="height: auto;">
+            <div dx-tabs="tabSeasons" class="tab-seasons ng-scope dx-tabs dx-widget dx-visibility-change-handler dx-collection dx-tabs-expanded" role="tablist" tabindex="0" aria-activedescendant="dx-4e191634-acc0-beb3-f1de-db205c41cb8a">
+                <div class="dx-tabs-wrapper">
+                    <div class="dx-item dx-tab" aria-selected="false" role="tab">
+                        <div class="dx-item-content dx-tab-content">
+                            <span class="dx-tab-text">بهار</span>
+                        </div>
+                    </div>
+                <div class="dx-item dx-tab" aria-selected="false" role="tab">
+                    <div class="dx-item-content dx-tab-content">
+                        <span class="dx-tab-text">تابستان</span>
+                    </div>
+                </div>
+                <div class="dx-item dx-tab" aria-selected="false" role="tab">
+                    <div class="dx-item-content dx-tab-content">
+                        <span class="dx-tab-text">پاییز</span>
+                    </div>
+                </div>
+                <div class="dx-item dx-tab" aria-selected="false" role="tab">
+                    <div class="dx-item-content dx-tab-content">
+                        <span class="dx-tab-text">زمستان</span>
+                    </div>
+                </div>
+            </div>
+         </div>
+            <div id="range-selector" dx-range-selector="rangeSelectorOptions" class="m-t-10 m-b-10 ng-scope dx-visibility-change-handler">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" fill="none" stroke="none" stroke-width="0" class="dxrs dxrs-range-selector" style="line-height:normal;-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:rgba(0, 0, 0, 0);display:block;overflow:hidden;touch-action:pan-y;-ms-touch-action:pan-y;" width="1037" height="100" direction="ltr">
+                    <defs>
+                        <filter id="DevExpress_11" x="-50%" y="-50%" width="200%" height="200%" transform="translate(0,0)">
+                            <feGaussianBlur in="SourceGraphic" result="gaussianBlurResult" stdDeviation="3"></feGaussianBlur>
+                            <feOffset in="gaussianBlurResult" result="offsetResult" dx="2" dy="6"></feOffset>
+                            <feFlood result="floodResult" flood-color="" flood-opacity="0.8"></feFlood>
+                            <feComposite in="floodResult" in2="offsetResult" operator="in" result="compositeResult"></feComposite>
+                            <feComposite in="SourceGraphic" in2="compositeResult" operator="over"></feComposite>
+                        </filter>
+                        <clipPath id="DevExpress_12">
+                            <rect x="0" y="0" width="1037" height="100" transform="translate(0,0)"></rect>
+                        </clipPath>
+                        <clipPath id="DevExpress_13">
+                            <rect x="14" y="23" width="1005" height="24" transform="translate(0,0)"></rect>
+                        </clipPath>
+                    </defs>
+                    <g class="dxrs-view" clip-path="url(#DevExpress_13)"></g>
+                <g class="dxrs-slidersContainer" clip-path="url(#DevExpress_12)"><path d="M 15 35 L 1019 35 Z" transform="translate(0,0.5)" stroke="#606060" stroke-width="3"></path><g class="slider" transform="translate(1019,23)"><path d="M 0 0 L 0 24" transform="translate(0.5,0)" stroke-width="1" stroke="#000000" stroke-opacity="0.2"></path><g class="slider-marker" transform="translate(0,-23)"><path d="M -42 0 L 1 0 L 1 19 L 1 19 L 1 23 L -3 19 L -42 19 Z" transform="translate(0,0)" fill="#606060"></path><text x="0" y="0" transform="translate(-38,14)" text-anchor="start" style="fill:#ffffff;font-size:11px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;">فروردین</text><rect x="0" y="0" width="43" height="23" transform="translate(-42,0)" class="slider-marker-tracker" fill="#000000" opacity="0.0001" style="cursor:pointer;"></rect></g></g><g class="slider" transform="translate(14,23)"><path d="M 0 0 L 0 24" transform="translate(0.5,0)" stroke-width="1" stroke="#000000" stroke-opacity="0.2"></path><g class="slider-marker" transform="translate(0,-23)"><path d="M 0 0 L 35 0 L 35 19 L 4 19 L 0 23 L 0 19 L 0 19 Z" transform="translate(0,0)" fill="#606060"></path><text x="0" y="0" transform="translate(4,14)" text-anchor="start" style="fill:#ffffff;font-size:11px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;">اسفند</text><rect x="0" y="0" width="35" height="23" transform="translate(0,0)" class="slider-marker-tracker" fill="#000000" opacity="0.0001" style="cursor:pointer;"></rect></g></g></g><g class="dxrs-scale" clip-path="url(#DevExpress_12)"><g class="dxrs-range-selector-axis" transform="translate(0,11)"><g class="dxrs-range-selector-elements"><text x="56" y="24" transform="translate(0,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">اسفند</text><text x="140" y="24" transform="translate(0,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">بهمن</text><text x="223" y="24" transform="translate(0,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">دی</text><text x="307" y="24" transform="translate(0,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">آذر</text><text x="391" y="24" transform="translate(-0.5,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">آبان</text><text x="475" y="24" transform="translate(0.5,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">مهر</text><text x="558" y="24" transform="translate(0.5,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">شهریور</text><text x="642" y="24" transform="translate(0,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">مرداد</text><text x="726" y="24" transform="translate(0,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">تیر</text><text x="810" y="24" transform="translate(-0.5,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">خرداد</text><text x="893" y="24" transform="translate(0,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">اردیبهشت</text><text x="977" y="24" transform="translate(0,30)" style="font-size:11px;fill:#767676;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;font-weight:400;cursor:default;" text-anchor="middle">فروردین</text></g><g class="dxrs-range-selector-line"><path d="M 14 24 L 1019 24" transform="translate(0,0.5)" stroke-width="1" stroke="#000000" stroke-opacity="0.17"></path><path d="M 98 18 L 98 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 182 18 L 182 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 265 18 L 265 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 349 18 L 349 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 433 18 L 433 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 517 18 L 517 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 600 18 L 600 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 684 18 L 684 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 768 18 L 768 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 852 18 L 852 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 935 18 L 935 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 14 18 L 14 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path><path d="M 1019 18 L 1019 30" transform="translate(0.5,0)" stroke="#000000" stroke-width="1" stroke-opacity="0.17"></path></g><g class="dxrs-range-selector-title"></g></g></g><g class="dxrs-scale-breaks"><g class="dxrs-range-selector-breaks"></g></g><g class="dxrs-trackers"><path d="M 14 23 L 1019 23 L 1019 47 L 14 47 Z" transform="translate(0,0)" class="area-tracker" fill="#000000" opacity="0.0001"></path><path d="M 14 23 L 1019 23 L 1019 47 L 14 47 Z" transform="translate(0,0)" class="selected-area-tracker" fill="#000000" opacity="0.0001" style="cursor:default;"></path><rect x="-4" y="0" width="8" height="24" transform="translate(14,23)" class="slider-tracker" fill="#000000" opacity="0.0001" style="cursor:w-resize;"></rect><rect x="-4" y="0" width="8" height="24" transform="translate(1019,23)" class="slider-tracker" fill="#000000" opacity="0.0001" style="cursor:w-resize;"></rect></g></svg></div>
+            <div class="row ng-scope">
+                <div class="col-sm-3 col-sm-offset-3 col-xs-6">
+                    <input date-picker="" display-numbers="" type="text" ng-model="txtStart" class="form-control input-sm ng-valid" placeholder="از تاریخ" style="direction: ltr;">
+                </div>
+                <div class="col-sm-3 col-xs-6">
+                    <input date-picker="" display-numbers="" type="text" ng-model="txtEnd" class="form-control input-sm ng-valid" placeholder="تا تاریخ" style="direction: ltr;">
+                </div>
+            </div>
+            <div class="row m-t-20 ng-scope">
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-sm btn-default w-80" ng-click="updateRange()">تایید</button>
+                    <button type="button" class="btn btn-sm btn-default w-80" ng-click="showDatePopup=false">انصراف</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

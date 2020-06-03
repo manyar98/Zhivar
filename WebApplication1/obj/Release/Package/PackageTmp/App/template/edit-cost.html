@@ -1,0 +1,58 @@
+﻿<div class="modal fade" id="editItemModal" tabindex="-1" role="dialog" aria-labelledby="editItemModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog ui-draggable" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-info ui-draggable-handle">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title ng-binding" id="editItemModalLabel">
+                    افزودن آیتم جدید
+                </h4>
+            </div>
+            <form class="ng-pristine ng-valid ng-valid-maxlength">
+                <div class="modal-body">
+                    <div class="container-fluid">
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="code" class="title1">کد  <span class="red">*</span></label>
+                                <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="itam-code" ng-model="item.DetailAccount.Code" maxlength="6" disabled="disabled">
+                            </div>
+                        </div>
+                        <!--  <div ng-class="showItemUnit ? 'col-sm-6' : 'col-sm-9'" class="col-sm-9">
+                             <div class="form-group">
+                                 <label for="code" class="title1">بارکد</label>
+                                 <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="barcode" ng-model="item.Barcode" maxlength="48" select-on-click="">
+                             </div>
+                         </div>-->
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="name" class="title1">نام  <span class="red">*</span></label>
+                                <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="item-name" ng-model="item.Name" ng-blur="itemNameLeave()" maxlength="100">
+                            </div>
+                        </div>
+                    </div>
+                    
+             
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-smoke" data-dismiss="modal" ng-show="!calling">انصراف</button>
+                    <button type="submit" onclick="return false;" class="btn btn-success" ng-click="submitItem()" ng-show="!calling">
+                        ثبت و ذخیره
+                    </button>
+                    <button type="button" onclick="return false;" class="btn btn-success ng-hide" ng-click="submitItem(true)" ng-show="!calling &amp;&amp; next">
+                        ثبت و بعدی
+                    </button>
+                    <div ng-show="calling" class="text-center ng-hide"><span><img src="../../Content/img/ajax-loader4.gif"></span></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,216 @@
+﻿<div class="container ng-scope" ng-controller="editDocumentController" style="width:100%;">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <!--<alert message="alertMessage" messages="alertMessages" alert-type="alertType" ng-show="alert" class="ng-isolate-scope ng-hide">
+
+    </alert>-->
+    <!--<edit-account open="editAccountModal" account="account" accounts="accounts" onsuccess="getEditedAccount" class="ng-isolate-scope"></edit-account>-->
+
+    <div class="panel panel-info center-block hesabfa-panel" style="max-width: none;" id="panelEditDocument" ng-show="!loading">
+        <div class="panel-heading">
+            <span class="panel-title">سند حسابداری</span>
+        </div>
+        <div class="panel-body hesabfa-panel-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="documentDescription" class="title1">شـرح</label>
+                        <div class="input-group">
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-touched" id="documentDescription" ng-model="document.Description">
+                            <div class="input-group-addon hand" data-toggle="popover" data-placement="top" data-content="شرح های پر تکرار" data-trigger="hover" ng-click="showDefaultDes()"><span class="fa fa-bars" aria-hidden="true"></span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="documentDate" class="title1">تاریخ</label>
+                        <input date-picker="" display-numbers="" type="text" class="form-control input-sm ng-valid" id="documentDate" ng-model="document.DisplayDate" style="direction: ltr;"><a class="pcalBtn" href="#"></a>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="documentId" class="title1">شماره سند</label>
+                        <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid" id="documentId" ng-model="document.Number" disabled="disabled">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label class="title1">شماره عطف</label>
+                        <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid" ng-model="document.Number2" disabled="disabled">
+                    </div>
+                </div>
+            </div>
+
+            <div class="separator1"></div>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr class="active" style="font-size: 9pt; font-weight: bold;">
+                        <td>#</td>
+                        <td>کد حساب</td>
+                        <td>حساب معین</td>
+                        <td>حساب تفصیلی</td>
+                        <td>شــرح</td>
+                        <td>بدهکار <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></td>
+                        <td>بستانکار <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                  
+                    <tr ng-repeat="transaction in document.Transactions" class="ng-scope">
+                        <td style="width: 30px; padding: 0px; vertical-align: middle; text-align: center;" ng-mouseover="MoveBtns = true" ng-mouseleave="MoveBtns = false">
+                            <span ng-show="!MoveBtns" class="ng-binding">{{$index+1 }}</span>
+                            <div ng-show="MoveBtns" style="font-size: 9pt; color: silver;" class="ng-hide">
+                                <span class="fa fa-arrow-up move-up" aria-hidden="true" title="انتقال به بالا" ng-click="MoveBtns = false; moveUpRow(transaction)"></span>
+                                <span class="fa fa-arrow-down move-down" aria-hidden="true" title="انتقال به پایین" ng-click="MoveBtns = false; moveDownRow(transaction)"></span>
+                            </div>
+                        </td>
+                        <td style="width: 80px; padding: 0px; vertical-align: middle; text-align: center;" class="ng-binding"></td>
+                        <td style="width: 180px; padding: 0px;" class="invoice-td" id="tdAcc{{$index}}" ng-click="roweditor1.move($index)">
+                            <div ng-hide="transaction.rowIndex == roweditor1.activeRow.rowIndex" class="invoice-td-div ng-binding ng-hide">{{transaction.Account.Name}}</div>
+          
+                        </td>
+                        <td style="width: 180px; padding: 0px;" class="invoice-td" id="tdDt{{$index}}" ng-click="roweditor1.move($index)">
+                            <div ng-hide="transaction.rowIndex == roweditor1.activeRow.rowIndex" class="invoice-td-div ng-binding ng-hide">{{transaction.DetailAccount.Name}}</div>
+                            
+                        </td>
+                        <td style="padding: 0px;" class="invoice-td" id="tdDes{{$index}}" ng-click="roweditor1.move($index)">
+                            <div ng-hide="transaction.rowIndex == roweditor1.activeRow.rowIndex" class="invoice-td-div ng-binding ng-hide">{{transaction.Description}}</div>
+
+                        </td>
+                        <td style="width: 120px; padding: 0px;" class="invoice-td" id="tdDebit{{$index}}" ng-click="roweditor1.move($index)" ng-class="transaction.Credit > 0 ? 'bg-disabled' : ''">
+                            <div ng-hide="transaction.rowIndex == roweditor1.activeRow.rowIndex" class="invoice-td-div ng-binding ng-hide">{{transaction.Debit |digitGroup}}</div>
+                            
+                        </td>
+                        <td style="width: 120px; padding: 0px;" class="invoice-td" id="tdCredit{{$index}}" ng-click="roweditor1.move($index)" ng-class="transaction.Debit > 0 ? 'bg-disabled' : ''">
+                            <div ng-hide="transaction.rowIndex == roweditor1.activeRow.rowIndex" class="invoice-td-div ng-binding ng-hide">{{transaction.Credit |digitGroup}}</div>
+                            
+                        </td>
+                        <td style="width: 20px; padding: 0px; vertical-align: middle; text-align: center;">
+                            <span class="fa fa-remove fa-fw close-grid-row" aria-hidden="true" ng-click="deleteRow(transaction)"></span>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <div id="hideme" style="display: none;">
+                <div id="accountSelect"></div>
+                <div id="detailAccountSelect"></div>
+                <div class="input-group" id="inputDescription">
+                    <input display-numbers="" type="text" class="input-grid-factor input-sm" ng-model="roweditor1.activeRow.Description" ng-focus="transDesFocus($index)">
+                </div>
+                <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputDebit" class="input-grid-factor input-sm" ng-model="roweditor1.activeRow.Debit" ng-blur="calculateDoc()" ng-disabled="roweditor1.activeRow.Credit > 0">
+                <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputCredit" class="input-grid-factor input-sm" ng-model="roweditor1.activeRow.Credit" ng-blur="calculateDoc()" ng-disabled="roweditor1.activeRow.Debit > 0">
+            </div>
+
+            <div class="row" style="padding-left: 15px;">
+                <div class="col-md-7">
+                    <div class="btn-group">
+                        <button type="button" ng-click="addRow()" onclick="return false;" class="btn btn-default btn-sm">
+                            <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                            افزودن سطر
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="" ng-click="addRow(5)">افزودن 5 سطر</a></li>
+                            <li><a href="" ng-click="addRow(10)">افزودن 10 سطر</a></li>
+                            <li><a href="" ng-click="addRow(20)">افزودن 20 سطر</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row text-left bg-info" style="border-bottom: 1px solid rgb(69, 69, 69)" ng-class="totalRowClass()">
+                        <div class="col-xs-3 h5 txt-bold text-right">جمع <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></div>
+                        <div class="col-xs-4 h5 txt-bold ng-binding">{{sumDebit |digitGroup}}</div>
+                        <div class="col-xs-4 h5 txt-bold ng-binding">{{sumCredit |digitGroup}}</div>
+                    </div>
+                    <div class="row" style="border-top: 1px solid rgb(69, 69, 69); margin-top: 1px;margin-bottom: 10px;"></div>
+                    <div class="row text-left ng-hide" ng-show="deference">
+                        <div class="col-xs-4 title1 text-right">اختلاف <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></div>
+                        <div class="col-xs-8 title1 ng-binding">{{deference |digitGroup}}</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-5 text-right" ng-show="!calling">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" ng-click="saveDocument('save')" onclick="return false;">ذخیره پیش نویس</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <!--ng-show="invoice.Status == 0"-->
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <!--ng-show="invoice.Status == 0"-->
+                            <li><a href="" ng-click="saveDocument('save')">ذخیره پیش نویس</a></li>
+                            <li><a href="" ng-click="saveDocument('saveAndNext')">ذخیره و ثبت سند بعدی</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-7 col-xs-push-3 text-left" ng-show="!calling">
+                    <div class="btn-group col-xs-4">
+                        <button type="button" class="btn btn-success" ng-click="saveDocument('approve')" onclick="return false;" style="width: 100px;">تایید سند</button>
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="" ng-click="saveDocument('approve')">تایید سند</a></li>
+                            <li><a href="" ng-click="saveDocument('approveAndNext')">تایید و ثبت سند بعدی</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-3">
+                        <button type="button" ng-click="cancel()" class="btn btn-default btn-smoke" style="width: 80px;">انصراف</button>
+                    </div>
+                </div>
+                <div class="col-xs-12 text-center ng-hide" ng-show="calling">
+                    <span><img src="../../Content/img/ajax-loader4.gif"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="col-xs-12 text-center ng-hide" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری سند...</div>
+    </div>-->
+
+    <!--<div class="modal fade" id="defaultDesModal" tabindex="-1" role="dialog" aria-labelledby="defaultDesModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="viewDocumentModalLabel">شرح های پر تکرار</h4>
+                </div>
+                <form class="ng-pristine ng-valid ng-submitted">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row hesabfa-txt-9 form-group">
+                                <div class="input-group col-sm-12">
+                                    <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-touched" ng-model="newDescription" placeholder="شرح جدید...">
+                                    <div class="input-group-addon btn-success hand" data-toggle="popover" data-placement="top" data-content="افزودن شرح به لیست" data-trigger="hover" ng-click="addDescription()"><span class="fa fa-plus" aria-hidden="true"></span></div>
+                                </div>
+                            </div>
+               
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                       
+                        <button type="button" class="btn btn-default btn-smoke" data-dismiss="modal">بستن</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>-->
+
+</div>

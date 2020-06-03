@@ -1,0 +1,9 @@
+<div ng-controller="cartableController" ng-init="init()">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <form class="form-horizontal" action="#">
+        <cartable selected="selectedRow(e)"></cartable>
+    </form>
+</div>

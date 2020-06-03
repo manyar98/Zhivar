@@ -1,0 +1,854 @@
+﻿<div ng-controller="defaultController" ng-init="logoff()" class="background-register" style="overflow-y:scroll!important">
+
+    <header class="p-0 m-0">
+        <div style="background-color: #15283B;width:100vw ; " class="fixed-top p-0 m-0">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="text-light d-flex align-items-center pl-4">
+                    <div class="text-light d-flex align-items-center menu-box-left-default">
+                        <div>
+                            <a href="#" class="text-light mx-2 ml-4"> تماس با ما  &nbsp;&nbsp; <i class="fa fa-phone-square"></i></a>
+                        </div>
+                        <div>
+                            <a class="text-light mx-3" href="/login" ui-sref="login">   ورود  &nbsp;&nbsp; <i class="fa fa-sign-in"></i></a>
+                        </div>
+                        <div>
+                            <a href="/register" class="btn btn-success mx-2 text-light" style="border-radius:5px !important"> ثبت نام رایگان</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="menu-icon-default mb-2" style="display:none">
+                            <div class="line1-default"></div>
+                            <div class="line2-default"></div>
+                            <div class="line3-default"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-light p-0 m- d-flex align-items-center" style="direction:rtl">
+                    <div class="img-logo-defult ml-4 mr-5">
+                        <!--<img src="https://smbt.ir/Content/images/logo.svg" width="40px" />-->
+                        <img src="../../Content/style login/img-icon/zhivar.png" width="50px" />
+                    </div>
+                    <div class="default-menu p-0 m-0" style="height:100% !important">
+                        <ul class="list-unstyled p-0 m-0 d-flex align-items-center">
+                            <li class="position-relative"><a href="#" class="list list-1 d-block py-2 px-3">امکانات و قابلیت ها&nbsp;&nbsp; <i class="fa fa-angle-down"></i><div class="rte1"></div></a></li>
+                            <li class="position-relative"><a href="#" class="list list-2 d-block py-2 px-3"> تعرفه&nbsp;&nbsp; </a></li>
+                            <li class="position-relative"><a href="#" class="list list-3 d-block py-2 px-3"> حساب پلاس&nbsp;&nbsp; <i class="fa fa-angle-down "></i><div class="rte3"></div> </a></li>
+                            <li class="position-relative"><a href="#" class="list list-4 d-block py-2 px-3"> مرکز آموزش&nbsp;&nbsp; <i class="fa fa-angle-down "></i><div class="rte4"></div></a></li>
+                            <li class="position-relative"><a href="#" class="list list-5 d-block py-2 px-3">چرا  ژیور&nbsp;&nbsp; <i class="fa fa-angle-down"></i>  <div class="rte5"></div></a></li>
+                            <li class="position-relative"><a href="#" class="list list-6 d-block py-2 px-3">دربار ما&nbsp;&nbsp; <i class="fa fa-angle-down"></i>  <div class="rte6"></div></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div style="width:100%;position:relative" class="default-menu-dwon">
+                <div style="width:100% ; position:absolute;direction:rtl;padding-right:150px;padding-left:120px;z-index:150" class="rteshow1 text-right  ">
+                    <div class="d-flex justify-content-start py-4">
+                        <div style="width:500px;direction:rtl ; margin-left:40px">
+                            <div>  <i class="text-success fa fa-leaf"></i>  &nbsp;  &nbsp; امکانات</div>
+                            <div style="border-top:1px solid #9AA9B8 ">
+                                <div class="d-flex justify-content-around pt-3">
+                                    <div>
+                                        <div><a href="#" class="text-dark">داشبورد ساده و کاربردی</a></div>
+                                        <div><a href="#" class="text-dark"> مدیریت خرید و فروش</a></div>
+                                        <div><a href="#" class="text-dark"> کار با هر وسیله ای</a></div>
+                                        <div><a href="#" class="text-dark"> فاکتور آنلاین</a></div>
+                                        <div><a href="#" class="text-dark">مدیریت کالاها، خدمات و ضایعات</a></div>
+                                        <div><a href="#" class="text-dark">مدیریت اشخاص و حساب ها</a></div>
+                                        <div><a href="#" class="text-dark"> مدیریت اسناد</a></div>
+                                    </div>
+                                    <div>
+                                        <div><a href="#" class="text-dark"> تعریف و مدیریت کسب و کار</a></div>
+                                        <div><a href="#" class="text-dark"> دریافت و پرداخت ها</a></div>
+                                        <div><a href="#" class="text-dark">   دسترسی ها و تنظیمات</a></div>
+                                        <div><a href="#" class="text-dark">  مدیریت آنلاین کاربران</a></div>
+                                        <div><a href="#" class="text-dark">مدیریت کالاها، خدمات و ضایعات</a></div>
+                                        <div><a href="#" class="text-dark"> حمایت از کاربران</a></div>
+                                        <div><a href="#" class="text-dark">  گزارشهای متنوع و کاربردی</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:300px;direction:rtl">
+                            <div>  <i class="text-success fa fa-leaf"></i>  &nbsp;  &nbsp; امکانات جانبی</div>
+                            <div style="border-top:1px solid #9AA9B8 ">
+                                <div class="d-flex justify-content-between pt-3">
+                                    <div>
+                                        <div><a href="#" class="text-dark">پنل پیامک</a></div>
+                                        <div><a href="#" class="text-dark">  واسط کاربری (API)</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100% ; position:absolute;direction:rtl;padding-right:150px;padding-left:120px;z-index:150" class="rteshow3 text-right">
+                    <div class="d-flex justify-content-start py-4">
+                        <div style="width:500px;direction:rtl ; margin-left:40px">
+                            <div>  <i class="text-success fa fa-leaf"></i>  &nbsp;  &nbsp; مجله</div>
+                            <div style="border-top:1px solid #9AA9B8 ">
+                                <div class="d-flex justify-content-around pt-3">
+                                    <div>
+                                        <div><a href="#" class="text-dark">داشبورد ساده و کاربردی</a></div>
+                                        <div><a href="#" class="text-dark"> مدیریت خرید و فروش</a></div>
+                                        <div><a href="#" class="text-dark"> کار با هر وسیله ای</a></div>
+                                    </div>
+                                    <div>
+                                        <div><a href="#" class="text-dark"> تعریف و مدیریت کسب و کار</a></div>
+                                        <div><a href="#" class="text-dark"> دریافت و پرداخت ها</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:300px;direction:rtl">
+                            <div>  <i class="text-success fa fa-leaf"></i>  &nbsp;  &nbsp; بروزرسانی ها</div>
+                            <div style="border-top:1px solid #9AA9B8 ">
+                                <div class="d-flex justify-content-between pt-3">
+                                    <div>
+                                        <div><a href="#" class="text-dark"> بروزرسانی ها</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100% ; position:absolute;direction:rtl;padding-right:150px;padding-left:120px;z-index:150" class="rteshow4 text-right">
+                    <div class="d-flex justify-content-start py-4">
+                        <div style="width:500px;direction:rtl ; margin-left:40px">
+                            <div>  <i class="text-success fa fa-question-circle"></i>  &nbsp;  &nbsp; مجله</div>
+                            <div style="border-top:1px solid #9AA9B8 ">
+                                <div class="d-flex justify-content-between pt-3">
+                                    <div>
+                                        <div><a href="#" class="text-dark"> آموزش ژیور  </a></div>
+                                        <div><a href="#" class="text-dark">   سولات متداول </a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:300px;direction:rtl">
+                            <div>  <i class="text-success fa fa-question-circle"></i>  &nbsp;  &nbsp; API </div>
+                            <div style="border-top:1px solid #9AA9B8 ">
+                                <div class="d-flex justify-content-between pt-3">
+                                    <div>
+                                        <div><a href="#" class="text-dark"> واسط کاربری (API)</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100% ; position:absolute;direction:rtl;padding-right:150px;padding-left:120px;z-index:150" class="rteshow5 text-right">
+                    <div class="d-flex justify-content-start py-4">
+                        <div style="width:200px;direction:rtl ; margin-left:40px">
+                            <div>  <i class="text-success fa fa-question-circle"></i>  &nbsp;  &nbsp; مهمترین دلایل استفاده</div>
+                            <div style="border-top:1px solid #9AA9B8 ">
+                                <div class="d-flex justify-content-between pt-3">
+                                    <div>
+                                        <div><a href="#" class="text-dark"> آموزش ژیور  </a></div>
+                                        <div><a href="#" class="text-dark">   سولات متداول </a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:200px;direction:rtl ; margin-left:40px">
+                            <div>  <i class="text-success fa fa-question-circle"></i>  &nbsp;  &nbsp; استاراپ ها</div>
+                            <div style="border-top:1px solid #9AA9B8 ">
+                                <div class="d-flex justify-content-between pt-3">
+                                    <div>
+                                        <div><a href="#" class="text-dark"> آموزش ژیور  </a></div>
+                                        <div><a href="#" class="text-dark">   سولات متداول </a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:400px;direction:rtl">
+                            <div>  <i class="text-success fa fa-question-circle"></i>  &nbsp;  &nbsp; انواع کسب و کارها</div>
+                            <div style="border-top:1px solid #9AA9B8 ">
+                                <div class="d-flex justify-content-around pt-3">
+                                    <div>
+                                        <div><a href="#" class="text-dark">   سولات متداول </a></div>
+                                        <div><a href="#" class="text-dark"> واسط کاربری (API)</a></div>
+                                        <div><a href="#" class="text-dark"> مدیریت خرید و فروش</a></div>
+                                        <div><a href="#" class="text-dark"> کار با هر وسیله ای</a></div>
+                                    </div>
+                                    <div>
+                                        <div><a href="#" class="text-dark">   سولات متداول </a></div>
+                                        <div><a href="#" class="text-dark"> واسط کاربری (API)</a></div>
+                                        <div><a href="#" class="text-dark"> مدیریت خرید و فروش</a></div>
+                                        <div><a href="#" class="text-dark"> کار با هر وسیله ای</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:100% ; position:absolute;direction:rtl;padding-right:150px;padding-left:120px;z-index:150" class="rteshow6 text-right">
+                    <div class="d-flex justify-content-start py-4">
+                        <div style="width:400px;direction:rtl ; margin-left:40px">
+                            <div>  <i class="text-success fa fa-question-circle"></i>  &nbsp;  &nbsp; درباره ما</div>
+                            <div style="border-top:1px solid #9AA9B8 ">
+                                <div class="d-flex justify-content-between pt-3">
+                                    <div>
+                                        <div><a href="#" class="text-dark">  درباره ما  </a></div>
+                                        <div><a href="#" class="text-dark">    تماس با ما </a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width:100% ; position:relative;direction:rtl;z-index:150 ; direction:rtl ; margin-top:45px" class="text-right default-slider">
+            <div style="width:100% ; height:50px ;cursor:pointer " class="bg-light text-dark p-2 px-3 d-flex justify-content-between border-bottom list-slider-1"> امکانات و قابلیت ها&nbsp;&nbsp; <i class="fa fa-angle-left font-weight-bolder mt-1" style="font-size:20px "></i></div>
+            <div class="list-slider-down-1 bg-white w-75 mx-auto" style="direction:rtl ">
+                <div class="text-center"><h4 class="text-center text-dark border-bottom p-2 px-3">امکانات</h4></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> داشبورد ساده و کاربردی </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> مدیریت خرید و فروش </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> کار با هر وسیله ای </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> فاکتور آنلاین </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> مدیریت کالاها، خدمات و ضایعات </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> مدیریت اشخاص و حساب ها </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> مدیریت اسناد </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> تعریف و مدیریت کسب و کار </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> مدیریت خرید و فروش </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> کار با هر وسیله ای </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> فاکتور آنلاین </a></div>
+                <div class="text-center"><h4 class="text-center text-dark border-bottom p-2 px-3">امکانات جانبی</h4></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> پنل پیامک</a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">  واسط کاربری (API)</a></div>
+            </div>
+            <div style="width:100% ; height:50px ;cursor:pointer " class="bg-light text-dark border-bottom list-slider-2"><a href="#" class="text-dark p-2 px-3 d-block ">تعرفه </a></div>
+            <div style="width:100% ; height:50px ;cursor:pointer " class="bg-light text-dark p-2 px-3 d-flex justify-content-between border-bottom list-slider-3"> حساب پلاس&nbsp;&nbsp; <i class="fa fa-angle-left font-weight-bolder mt-1" style="font-size:20px "></i></div>
+            <div class="list-slider-down-3 bg-white w-75 mx-auto" style="direction:rtl ;">
+                <div class="text-center"><h4 class="text-center text-dark border-bottom p-2 px-3">مجله</h4></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">داشبورد ساده و کاربردی </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">مدیریت خرید و فروش </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">مدیریت خرید و فروش </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">دریافت و پرداخت ها </a></div>
+                <div class="text-center"><h4 class="text-center text-dark border-bottom p-2 px-3">بروزرسانی ها</h4></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">بروزرسانی ها</a></div>
+            </div>
+            <div style="width:100% ; height:50px ;cursor:pointer " class="bg-light text-dark p-2 px-3 d-flex justify-content-between border-bottom list-slider-4"> مرکز آموزش&nbsp;&nbsp; <i class="fa fa-angle-left font-weight-bolder mt-1" style="font-size:20px "></i></div>
+            <div class="list-slider-down-4 bg-white w-75 mx-auto" style="direction:rtl ;">
+                <div class="text-center"><h4 class="text-center text-dark border-bottom p-2 px-3">مجله</h4></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> آموزش ژیور  </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">   سولات متداول </a></div>
+                <div class="text-center"><h4 class="text-center text-dark border-bottom p-2 px-3">API</h4></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> واسط کاربری (API)  </a></div>
+            </div>
+            <div style="width:100% ; height:50px ;cursor:pointer " class="bg-light text-dark p-2 px-3 d-flex justify-content-between border-bottom list-slider-5"> چرا  ژیور  &nbsp;&nbsp; <i class="fa fa-angle-left font-weight-bolder mt-1" style="font-size:20px "></i></div>
+            <div class="list-slider-down-5 bg-white w-75 mx-auto" style="direction:rtl ;">
+                <div class="text-center"><h4 class="text-center text-dark border-bottom p-2 px-3">انواع استارتاپی</h4></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> آموزش ژیور  </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">   سولات متداول </a></div>
+                <div class="text-center"><h4 class="text-center text-dark border-bottom p-2 px-3">انواع کسب و کارها</h4></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">   سولات متداول </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> واسط کاربری (API)</a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> مدیریت خرید و فروش</a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> کار با هر وسیله ای</a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">سولات متداول </a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom"> واسط کاربری (API)</a></div>
+            </div>
+            <div style="width:100% ; height:50px ;cursor:pointer " class="bg-light text-dark p-2 px-3 d-flex justify-content-between border-bottom list-slider-6"> دربار ما  &nbsp;&nbsp; <i class="fa fa-angle-left font-weight-bolder mt-1" style="font-size:20px "></i></div>
+            <div class="list-slider-down-6 bg-white w-75 mx-auto" style="direction:rtl">
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">درباره ما</a></div>
+                <div class="text-center"><a href="#" class="text-dark p-2 px-3 d-block border-bottom">تماس با ما </a></div>
+            </div>
+        </div>
+    </header>
+    <div class="d-flex align-items-center justify-content-center main-default">
+        <div>
+            <h1 class="text-light mb-1 text-center title-text position-relative" style="width:100vw ; top:1000px">سامانه مدیریت بیلبورد تبلیغاتی</h1>
+            <div style="height:120px ; width:75vw" class="overflow-hidden position-relative mx-auto">
+                <div id="text-1" class="mb-5 position-absolute" style="width:100%">
+                    <div class="text-center mx-aut d-flex" style="margin-top:50px">
+                        <div class="px-4 py-2" style="color: #ffb204;background-color: rgba(0, 0, 0, 0.4);border: 0;border-radius: 10px;">
+                            هر چه تعداد بیلبورد تبلیغاتی بیشتر باشد بهتر است
+                        </div>
+                    </div>
+                </div>
+                <div id="text-2" class="mb-5 position-absolute" style="width:100%">
+                    <div class="text-center mx-aut d-flex" style="margin-top:50px">
+                        <div class="px-4 py-2" style="color: #ffb204;background-color: rgba(0, 0, 0, 0.4);border: 0;border-radius: 10px;">
+                            بیلبورد خود را هوشمندانه طراحی کنید
+                        </div>
+                    </div>
+                </div>
+                <div id="text-3" class="mb-5 position-absolute" style="width:100%">
+                    <div class="text-center mx-aut d-flex" style="margin-top:50px">
+                        <div class="px-4 py-2" style="color: #ffb204;background-color: rgba(0, 0, 0, 0.4);border: 0;border-radius: 10px;">
+                            بیلبوردتان تا جای ممکن ساده باشد
+                        </div>
+                    </div>
+                </div>
+                <div id="text-4" class="mb-5 position-absolute" style="width:100%">
+                    <div class="text-center mx-aut d-flex" style="margin-top:50px">
+                        <div class="px-4 py-2" style="color: #ffb204;background-color: rgba(0, 0, 0, 0.4);border: 0;border-radius: 10px;">
+                            هر چه تعداد بیلبورد تبلیغاتی بیشتر باشد بهتر است
+                        </div>
+                    </div>
+                </div>
+                <div id="text-5" class="mb-5 position-absolute" style="width:100%">
+                    <div class="text-center mx-aut d-flex" style="margin-top:50px">
+                        <div class="px-4 py-2" style="color: #ffb204;background-color: rgba(0, 0, 0, 0.4);border: 0;border-radius: 10px;">
+                            بیلبورد خود را هوشمندانه طراحی کنید
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- start btn  -->
+            <div class="overflow-hidden pb-5">
+                <div class="btns-loginandregister position-relative d-flex justify-content-center align-content-center mt-3" style="top:300px">
+                    <a href="/login" class="btn-loginandregister btn-loginn text-light"> ورود</a>
+                    <a href="/register" class="btn-loginandregister btn-registerr text-light"> ثبت نام</a>
+                </div>
+            </div>
+            <!-- end btn  -->
+        </div>
+    </div>
+</div>
+
+<style>
+    .menu-icon-default {
+        cursor: pointer;
+        transition: 0.5s;
+        height: 20px;
+        animation: 1s;
+    }
+
+        .menu-icon-default:hover [class*="line"] {
+            background-color: silver !important;
+        }
+
+    [class *= "list"] {
+        color: white;
+        /*overflow:hidden;*/
+    }
+
+        [class *= "list"] :hover {
+            background-color: rgb(224,224,224);
+            color: black;
+        }
+
+            [class *= "list"] :hover .rotate {
+                background-color: rgb(224,224,224);
+            }
+
+        [class *= "list"] i {
+            transition: 0.5s;
+            font-size: 20px;
+            font-weight: bolder !important;
+            position: relative;
+            top: 3px;
+        }
+
+        [class *= "list"] :hover i {
+            transform: rotate(180deg)
+        }
+
+    [class *= "rteshow"] {
+        background-color: rgb(255,255,255);
+    }
+
+    .rotate {
+        position: absolute !important;
+        width: 20px;
+        height: 20px;
+        background-color: #15283B;
+        left: 45%;
+        transform: rotate(45deg) !important;
+        top: 38px;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+        z-index: 10000 !important
+    }
+
+    .background-register {
+        height: 100vh;
+        background-size: cover !important;
+        background-repeat: repeat !important;
+    }
+
+    .main-default {
+        overflow: hidden !important;
+        width: 100%;
+        height: 100%;
+        background: rgba(000, 000, 000, 0.5)
+    }
+
+    #text-1, #text-2, #text-3, #text-4, #text-5 {
+        top: 100px;
+        opacity: 0;
+    }
+
+    .btn-registerr {
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+        width: 220px;
+        margin-left: 5px;
+        padding: 9px;
+        font-size: 16px !important;
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.73);
+        font-weight: bolder !important;
+        transition: all ease .2s;
+    }
+
+    .btn-loginn {
+        color: #fff;
+        background-color: #5bc0de;
+        border-color: #46b8da;
+        width: 110px;
+        margin-left: 5px;
+        padding: 9px;
+        font-size: 13pt;
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.73);
+        font-weight: bolder;
+        transition: all ease .2s;
+    }
+
+    .btn-loginandregister {
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    @media (min-width: 900px) {
+        [id *="text-"] div div {
+            font-size: 30px !important;
+        }
+
+        .title-text {
+            font-size: 80px
+        }
+
+        .default-menu-dwon-slider {
+            display: none !important;
+        }
+    }
+
+    @media (max-width:1180px) {
+
+        .menu-box-left-default {
+            display: none !important;
+        }
+
+        [id *="text-"] div div {
+            font-size: 26px !important;
+        }
+
+        .title-text {
+            font-size: 70px
+        }
+    }
+
+    @media (max-width: 899px) {
+        [id *="text-"] div div {
+            font-size: 20px !important;
+        }
+
+        .menu-icon-default {
+            display: block !important;
+        }
+        /*.default-menu-dwon-slider{
+               display:block !important;
+          }*/
+        .default-menu {
+            display: none !important;
+        }
+
+        .title-text {
+            font-size: 60px
+        }
+    }
+
+    @media (max-width: 750px) {
+        .title-text {
+            font-size: 50px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .title-text {
+            font-size: 40px;
+        }
+
+        [id *="text-"] div div {
+            font-size: 16px !important;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .title-text {
+            font-size: 35px
+        }
+
+        [id *="text-"] div div {
+            font-size: 13px !important;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .title-text {
+            font-size: 30px
+        }
+    }
+</style>
+<script>
+    $(document).ready(function(){
+    //start-default-menu-dwon-slider
+        $(".default-slider").hide();
+    //end-default-menu-dwon-slider
+        //start list slider
+        $("[class *='list-slider-down']").hide();
+        //--------------- 1 ----------------
+        var listslider1 = true;
+        $(".list-slider-1").click(function () {
+            if (listslider1 == true) {
+                $(".list-slider-1 i").removeClass("fa-angle-left");
+                $(".list-slider-1 i").addClass("fa-angle-down");
+                $(".list-slider-down-1").slideDown(500);
+                listslider1 = false;
+            }
+            else {
+                $(".list-slider-1 i").removeClass("fa-angle-down");
+                $(".list-slider-1 i").addClass("fa-angle-left");
+                $(".list-slider-down-1").slideUp(500);
+                listslider1 = true;
+            }
+        })
+        //--------------- 1 ----------------
+        //--------------- 3 ----------------
+        var listslider3 = true;
+        $(".list-slider-3").click(function () {
+            if (listslider3 == true) {
+                $(".list-slider-3 i").removeClass("fa-angle-left");
+                $(".list-slider-3 i").addClass("fa-angle-down");
+                $(".list-slider-down-3").slideDown(500);
+                listslider3 = false;
+            }
+            else {
+                $(".list-slider-3 i").removeClass("fa-angle-down");
+                $(".list-slider-3 i").addClass("fa-angle-left");
+                $(".list-slider-down-3").slideUp(500);
+                listslider3 = true;
+            }
+        })
+        //--------------- 3 ----------------
+        //--------------- 4 ----------------
+        var listslider4 = true;
+        $(".list-slider-4").click(function () {
+            if (listslider4 == true) {
+                $(".list-slider-4 i").removeClass("fa-angle-left");
+                $(".list-slider-4 i").addClass("fa-angle-down");
+                $(".list-slider-down-4").slideDown(500);
+                listslider4 = false;
+            }
+            else {
+                $(".list-slider-4 i").removeClass("fa-angle-down");
+                $(".list-slider-4 i").addClass("fa-angle-left");
+                $(".list-slider-down-4").slideUp(500);
+                listslider4 = true;
+            }
+        })
+        //--------------- 4 ----------------
+        //--------------- 5 ----------------
+        var listslider5 = true;
+        $(".list-slider-5").click(function () {
+            if (listslider5 == true) {
+                $(".list-slider-5 i").removeClass("fa-angle-left");
+                $(".list-slider-5 i").addClass("fa-angle-down");
+                $(".list-slider-down-5").slideDown(500);
+                listslider5 = false;
+            }
+            else {
+                $(".list-slider-5 i").removeClass("fa-angle-down");
+                $(".list-slider-5 i").addClass("fa-angle-left");
+                $(".list-slider-down-5").slideUp(500);
+                listslider5 = true;
+            }
+        })
+        //--------------- 6 ----------------
+        //--------------- 6 ----------------
+        var listslider6 = true;
+        $(".list-slider-6").click(function(){
+            if (listslider6 == true) {
+                $(".list-slider-6 i").removeClass("fa-angle-left");
+                $(".list-slider-6 i").addClass("fa-angle-down");
+                $(".list-slider-down-6").slideDown(500);
+                listslider6 = false;
+            }
+            else {
+                $(".list-slider-6 i").removeClass("fa-angle-down");
+                $(".list-slider-6 i").addClass("fa-angle-left");
+                $(".list-slider-down-6").slideUp(500);
+                listslider6 = true;
+            }
+        })
+        //--------------- 6 ----------------
+
+        //end list slider
+
+    //start menu-icon-default
+    $(".menu-icon-default").click(function(){
+    if ($(".line2-default").css("opacity") == "1") {
+        $(".menu-icon-default").css({
+            "top": "5px"
+        });
+        $(this).css({
+            "cursor": "pointer",
+            "position": "relative",
+            "transition": "0.5s",
+            " width": "40px"
+        })
+        $(".line2-default").css({
+            "opacity": "0"
+        });
+        $(".line1-default").css({
+            "transform": "rotate(42deg)",
+            "position": "absolute"
+        });
+        $(".line3-default").css({
+            "transform": "rotate(-45deg)",
+            "position": "absolute",
+            "top": "-0px"
+        });
+
+        $(".default-slider").slideDown(500);
+
+    } else {
+        $(".default-slider").slideUp(500);
+        $(".menu-icon-default").css({
+            "top": "0px"
+        });
+        $(".line2-default").css("opacity", "1");
+        $(".line1-default").css({
+            "transform": "rotate(0deg)",
+            "position": "static"
+        });
+        $(".line3-default").css({
+            "transform": "rotate(0deg)",
+            "top": "0px",
+            "position": "static"
+        });
+    };
+    })
+    //end menu-icon-default
+
+   //start menu hide and show
+    $("[class *= 'rteshow']").hide();
+    //$("header").mouseleave(function () {
+    //    $("[class *= 'rteshow']").hide();
+    //    $("[class *= 'rte']").removeClass("rotate");
+    //    $("[class *= 'rteshow']").hide();
+    //    $(".default-slider").slideUp(800);
+    //    $(".menu-icon-default").css({
+    //        "top": "0px"
+    //    });
+    //    $(".line2-default").css("opacity", "1");
+    //    $(".line1-default").css({
+    //        "transform": "rotate(0deg)",
+    //        "position": "static"
+    //    });
+    //    $(".line3-default").css({
+    //        "transform": "rotate(0deg)",
+    //        "top": "0px",
+    //        "position": "static"
+    //    });
+    //})
+
+    $(".main-default").hover(function () {
+     $("[class *= 'rte']").removeClass("rotate");
+    $("[class *= 'rteshow']").hide();
+    })
+
+    $(".list-1").mouseenter(function () {
+        $("[class *= 'rte']").removeClass("rotate");
+        $("[class *= 'rteshow']").hide();
+        $(".rte1").addClass("rotate");
+        $(".rteshow1").show();
+    })
+    $(".list-2").mouseenter(function () {
+        $("[class *= 'rte']").removeClass("rotate");
+        $("[class *= 'rteshow']").hide();
+    })
+    $(".list-3").mouseenter(function () {
+        $("[class *= 'rte']").removeClass("rotate");
+        $("[class *= 'rteshow']").hide();
+        $(".rte3").addClass("rotate");
+        $(".rteshow3").show();
+    })
+    $(".list-4").mouseenter(function () {
+        $("[class *= 'rte']").removeClass("rotate");
+        $("[class *= 'rteshow']").hide();
+        $(".rte4").addClass("rotate");
+        $(".rteshow4").show();
+    })
+    $(".list-5").mouseenter(function () {
+        $("[class *= 'rte']").removeClass("rotate");
+        $("[class *= 'rteshow']").hide();
+        $(".rte5").addClass("rotate");
+        $(".rteshow5").show();
+    })
+    $(".list-6").mouseenter(function () {
+        $("[class *= 'rte']").removeClass("rotate");
+        $("[class *= 'rteshow']").hide();
+        $(".rte6").addClass("rotate");
+        $(".rteshow6").show();
+    })
+    //end menu hide and show
+
+    //start chanj background
+    $(".background-register").css({ "background": "url('../../../../Content/style login/img_background/background-color-register/1.jpg')" });
+    $(".title-text").animate({
+        "top": "0",
+        "opacity": "1",
+    }, 2000);
+    let interval0 = setInterval(intervalfunc0, 1500);
+    function intervalfunc0() {
+        $("#text-1").animate({
+            "top": "0",
+            "opacity": "1",
+        }, 1000)
+        clearInterval(interval0);
+    };
+    let intervalbtb = setInterval(intervalbtn, 1000);
+    function intervalbtn() {
+        $(".btns-loginandregister").animate({
+            "top": "0",
+            "opacity": "1",
+        }, 2000)
+        clearInterval(intervalbtb);
+    };
+    var bckgroundrigester = 1;
+    var tt = false;
+    var yy = false;
+    var uu = false;
+    var ii = false;
+    var ff = false;
+    setInterval(function () {
+        if (bckgroundrigester == 1) {
+            $("#text-1").animate({
+                "top": "-100",
+                "opacity": "0",
+            }, 1000)
+
+            if (ff == true) {
+                $("#text-5").animate({
+                    "top": "-100",
+                    "opacity": "0",
+                }, 1000)
+                ff = false;
+            }
+            $("#text-5").animate({
+                "top": "100",
+                "opacity": "0",
+            }, 500);
+            if (tt == false) {
+                $("#text-1").animate({
+                    "top": "100",
+                    "opacity": "0",
+                }, 500);
+                tt = false;
+            }
+            let interval1 = setInterval(intervalfunc1, 1000);
+            function intervalfunc1() {
+                $("#text-2").animate({
+                    "top": "0",
+                    "opacity": "1",
+                }, 1000);
+                $(".background-register").css({ "background": "url('../../../../Content/style login/img_background/background-color-register/1 (1).jpg')", });
+                bckgroundrigester = 2;
+                clearInterval(interval1);
+            };
+        }
+        else if (bckgroundrigester == 2) {
+            $("#text-2").animate({
+                "top": "-100",
+                "opacity": "0",
+            }, 1000)
+            if (yy == false) {
+                $("#text-2").animate({
+                    "top": "100",
+                    "opacity": "0",
+                }, 500);
+                yy = false;
+            }
+            let interval2 = setInterval(intervalfunc2, 1000);
+            function intervalfunc2() {
+                $("#text-3").animate({
+                    "top": "0",
+                    "opacity": "1",
+                }, 1000);
+                $(".background-register").css({ "background": "url('../../../../Content/style login/img_background/background-color-register/1 (2).jpg')", });
+                bckgroundrigester = 3;
+                clearInterval(interval2);
+            };
+        }
+        else if (bckgroundrigester == 3) {
+            $("#text-3").animate({
+                "top": "-100",
+                "opacity": "0",
+            }, 1000)
+            if (uu == false) {
+                $("#text-3").animate({
+                    "top": "100",
+                    "opacity": "0",
+                }, 500);
+                uu = false;
+            }
+            let interval3 = setInterval(intervalfunc3, 1000);
+            function intervalfunc3() {
+                $("#text-4").animate({
+                    "top": "0",
+                    "opacity": "1",
+                }, 1000);
+                $(".background-register").css({ "background": "url('../../../../Content/style login/img_background/background-color-register/1 (3).jpg')", });
+                bckgroundrigester = 4;
+                clearInterval(interval3);
+            };
+        }
+        else if (bckgroundrigester == 4) {
+            ff = true;
+            $("#text-4").animate({
+                "top": "-100",
+                "opacity": "0",
+            }, 1000)
+            if (ii == false) {
+                $("#text-4").animate({
+                    "top": "100",
+                    "opacity": "0",
+                }, 500);
+                ii = false;
+            }
+            let interval4 = setInterval(intervalfunc4, 1000);
+            function intervalfunc4() {
+                $("#text-5").animate({
+                    "top": "0",
+                    "opacity": "1",
+                }, 1000);
+                $(".background-register").css({ "background": "url('../../../../Content/style login/img_background/background-color-register/1 (4).jpg')", });
+                bckgroundrigester = 1;
+                clearInterval(interval4);
+            };
+        }
+    }, 8000)
+    //end chanj background
+
+    })
+</script>

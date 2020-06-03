@@ -1,0 +1,646 @@
+﻿<link rel="stylesheet" href="../../../Content/js-persian-cal.css" />
+<script src="../../../Scripts/Custome/context.js"></script>
+<style type="text/css">
+    .timeline {
+        border: 1px solid #cccccc;
+        border-radius: 3px;
+        box-shadow: 0 0 15px #c3c3c3;
+        background: white;
+        flex: 1;
+        overflow: hidden;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+        .timeline .timeline-chart-col {
+            overflow: hidden;
+        }
+        .timeline .timeline-def-col {
+            background: #313c42;
+            color: #f1f1f1;
+            text-align: center;
+        }
+        .timeline .timeline-header > div, .timeline .timeline-def-col-header {
+            font-weight: bold;
+            padding: 15px 5px;
+            overflow: hidden;
+            height: 70px;
+            border-bottom: 1px solid #ccc;
+            flex:1;
+        }
+        .timeline .timeline-header, .timeline .timeline-roomtype-header {
+            display: flex;
+            flex-wrap: nowrap;
+            flex: 1 100%;
+        }
+            .timeline .timeline-header span.timeline-header-day-of-week {
+                font-size: 0.5em;
+            }
+            .timeline .timeline-header span.timeline-header-date {
+                white-space: nowrap;
+                font-size: 0.7em;
+            }
+            .timeline .timeline-header > div.today, .timeline .timeline-cell.today {
+                background: #fde9a0;
+            }
+        .timeline .timeline-body {
+            overflow-y: scroll;
+        }
+        .timeline .timeline-def-col {
+            background: #313c42;
+            color: #f1f1f1;
+            text-align: center;
+        }
+            .timeline .timeline-def-col .timeline-def-col-roomtype {
+                font-weight: bold;
+            }
+            .timeline .timeline-def-col .timeline-def-col-roomtype, .timeline .timeline-def-col .timeline-def-col-room {
+                height: 29.935px; /*29.73px;*/
+                line-height: 30px;
+                position: relative;
+                font-size: 0.8em;
+            }
+        .timeline .timeline-roomtype-header {
+            height: 30px;
+            background: #f1f1f1;
+            line-height: 30px;
+        }
+        .timeline .timeline-header, .timeline .timeline-roomtype-header {
+            display: flex;
+            flex-wrap: nowrap;
+            flex: 1 100%;
+        }
+        .timeline div.timeline-cell {
+            border-left: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            flex: 1;
+            text-align: center;
+        }
+        .timeline .timeline-roomtype-body .timeline-room {
+            position: relative;
+            height: 30px;
+        }
+        .timeline .timeline-room {
+            display: flex;
+            flex-wrap: nowrap;
+            flex: 1 100%;
+        }
+        .timeline .timeline-reservation.checked-out {
+            border: unset;
+            background-color: #cacfd2;
+
+        }
+        .timeline .timeline-reservation {
+            position: absolute;
+            top: 0;
+            border: 1px solid;
+            margin-top: 5px;
+            background-color: #cacfd2;
+            border-radius: 5px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: stretch;
+            height: 22px;
+            overflow: hidden;
+        }
+            .timeline .timeline-reservation.timeline-reservation-content {
+                position: absolute;
+                top: 0;
+                border: 0;
+                margin-top: 0;
+                background-color: rgba(0, 0, 0, 0);
+                border-radius: 0;
+            }
+            .timeline .timeline-reservation.late-checked-in {
+                background-color: #808080;
+                border-color: #808080;
+                right: 0;
+            }
+    .__react_component_tooltip.place-top {
+        margin-top: -10px;
+    }
+    .__react_component_tooltip.type-dark {
+        color: #fff;
+        background-color: #222;
+    }
+    .__react_component_tooltip {
+        border-radius: 3px;
+        display: inline-block;
+        font-size: 13px;
+        left: -999em;
+        opacity: 0;
+        padding: 8px 21px;
+        position: fixed;
+        pointer-events: none;
+        transition: opacity 0.3s ease-out;
+        top: -999em;
+        /*visibility: hidden;*/
+        z-index: 999;
+    }
+        .__react_component_tooltip:before, .__react_component_tooltip:after {
+            content: "";
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+        .__react_component_tooltip.place-top:after {
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            bottom: -6px;
+            left: 50%;
+            margin-left: -8px;
+        }
+        .__react_component_tooltip.type-dark.place-top:after {
+            border-top-color: #222;
+            border-top-style: solid;
+            border-top-width: 6px;
+        }
+        .__react_component_tooltip:before, .__react_component_tooltip:after {
+            content: "";
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+        .__react_component_tooltip.place-top:before {
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            bottom: -8px;
+            left: 50%;
+            margin-left: -10px;
+        }
+    .timeline .timeline-room.room-not-assigned {
+        background-color: #ffa07a;
+    }
+    .timeline .timeline-def-col .timeline-def-col-roomtype .room-status, .timeline .timeline-def-col .timeline-def-col-room .room-status {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: lime;
+        position: absolute;
+        left: 0px;
+        top: 8px;
+    }
+    .timeline .timeline-chart-col {
+        overflow: hidden;
+    }
+    .timeline .timeline-def-col {
+        background: #313c42;
+        color: #f1f1f1;
+        text-align: center;
+    }
+    .timeline .timeline-def-col-header {
+        line-height: 40px;
+    }
+    .timeline .timeline-header > div, .timeline .timeline-def-col-header {
+        font-weight: bold;
+        padding: 15px 5px;
+        overflow: hidden;
+        height: 70px;
+        border-bottom: 1px solid #ccc;
+    }
+    .timeline .timeline-header, .timeline .timeline-roomtype-header {
+        display: flex;
+        flex-wrap: nowrap;
+        flex: 1 100%;
+    }
+    .timeline div.row {
+        margin: 0;
+    }
+    .timeline .timeline-body {
+        overflow-y: scroll;
+    }
+    /*.persianFont * {
+        font-family: IRANSans, sans-serif !important;
+    }*/
+    .row {
+        margin-left: initial !important;
+        margin-right: initial !important;
+    }
+    /*html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, main, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+    }*/
+    * {
+        box-sizing: border-box;
+    }
+    div {
+        display: block;
+    }
+    .rtl {
+        direction: rtl;
+    }
+    .clearfix:before, .clearfix:after, .container:before, .container:after, .container-fluid:before, .container-fluid:after, .row:before, .row:after, .form-horizontal .form-group:before, .form-horizontal .form-group:after, .nav:before, .nav:after, .navbar:before, .navbar:after, .navbar-header:before, .navbar-header:after, .navbar-collapse:before, .navbar-collapse:after, .panel-body:before, .panel-body:after {
+        content: " ";
+        display: table;
+    }
+    .clearfix:after, .container:after, .container-fluid:after, .row:after, .form-horizontal .form-group:after, .nav:after, .navbar:after, .navbar-header:after, .navbar-collapse:after, .panel-body:after {
+        clear: both;
+    }
+    .timeline .timeline-body::-webkit-scrollbar {
+        display: none;
+        margin-left: 3px;
+        width: 5px;
+    }
+    .timeline .timeline-body::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        outline: 1px solid slategrey;
+    }
+    .timeline .timeline-header > div, .timeline .timeline-roomtype-header > div {
+        flex: 1;
+        text-align: center;
+    }
+</style>
+<div ng-controller="rackController">
+   <edit-reservation open="editReservationModal" reservation="reservation" onsuccess="getEditedReservation" iscreated="isCreatedRes" lstsaze="lstSaze"></edit-reservation>
+   <edit-contract-stop open="editContractStopModal" contractid="stop_ContractID" sazeid="stop_SazeID" onsuccess="getEditedReservation" iscreated="isCreatedStop" isstopgroup="isStopGroup"></edit-contract-stop>
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <div class="tab-body" ng-show="!calling">
+        <div class="tab-content-show active">
+            <div style="display: flex; flex-direction: column; max-height: 100%;">
+                <div style="color: rgba(0, 0, 0, 0.87); background-color: rgb(255, 255, 255); transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; box-sizing: border-box;  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px; border-radius: 2px; z-index: 1; flex: 1 1 0%;">
+
+                    <div style=" font-size: 14px; color: rgba(0, 0, 0, 0.87);">
+                        <div style="margin-top:2%;margin-bottom:2%" class="col-md-4">
+                            <button id="btnWeek" class="btn btn-adn btn-primary" ng-click="changeTemplateDate(1)" type="button">هفته جاری </button>
+                            <button id="btnMonth" class="btn btn-adn btn-default" ng-click="changeTemplateDate(2)" type="button">ماه جاری </button>
+                            <button id="btnYear" class="btn btn-adn btn-default" ng-click="changeTemplateDate(3)" type="button">سال جاری </button>
+
+
+                        </div>
+                        <div class="col-md-8 col-md-8 col-md-push-4" style="margin-top:2%;margin-bottom:2%">
+                            <button class="btn btn-action btn-success" type="button" tabindex="8" data-toggle="collapse" data-target="#demo"><i class="fa fa-search"></i>جستجوی پیشرفته</button>
+                            <button class="btn btn-adn btn-primary" ng-click="addNewReservation()" type="button" tabindex="8"><i class="fa fa-registered"></i>ثبت رزرو</button>
+                            <button class="btn btn-app btn-primary" ng-click="redirectNewPreContract('new')" type="button" tabindex="8"><i class="fa fa-save"></i>ثبت پیش قرارداد</button>
+
+                        </div>
+                    </div>
+
+                    <div id="demo" class="collapse">
+                        <div style="border:1px solid #4cae4c; border-radius:2px">
+                            <div class="col-md-10 col-md-push-2" style="margin:5px">
+                                <div class="form-group">
+                                    <label class="col-md-1  control-label">تاریخ شروع:</label>
+                                    <div class="col-md-3">
+                                        <!--<input date-picker="" display-numbers="" type="text" id="startDate" ng-model="model.StartDisplayDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ شروع " data-original-title="" title="" aria-describedby="popover216080">-->
+                                        <input date-picker=""  type="text" id="startDate" ng-model="model.StartDisplayDate" class="pdate">
+                                    </div>
+
+                                    <label class="col-md-1 control-label">تاریخ پایان:</label>
+                                    <div class="col-md-3">
+
+                                        <input date-picker="" display-numbers="" type="text" id="endDate" ng-model="model.EndDisplayDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ پایان " data-original-title="" title="" aria-describedby="popover216080">
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-10 col-md-push-2" style="margin:5px">
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">رسانه:</label>
+                                    <div class="col-md-3">
+
+                                        <div id="comboItem"></div>
+
+                                    </div>
+
+                                    <label class="col-md-1 control-label">طرف حساب:</label>
+                                    <div class="col-md-3">
+
+                                        <div id="comboContact"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-md-push-5" style="margin:5px">
+                                <div class="form-group">
+                                    <button class="btn btn-primary" ng-click="filter(model)" type="button">
+                                        <i class="fa fa-search"></i>
+                                        اعمال فیلتر
+                                    </button>
+
+                                    <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#demo" ng-click="closePopup(model)" tabindex="8"><i class="fa fa-ban"></i>انصراف</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div style="margin-top: 5px; display: flex; flex: 1 1 0%; overflow: hidden;">
+                <div class="timeline">
+                    <div class="row">
+                        <div class="timeline-chart-col col-xs-2">
+                            <div class="timeline-def-col">
+                                <div class="timeline-def-col-header">‌گروه رسانه ها</div>
+                            </div>
+                        </div>
+                        <div class="timeline-header col-xs-10">
+                            <div class="" ng-repeat="templateDate in listTemplateDate" ng-style="{{templateDate.Styles}}">
+                                <span class="timeline-header-day-of-week"> {{templateDate.Title1}}</span>
+                                <br>
+                                <span class="timeline-header-date"> {{templateDate.Title2 |number}} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-body row">
+                        <div class="timeline-def-col col-xs-2">
+                            <div ng-repeat="goroheSaze in listGoroheSaze">
+                                <div class="timeline-def-col-roomtype">
+                                    <input type="checkbox" name="vehicle1" value="Bike" checked="checked" ng-click="checkGroup(goroheSaze.ID)"><a href="#" style="color: white; text-decoration: none;"> {{goroheSaze.Title}}</a>
+                                </div>
+                                <div style="display: block;" id="group{{goroheSaze.ID}}">
+
+                                    <div class="timeline-def-col-room" ng-repeat="item in goroheSaze.Items" ng-mousemove="showTooltipSaze(item.ID,1)" ng-mouseleave="showTooltipSaze(item.ID,0)">
+                                        {{item.Title.substr(0,30)}}
+                                        <span data-tip="نظافت شده" class="room-status" currentitem="false" style="background-color: lime;"></span>
+
+                                        <div class="__react_component_tooltip place-top type-dark timelineBarToolTip" id="tooltipSaze{{item.ID}}" style="position:fixed">
+
+                                            <div style="margin: 7px 0px;"><span> نام سازه: {{item.Title}}  </span></div>
+                                            <div style="margin: 7px 0px;"><span>آدرس: {{item.Address}}  </span></div>
+                                            <div style="margin: 7px 0px;"><span> طول: {{item.Tol |digitGroup}}  </span></div>
+                                            <div style="margin: 7px 0px;"><span>عرض: {{item.Arz |digitGroup}} </span></div>
+                                            <div style="margin: 7px 0px;"><span>مساحت: {{(item.Tol*item.Arz) |digitGroup}} </span></div>
+                                            <div style="margin: 7px 0px;"><span>نور دارد: {{item.NoorDard}}  </span></div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="timeline-def-col-roomtype" style="display: block;color:#ffffff; background-color: #5cb85c;width:120%" id="totalInfo2{{goroheSaze.ID}}">
+                                    <a href="#" style="color: white; text-decoration: none;"> اطلاعات کلی گروه</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-10">
+                            <div ng-repeat="goroheSaze in listGoroheSaze">
+                                <div class="timeline-roomtype-header">
+                                    <div class="timeline-cell" ng-repeat="templateDate in listTemplateDate" ng-style="{{templateDate.Styles}}"><span></span></div>
+
+                                </div>
+                                <div class="timeline-roomtype-body" style="display: block;" id="group2{{goroheSaze.ID}}">
+                                    <div class="timeline-room " ng-repeat="item in goroheSaze.Items">
+                                        <div id="{{item.ID}}{{templateDate.ID}}" ng-style="{{templateDate.Styles}}" class="timeline-cell" ng-repeat="templateDate in listTemplateDate" ng-click="cellSelect('new',templateDate.Date,item.ID,templateDate.ID)" ng-dblclick="redirect('new',templateDate.Date,item.ID,templateDate.ID)" context="context2"></div>
+
+                                        <div ng-repeat="sazeOfContractInTime in item.SazeOfContractInTimes">
+
+
+
+                                            <div ng-show="sazeOfContractInTime.CheckedIn">
+
+
+                                                <div class="react-contextmenu-wrapper" ng-mousemove="showTooltip(sazeOfContractInTime.ID,1)" ng-mouseleave="showTooltip(sazeOfContractInTime.ID,0)" context="context3" ng-right-click="getIDCheckedIn(sazeOfContractInTime.ContractID,item.ID)">
+                                                    <div class="timeline-reservation" ng-style="{{sazeOfContractInTime.Styles}}" style=" opacity: 1; cursor: move; text-align: left; ">
+                                                        <div class="timeline-reservation timeline-reservation-content " style="width: 100%; opacity: 1; cursor: move; text-align: left; "></div>
+                                                        <div class="timeline-reservation timeline-reservation-content late-checked-in" style="width: 0%; opacity: 1; cursor: move; text-align: left; "></div>
+                                                        <div class="timeline-reservation timeline-reservation-content" style="width: 100%; opacity: 1; cursor: move; text-align: left; ">
+                                                            <span style="font-size: 0.7em;margin:0px 0% 0% 25%;">{{sazeOfContractInTime.ContactTitle +';'+ sazeOfContractInTime.Title}}</span>
+
+                                                            <div class="__react_component_tooltip place-top type-dark timelineBarToolTip" id="tooltip{{sazeOfContractInTime.ID}}" style="position:fixed">
+                                                                <div style="margin: 7px 0px;"><span> نام مشتری: {{sazeOfContractInTime.ContactTitle}}  </span></div>
+                                                                <div style="margin: 7px 0px;"><span>عنوان قرارداد: {{sazeOfContractInTime.ContractTitle}}  </span></div>
+                                                                <div style="margin: 7px 0px;"><span>شماره قرارداد: {{sazeOfContractInTime.ContractNumber |digitGroup}}  </span></div>
+                                                                <div style="margin: 7px 0px;"><span>ارزش کلی قرارداد: {{sazeOfContractInTime.ContractAmount |digitGroup}} {{currency}}</span></div>
+                                                                <div style="margin: 7px 0px;"><span>نرخ کلی این رسانه: {{sazeOfContractInTime.SazeAmount |digitGroup}} {{currency}}</span></div>
+                                                                <div style="margin: 7px 0px;"><span>اجاره هر واحد این رسانه: {{sazeOfContractInTime.UnitPrice |digitGroup}} {{currency}} </span></div>
+                                                                <div style="margin: 7px 0px;"><span>تاریخ شروع: {{sazeOfContractInTime.StartDisplayDate |number}}</span></div>
+                                                                <div style="margin: 7px 0px;"><span>تاریخ پایان: {{sazeOfContractInTime.EndDisplayDate |number}} </span></div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div ng-show="sazeOfContractInTime.CheckedOut">
+                                                <div class="react-contextmenu-wrapper" ng-mousemove="showTooltip2(sazeOfContractInTime.ID,1)" ng-mouseleave="showTooltip2(sazeOfContractInTime.ID,0)" >
+                                                    <div class="timeline-reservation checked-out" ng-style="{{sazeOfContractInTime.Styles}}" style="opacity: 1; cursor: move; text-align: left;">
+                                                        <div class="timeline-reservation timeline-reservation-content checked-out" style="width: 100%; opacity: 1; cursor: move; text-align: left; "></div>
+                                                        <div class="timeline-reservation timeline-reservation-content late-checked-in" style="width: 0%; opacity: 1; cursor: move; text-align: left; "></div>
+                                                        <div class="timeline-reservation timeline-reservation-content" style="width: 100%; opacity: 1; cursor: move; text-align: left; ">
+                                                            <span style="font-size: 0.7em;margin:0px 0% 0% 25%;">{{sazeOfContractInTime.Title}}</span>
+
+                                                            <div class="__react_component_tooltip place-top type-dark timelineBarToolTip" id="tooltip2{{sazeOfContractInTime.ID}}" style="position:fixed">
+                                                                <div style="margin: 7px 0px;"><span> نام مشتری: {{sazeOfContractInTime.ContactTitle}}  </span></div>
+                                                                <div style="margin: 7px 0px;"><span>عنوان قرارداد: {{sazeOfContractInTime.ContractTitle}}  </span></div>
+                                                                <div style="margin: 7px 0px;"><span>شماره قرارداد: {{sazeOfContractInTime.ContractNumber |digitGroup}}  </span></div>
+                                                                <div style="margin: 7px 0px;"><span>ارزش کلی قرارداد: {{sazeOfContractInTime.ContractAmount |digitGroup}} {{currency}}</span></div>
+                                                                <div style="margin: 7px 0px;"><span>نرخ کلی این رسانه: {{sazeOfContractInTime.SazeAmount |digitGroup}} {{currency}}</span></div>
+                                                                <div style="margin: 7px 0px;"><span>اجاره هر واحد این رسانه: {{sazeOfContractInTime.UnitPrice |digitGroup}} {{currency}} </span></div>
+                                                                <div style="margin: 7px 0px;"><span>تاریخ شروع: {{sazeOfContractInTime.StartDisplayDate |number}}</span></div>
+                                                                <div style="margin: 7px 0px;"><span>تاریخ پایان: {{sazeOfContractInTime.EndDisplayDate |number}} </span></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div ng-show="sazeOfContractInTime.Reservation">
+                                                <div class="react-contextmenu-wrapper" ng-mousemove="showTooltip3(sazeOfContractInTime.ID,1)" ng-mouseleave="showTooltip3(sazeOfContractInTime.ID,0)" context="context1" ng-right-click="getID(sazeOfContractInTime.ReservationID,sazeOfContractInTime.ReservationDetailID)">
+                                                    <div class="timeline-reservation" ng-style="{{sazeOfContractInTime.Styles}}" style="opacity: 1; cursor: move; text-align: left;">
+                                                        <div class="timeline-reservation timeline-reservation-content" style="width: 100%; opacity: 1; cursor: move; text-align: left; "></div>
+                                                        <div class="timeline-reservation timeline-reservation-content late-checked-in" style="width: 0%; opacity: 1; cursor: move; text-align: left; "></div>
+                                                        <div class="timeline-reservation timeline-reservation-content" style="width: 100%; opacity: 1; cursor: move; text-align: left; ">
+                                                            <span style="font-size: 0.7em;margin:0px 0% 0% 25%;">{{sazeOfContractInTime.Title}} رزرو</span>
+
+                                                            <div class="__react_component_tooltip place-top type-dark timelineBarToolTip" id="tooltip3{{sazeOfContractInTime.ID}}" style="position:fixed">
+                                                                <div style="margin: 7px 0px;"><span> نام مشتری: {{sazeOfContractInTime.ContractTitle}}  </span></div>
+                                                                <!--<div style="margin: 7px 0px;"><span>عنوان قرارداد: {{sazeOfContractInTime.ContractTitle}}  </span></div>
+                                                                <div style="margin: 7px 0px;"><span>شماره قرارداد: {{sazeOfContractInTime.ContractNumber |digitGroup}}  </span></div>
+                                                                <div style="margin: 7px 0px;"><span>ارزش کلی قرارداد: {{sazeOfContractInTime.ContractAmount |digitGroup}} {{currency}}</span></div>
+                                                                <div style="margin: 7px 0px;"><span>نرخ کلی این رسانه: {{sazeOfContractInTime.SazeAmount |digitGroup}} {{currency}}</span></div>
+                                                                <div style="margin: 7px 0px;"><span>اجاره هر واحد این رسانه: {{sazeOfContractInTime.UnitPrice |digitGroup}} {{currency}} </span></div>-->
+                                                                <div style="margin: 7px 0px;"><span>تاریخ شروع: {{sazeOfContractInTime.StartDisplayDate |number}}</span></div>
+                                                                <div style="margin: 7px 0px;"><span>تاریخ پایان: {{sazeOfContractInTime.EndDisplayDate |number}} </span></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div style="color:#ffffff; background-color: #5cb85c;display: block;" id="totalInfo{{goroheSaze.ID}}">
+                                    <div style="width: 100%; display: flex; justify-content: space-around;">
+                                        <div style="width: calc(90% - 30px); display: flex; justify-content: space-between; flex-wrap: wrap;">
+
+                                            <div><b>درصد اشغالی({{typeName}}): </b>{{goroheSaze.Occupy |number}}%</div>
+                                            <div><b>اجاره رفته({{typeName}}): </b>‌ {{goroheSaze.CountOfRent |number}}</div>
+                                            <div><b> اجاره رفته({{typeName}}): </b>‌ {{goroheSaze.CostRentTo |digitGroup}} ریال</div>
+                                            <div ng-show="goroheSaze.ShowCostFrom"><b> اجاره گرفته({{typeName}}): </b>‌ {{goroheSaze.CostRentFrom |digitGroup}} ریال</div>
+                                            <div ng-show="goroheSaze.ShowCostFrom"><b>سود ناخالص اجاره({{typeName}}): </b>‌ {{(goroheSaze.CostRentTo -goroheSaze.CostRentFrom) |digitGroup}}</div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="__react_component_tooltip place-top type-dark " data-id="tooltip"></div>
+                    <div style="">
+                        <nav role="menu" tabindex="-1" class="react-contextmenu" style="position: fixed; opacity: 0; pointer-events: none;">
+                            <div style="color: rgba(0, 0, 0, 0.87); background-color: rgb(255, 255, 255); transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; box-sizing: border-box;  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px; border-radius: 2px;"></div>
+                        </nav>
+                        <div style="position: fixed; right: 50%; display: flex; bottom: 0px; z-index: 2900; visibility: hidden; transform: translate(50%, 48px); transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, visibility 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;">
+                            <div width="3" style=" background-color: rgba(0, 0, 0, 0.87); padding: 0px 24px; height: 48px; line-height: 48px; border-radius: 2px; max-width: 568px; min-width: 288px; width: auto; flex-grow: 0;">
+                                <div style="font-size: 14px; color: rgb(255, 255, 255); opacity: 0; transition: opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: fixed; right: 50%; display: flex; bottom: 0px; z-index: 2900; visibility: hidden; transform: translate(50%, 48px); transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, visibility 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;">
+                            <div width="3" style=" background-color: rgba(0, 0, 0, 0.87); padding: 0px 24px; height: 48px; line-height: 48px; border-radius: 2px; max-width: 568px; min-width: 288px; width: auto; flex-grow: 0;">
+                                <div style="font-size: 14px; color: rgb(255, 255, 255); opacity: 0; transition: opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style="position: fixed; height: 100%; width: 100%; top: 0px; right: -100%; opacity: 0; background-color: rgba(0, 0, 0, 0.54); -webkit-tap-highlight-color: rgba(0, 0, 0, 0); will-change: opacity; transform: translateZ(0px); transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 400ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; z-index: 1200; pointer-events: none;"></div>
+                    <div style="color: rgba(0, 0, 0, 0.87); background-color: rgb(66, 66, 66); transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; box-sizing: border-box;  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px; border-radius: 0px; height: 100%; width: 956.2px; position: fixed; z-index: 1300; right: auto; top: 0px; transform: translate(-966.2px, 0px); overflow: auto; left: 0px; opacity: 1;"></div>
+                </div>
+            </div>
+            <div style="color: #ffffff; background-color:#f0ad4e ; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; box-sizing: border-box;  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px; border-radius: 2px; flex: 1 1 0%; margin-top: 10px; padding: 5px;">
+                <div style="width: 100%; display: flex; justify-content: space-around;">
+                    <div style="width: calc(90% - 30px); display: flex; justify-content: space-between; flex-wrap: wrap;">
+                   
+                        <div><b>درصد اشغالی({{typeName}}): </b>{{totalOccupy |number}}%</div>
+                        <div><b>اجاره رفته({{typeName}}): </b>‌ {{totalCountOfRent |number}}</div>
+                        <div><b>ارزش اجاره رفته({{typeName}}): </b>‌ {{totalCostRentTo |digitGroup}} ریال</div>
+                        <div ng-show="showCostRentFrom"><b>ارزش اجاره گرفته({{typeName}}): </b>‌ {{totalCostRentFrom |digitGroup}} ریال</div>
+                        <div ng-show="showCostRentFrom"><b>سود ناخالص اجاره({{typeName}}): </b>‌ {{(totalCostRentTo -totalCostRentFrom) |digitGroup}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul id="context1" class="dropdown-menu" role='menu'>
+        <li><a ng-click="edit()">ویرایش رزرو</a></li>
+        <li><a ng-click="delete()">حذف رسانه رزرو</a></li>
+        <li><a ng-click="deleteAll()">حذف رسانه های رزرو</a></li>
+        <li><a ng-click="update()">تمدید رزرو</a></li>
+        <li class="divider"></li>
+        <li><a ng-click="convertToPreCpntract()">تبدیل به پیش قرارداد</a></li>
+    </ul>
+    <ul id="context2" class="dropdown-menu" role='menu'>
+        <li><a ng-click="addNewReservation()"> ثبت رزرو</a></li>
+        <li><a ng-click="redirectNewPreContract('new')">ثبت پیش قرارداد</a></li>
+    </ul>
+
+    <ul id="context3" class="dropdown-menu" role='menu'>
+        <li><a ng-click="extendedContract()">تمدید قرارداد</a></li>
+        <li><a ng-click="showContract()">نمایش قرارداد</a></li>
+        <li><a ng-click="stopSazeInContract()">توقف اکران این رسانه</a></li>
+        <li><a ng-click="stopAllSazeInContract()">توقف اکران قرارداد</a></li>
+        <li><a ng-click="operationSazeInContract()">عملیات حین اکران این رسانه</a></li>
+        <li><a ng-click="operationAllSazeInContract()">عملیات حین اکران قرارداد</a></li>
+
+    </ul>
+
+    <div class="col-sm-12 text-center ng-hide" ng-show="calling">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+    </div>
+
+
+
+    <div class="modal fade" id="editCashModal" tabindex="-1" role="dialog" aria-labelledby="editCashModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title ng-binding" id="editCashModalLabel">
+                        جستجوی پیشرفته
+                    </h4>
+                </div>
+                <form class="ng-pristine ng-valid ng-valid-maxlength">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="panel panel-body panel-default">
+                                    <div class="col-md-12" style="margin:5px">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">تاریخ شروع:</label>
+                                            <div class="col-md-8">
+                                                <input date-picker="" display-numbers="" type="text" id="startDate" ng-model="model.StartDisplayDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ شروع " data-original-title="" title="" aria-describedby="popover216080">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="margin:5px">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">تاریخ پایان:</label>
+                                            <div class="col-md-8">
+
+                                                <input date-picker="" display-numbers="" type="text" id="endDate" ng-model="model.EndDisplayDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ پایان " data-original-title="" title="" aria-describedby="popover216080">
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="margin:5px">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">رسانه:</label>
+                                            <div class="col-md-8">
+
+                                                <div id="comboItem"></div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="margin:5px">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">طرف حساب:</label>
+                                            <div class="col-md-8">
+
+                                                <div id="comboContact"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="filter(model)" type="button" ng-show="!calling">
+                            <i class="fa fa-search"></i>
+                            اعمال فیلتر
+                        </button>
+
+                        <button class="btn btn-danger" ng-click="closePopup()" type="button" data-dismiss="modal" ng-show="!calling" tabindex="8"><i class="fa fa-ban"></i>انصراف</button>
+
+                        <div ng-show="calling" class="text-center ng-hide"><span><img src="../../../Content/img/ajax-loader4.gif"></span></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CC282972-5EFE-4B61-9A4C-31822B327908}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Zhivar.ServiceLayer</RootNamespace>
+    <AssemblyName>Zhivar.ServiceLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Zhivar\Zhivar.ServiceLayer\bin\Debug\EntityFramework.SqlServerCompact.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.8.0.0\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Zhivar\Zhivar.ServiceLayer\bin\Debug\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Zhivar\Zhivar.ServiceLayer\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Zhivar\Zhivar.ServiceLayer\bin\Debug\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Zhivar\Zhivar.ServiceLayer\bin\Debug\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Zhivar\Zhivar.ServiceLayer\bin\Debug\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Zhivar\Zhivar.ServiceLayer\bin\Debug\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Zhivar\Zhivar.ServiceLayer\bin\Debug\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Zhivar\Zhivar.ServiceLayer\bin\Debug\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.ComponentModel.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Primitives.4.3.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accounting\BankService.cs" />
+    <Compile Include="Accounting\ChequeBankService.cs" />
+    <Compile Include="Accounting\ChequeService.cs" />
+    <Compile Include="Accounting\CostItemService.cs" />
+    <Compile Include="Accounting\CostService.cs" />
+    <Compile Include="Accounting\DocumentService.cs" />
+    <Compile Include="Accounting\FinanYearService.cs" />
+    <Compile Include="Accounting\PayRecevieService.cs" />
+    <Compile Include="Accounting\InvoiceService.cs" />
+    <Compile Include="Accounting\InvoiceItemService.cs" />
+    <Compile Include="Accounting\TransactionService.cs" />
+    <Compile Include="Accounting\TransferMoneyService.cs" />
+    <Compile Include="BaseInfo\BaseAccountService.cs" />
+    <Compile Include="BaseInfo\ItemGroupService.cs" />
+    <Compile Include="Accounting\AccountService.cs" />
+    <Compile Include="BaseInfo\ItemService.cs" />
+    <Compile Include="Accounting\SahamdaranService.cs" />
+    <Compile Include="BaseInfo\CashService.cs" />
+    <Compile Include="Accounting\TarfeHesabService.cs" />
+    <Compile Include="Account\CustomUserStore.cs" />
+    <Compile Include="Account\ForgetPasswordUserService.cs" />
+    <Compile Include="BaseInfo\GoroheSazeService.cs" />
+    <Compile Include="BaseInfo\NoeChapService.cs" />
+    <Compile Include="BaseInfo\NoeEjareService.cs" />
+    <Compile Include="BaseInfo\NoeSazeService.cs" />
+    <Compile Include="BaseInfo\SazeService.cs" />
+    <Compile Include="BaseInfo\ShareholderService.cs" />
+    <Compile Include="BaseInfo\VahedTolService.cs" />
+    <Compile Include="Common\BussinessService.cs" />
+    <Compile Include="Common\ContactService.cs" />
+    <Compile Include="Common\PersonService.cs" />
+    <Compile Include="Contracts\Accounting\IBank.cs" />
+    <Compile Include="Contracts\Accounting\IAccount.cs" />
+    <Compile Include="Contracts\Accounting\ICheque.cs" />
+    <Compile Include="Contracts\Accounting\IChequeBank.cs" />
+    <Compile Include="Contracts\Accounting\ICost.cs" />
+    <Compile Include="Contracts\Accounting\ICostItem.cs" />
+    <Compile Include="Contracts\Accounting\IDocument.cs" />
+    <Compile Include="Contracts\Accounting\IFinanYear.cs" />
+    <Compile Include="Contracts\Accounting\IPayRecevie.cs" />
+    <Compile Include="Contracts\Accounting\IInvoice.cs" />
+    <Compile Include="Contracts\Accounting\IInvoiceItem.cs" />
+    <Compile Include="Contracts\Accounting\ITransferMoney.cs" />
+    <Compile Include="Contracts\BaseInfo\IItemGroup.cs" />
+    <Compile Include="Contracts\Accounting\IBaseAccount.cs" />
+    <Compile Include="Contracts\BaseInfo\IItem.cs" />
+    <Compile Include="Contracts\Accounting\ITransaction.cs" />
+    <Compile Include="Contracts\BaseInfo\INoeEjare.cs" />
+    <Compile Include="Contracts\BaseInfo\INoeSaze.cs" />
+    <Compile Include="Contracts\Accounting\ISahamdaran.cs" />
+    <Compile Include="Contracts\Accounting\ICash.cs" />
+    <Compile Include="Contracts\Accounting\ITarfeHesab.cs" />
+    <Compile Include="Contracts\Account\ICustomRoleStore.cs" />
+    <Compile Include="Contracts\Account\ICustomUserStore.cs" />
+    <Compile Include="Contracts\Account\IForgetPasswordUserService.cs" />
+    <Compile Include="Contracts\BaseInfo\IGoroheSaze.cs" />
+    <Compile Include="Contracts\BaseInfo\INoeChap.cs" />
+    <Compile Include="Contracts\BaseInfo\ISaze.cs" />
+    <Compile Include="Contracts\BaseInfo\IShareholder.cs" />
+    <Compile Include="Contracts\BaseInfo\IVahedTol.cs" />
+    <Compile Include="Contracts\Common\IBussiness.cs" />
+    <Compile Include="Contracts\Common\IContact.cs" />
+    <Compile Include="Contracts\Common\IPerson.cs" />
+    <Compile Include="Contracts\Common\IPersonel.cs" />
+    <Compile Include="Contracts\Contract\IContarct_Saze_Bazareab.cs" />
+    <Compile Include="Contracts\Contract\IContract.cs" />
+    <Compile Include="Contracts\Contract\IContract_Saze.cs" />
+    <Compile Include="Contracts\Contract\IContract_Saze_Chapkhane.cs" />
+    <Compile Include="Contracts\Contract\IContract_Saze_Nasab.cs" />
+    <Compile Include="Contracts\Security\IOperationService.cs" />
+    <Compile Include="Contract\Contarct_Saze_BazareabService.cs" />
+    <Compile Include="Contract\ContractService.cs" />
+    <Compile Include="Contract\Contract_SazeService.cs" />
+    <Compile Include="Contract\Contract_Saze_ChapkhaneService.cs" />
+    <Compile Include="Contract\Contract_Saze_NasabService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\OperationService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OMF.Common\OMF.Common.csproj">
+      <Project>{1ad95f23-d5c3-4548-863b-7bff78601c0e}</Project>
+      <Name>OMF.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OMF.Security\OMF.Security.csproj">
+      <Project>{7bf28ba3-364d-4057-a324-897158a65e3d}</Project>
+      <Name>OMF.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zhivar.DataLayer\Zhivar.DataLayer.csproj">
+      <Project>{a6af0f37-15b6-4609-8793-bdda6cd9e190}</Project>
+      <Name>Zhivar.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zhivar.DomainClasses\Zhivar.DomainClasses.csproj">
+      <Project>{1cd8242f-3821-4165-9668-b3ee764a7cdd}</Project>
+      <Name>Zhivar.DomainClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zhivar.Utilities\Zhivar.Utilities.csproj">
+      <Project>{980d094a-57e2-488f-9179-1f454bc835e5}</Project>
+      <Name>Zhivar.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zhivar.ViewModel\Zhivar.ViewModel.csproj">
+      <Project>{c9df9003-e0fc-487e-91f0-40d860cbf11f}</Project>
+      <Name>Zhivar.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

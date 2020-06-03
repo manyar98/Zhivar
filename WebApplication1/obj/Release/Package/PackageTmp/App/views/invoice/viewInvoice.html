@@ -1,0 +1,719 @@
+﻿<div class="container ng-scope" ng-controller="viewInvoiceController">
+
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <!--<alert message="alertMessage" messages="alertMessages" alert-type="alertType" ng-show="alert"></alert>-->
+    <edit-cash open="editCashModal" cash="cash" onsuccess="getEditedCash"></edit-cash>
+    <edit-bank open="editBankModal" bank="bank" onsuccess="getEditedBank"></edit-bank>
+    <!-- ngInclude:  -->
+    <sms-editor open="editSmsModal" sms="sms" onsuccess="getEditedSms" modal-title="'تنظیم متن پیامک'" job="'save'" custom-fields="'contactFields,invoiceFields'"></sms-editor>
+
+    <div class="hesabfa-content-page " ng-show="!loading &amp;&amp; invoice">
+
+        <div class="row" style="padding-right: 15px; padding-left: 15px;">
+            <!--<div class="btn-group mr-l-5" ng-show="invoice.InvoiceType == 0">
+                <button type="button" class="btn btn-default btn-smoke mr-b-10 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="fa fa-send" aria-hidden="true"></span>&nbsp;
+                    ارسال
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="" ng-click="showPublicLink()">
+                            <span class="fa fa-globe" aria-hidden="true" ng-show="invoice.InvoiceType == 0"></span>&nbsp;
+                            آنلاین
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" ng-click="openSendInvoiceByEmailDialog()">
+                            <span class="fa fa-envelope" aria-hidden="true"></span>&nbsp;
+                            ایمیل
+                        </a>
+                    </li>
+                   
+                </ul>
+            </div>-->
+
+
+            <!--<div class="btn-group mr-l-5">
+                <button class="btn btn-default btn-smoke mr-b-10" ng-click="print(true)">
+                    <span class="fa fa-print" aria-hidden="true"></span>&nbsp;
+                    چاپ
+                </button>
+                <button type="button" class="btn btn-default btn-smoke dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="" ng-click="printInvoiceDialog()">چاپ همراه با تنظیمات</a></li>
+                    <li><a href="" ng-click="printStorehouseOrder()">چاپ حواله انبار</a></li>
+                    <li><a href="" ng-click="printStorehouseOrderPDF()">چاپ حواله انبار (PDF)</a></li>
+                </ul>
+            </div>-->
+            <button class="btn btn-default btn-smoke mr-b-10" ng-click="print(true)">
+                <span class="fa fa-print" aria-hidden="true"></span>&nbsp;
+                چاپ
+            </button>
+            <button class="btn btn-default btn-smoke mr-l-5 mr-b-10" ng-click="generatePDF()">
+                <span class="fa fa-file-pdf-o" aria-hidden="true"></span>&nbsp;
+                PDF
+            </button>
+
+            <!--<div class="btn-group">
+                <button type="button" class="btn btn-default btn-smoke mr-b-10 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    انتخاب ها
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li ng-show="invoice.InvoiceType < 2"><a href="#editInvoice/{{ invoice.InvoiceType == 0 ? 'saleCopyId=' : 'purchaseCopyId='}}{{ invoice.Id }}">کپی</a></li>
+                    <li><a href="#editInvoice/{{ invoice.Id }}">ویرایش</a></li>
+                    <li ng-show="havePermission('deleteInvoice')"><a href="" ng-click="deleteInvoice()">حذف</a></li>
+                    <li class="divider"></li>
+                    <li ng-show="invoice.InvoiceType == 0">
+                        <a href="" ng-click="setSendSms()">
+                            <span ng-show="!sendSmsByReceive" class="fa fa-remove txt-gray" aria-hidden="true"></span>
+                            <span ng-show="sendSmsByReceive" class="fa fa-check green" aria-hidden="true"></span>&nbsp;
+                            ارسال پیامک با ثبت دریافتی فاکتور&nbsp;
+                            <span style="color: blue" ng-click="openSmsEditor()">[تنظیم]</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>-->
+        </div>
+
+        <div class="panel panel-info center-block hesabfa-panel" id="panelInvoice">
+            <div class="panel-body hesabfa-panel-body">
+                <div class="row">
+                    <div class="col-sm-2" ng-hide="invoice.InvoiceType == 4">
+                        <div class="title1 ng-binding">{{ invoice.InvoiceType == 0 || invoice.InvoiceType == 2 ? 'مشتری' : 'فروشنده' }}</div>
+                        <div>
+                            <a href="#contactCard/{{ invoice.Contact.Id }}" class="ng-binding">{{ invoice.Contact.Name }}</a>
+                        </div>
+                        <div ng-show="invoice.Contact.Code" class="ng-binding">(کـد: {{ invoice.Contact.Code|number }})</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="title1 ng-binding">{{ invoice.InvoiceType == 0 || invoice.InvoiceType == 1 ? 'تاریخ فاکتور' : 'تاریخ سند' }}</div>
+                        <div class="ng-binding">{{ invoice.DisplayDate|number }}</div>
+                    </div>
+                    <div class="col-sm-2" ng-hide="invoice.InvoiceType == 4">
+                        <div class="title1">تاریخ سررسید</div>
+                        <div class="ng-binding">{{ invoice.DisplayDueDate|number }}</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="title1">شماره فاکتور</div>
+                        <div class="ng-binding">{{ invoice.Number|number }}</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="title1">شماره ارجاع</div>
+                        <div class="ng-binding">{{ invoice.Reference|number }}</div>
+                    </div>
+                    <div class="col-sm-2 text-right">
+                        <div class="title1">مبلغ فاکتور</div>
+                        <div class="ng-binding">{{ invoice.Payable|digitGroup }}&nbsp;{{ getCurrency() }}</div>
+                    </div>
+                </div>
+                <div class="row" ng-hide="invoice.InvoiceType == 4">
+                    <div class="col-xs-12 ng-binding">
+                        <span class="txt-bold ng-binding">{{ invoice.InvoiceType == 0 || invoice.InvoiceType == 2 ? 'مشتری' : 'فروشنده' }}:</span>
+                        &nbsp; {{ invoice.ContactTitle|number }}
+                    </div>
+                </div>
+                <div class="row" ng-hide="invoice.InvoiceType == 4">
+                    <div class="col-xs-12 ng-binding">
+                        <span class="txt-bold">آدرس:</span> &nbsp; {{ invoice.Contact.Address ? (invoice.Contact.Address|number) : 'آدرس ثبت نشده' }} &nbsp;&nbsp;
+                        تلفن: &nbsp; {{ invoice.Contact.Phone ? (invoice.Contact.Phone |number) : '---' }} &nbsp;&nbsp;
+                        فکس: &nbsp; {{ invoice.Contact.Fax ? (invoice.Contact.Fax) : '---' }} &nbsp;&nbsp;
+                        موبایل: &nbsp; {{ invoice.Contact.Mobile ? (invoice.Contact.Mobile |number) : '---' }}
+                    </div>
+                </div>
+
+                <table class="table table-bordered table-hover" style="margin-top: 10px;">
+                    <thead>
+                        <tr class="active" style="font-size: 9pt; font-weight: bold;">
+                            <td>#</td>
+                            <td>کد آیتم</td>
+                            <td>شرح</td>
+                            <td>تعداد</td>
+                            <td ng-show="invoiceSettings &amp;&amp; invoiceSettings.showItemUnit == 'true'">واحد</td>
+                            <td>مبلغ واحد <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding"></span></td>
+                            <td ng-show="invoice.InvoiceType == 5">هزینه بازاریابی</td>
+                            <td ng-show="invoice.InvoiceType == 5">هزینه طراحی</td>
+                            <td ng-show="invoice.InvoiceType == 5">هزینه چاپ</td>
+                            <td ng-show="invoice.InvoiceType == 5">هزینه نصب</td>
+                            <td ng-hide="invoice.InvoiceType == 4">تخفیف</td>
+                            <td ng-hide="invoice.InvoiceType == 4">مالیات</td>
+                            <td>مبلغ کل <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding"></span></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="invoiceItem in invoice.InvoiceItems" style="font-size: 10pt; font-weight: normal;" class="ng-scope">
+                            <td style="width: 30px; padding: 5px; vertical-align: middle; text-align: center;" class="ng-binding">{{Hesabfa.farsiDigit($index+1)}}</td>
+                            <td style="width: 70px; vertical-align: middle; padding: 5px; text-align: center;"><a ng-show="invoiceItem.Item" href="#itemCard/3" class="ng-binding">{{invoiceItem.Item.Code |number}}</a></td>
+                            <td style="padding: 5px; text-align: center;" class="ng-binding">{{invoiceItem.Item.Name}}</td>
+                            <td style="width: 50px; vertical-align: middle; padding: 5px; text-align: center;" class="ng-binding">{{invoiceItem.Quantity |digitGroup}}</td>
+                            <td style="width: 50px; vertical-align: middle; padding: 5px; text-align: center;" ng-show="invoiceSettings &amp;&amp; invoiceSettings.showItemUnit == 'true'" class="ng-binding ng-hide">{{invoiceItem.UnitPrice}}</td>
+                            <td style="width: 110px; vertical-align: middle; padding: 5px; text-align: center;" class="ng-binding">{{invoiceItem.UnitPrice |digitGroup}}</td>
+                            <td style="width: 60px; vertical-align: middle; padding: 5px; text-align: center;" ng-show="invoice.InvoiceType == 5" class="ng-binding ng-hide">{{invoiceItem.PriceBazareab |digitGroup}}</td>
+                            <td style="width: 60px; vertical-align: middle; padding: 5px; text-align: center;" ng-show="invoice.InvoiceType == 5" class="ng-binding ng-hide">{{invoiceItem.PriceTarah |digitGroup}}</td>
+                            <td style="width: 60px; vertical-align: middle; padding: 5px; text-align: center;" ng-show="invoice.InvoiceType == 5" class="ng-binding ng-hide">{{invoiceItem.PriceChap |digitGroup}}</td>
+                            <td style="width: 60px; vertical-align: middle; padding: 5px; text-align: center;" ng-show="invoice.InvoiceType == 5" class="ng-binding ng-hide">{{invoiceItem.PriceNasab |digitGroup}}</td>
+
+
+                            <td style="width: 110px; vertical-align: middle; padding: 5px; text-align: center;" ng-hide="invoice.InvoiceType == 4" class="ng-binding">{{invoiceItem.Discount |digitGroup}}</td>
+                            <td style="width: 110px; vertical-align: middle; padding: 5px; text-align: center;" ng-hide="invoice.InvoiceType == 4" class="ng-binding">{{invoiceItem.Tax |digitGroup}}</td>
+                            <td style="width: 120px; padding: 5px; vertical-align: middle; text-align: center;" class="ng-binding">{{ invoiceItem.TotalAmount |digitGroup}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row" style="padding-left: 15px; padding-right: 15px;">
+                    <div class="col-md-8" style="padding-left: 50px;">
+                        <span class="title1 ng-binding" style="margin-right: -10px;" ng-hide="invoice.InvoiceType == 4">{{ invoice.InvoiceType == 0 || invoice.InvoiceType == 3 ? 'دریافت ها' : 'پرداخت ها' }}</span>
+                        <div class="row text-warning" ng-show="invoice.Paid == 0 &amp;&amp; invoice.InvoiceType != 4">
+                            <div class="col-sm-12 ng-binding">تاکنون {{ invoice.InvoiceType == 0 || invoice.InvoiceType == 3 ? 'دریافتی' : 'پرداختی' }} ثبت نشده است</div>
+                        </div>
+                        <div ng-show="invoice.Paid > 0">
+                            <!-- ngRepeat: payment in payments -->
+
+                            <div class="row hesabfa-txt-10 hesabfa-list1 ng-scope hesabfa-list1-first" ng-repeat="payment in payments" ng-class="$index == 0 ? 'hesabfa-list1-first' : ''" ng-mouseover="mouseoverpayment = $index+1" ng-mouseleave="mouseoverpayment = 0">
+                                <div class="col-sm-2 nopadding ng-binding">{{payment.Amount |digitGroup }}</div>
+                                <div class="col-sm-3 nopadding ng-binding">{{payment.DisplayDate}}</div>
+                                <div class="col-sm-4 nopadding ng-binding">{{payment.Description}}</div>
+                                <!--<div class="col-sm-4 nopadding ng-binding" ng-show="payment.Cheque == null">{{payment.Account.Name}}</div>
+                                <div class="col-sm-4 nopadding ng-binding ng-hide" ng-show="payment.Cheque != null">طی چک شماره </div>-->
+                                <div class="col-sm-2 nopadding ng-binding ng-hide" ng-show="payment.Reference">
+                                    <span class="hesabfa-txt-8">ارجاع</span>
+                                </div>
+                                <div class="col-sm-2 nopadding" ng-show="!payment.Reference"></div>
+                                <div class="col-sm-1 nopadding">
+                                    <a ng-show="mouseoverpayment &amp;&amp; mouseoverpayment == $index+1" class="hesabfa-txt-9 ng-hide" style="font-weight: bold"  ng-click="redirect({{payment.ID}})">رسید</a>
+                                    <!-- <button role="button" class="btn btn-xs btn-default" ng-click="deleteTransaction(payment)"-->
+                                    <!-- ng-class="mouseoverpayment && mouseoverpayment == $index+1 ? 'btn-danger' : 'btn-default'">حذف</button>-->
+                                </div>
+                            </div>
+
+                            <!-- <div class="row">-->
+                            <!-- <div class="col-sm-8" style="border-top: 1px solid rgb(69, 69, 69); margin-top: 1px; margin-bottom: 1px;"></div>-->
+                            <!-- </div>-->
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="row text-right">
+                                        <div class="col-xs-7 ng-binding">کل مبلغ {{ invoice.InvoiceType == 0 || invoice.InvoiceType == 3 ? 'دریافت' : 'پرداخت' }} شده</div>
+                                        <div class="col-xs-5 ng-binding">{{ invoice.Paid|digitGroup }}&nbsp;{{ getCurrency() }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8" style="border-top: 1px solid rgb(69, 69, 69); margin-top: 1px; margin-bottom: 1px;"></div>
+                            </div>
+                            <div class="row text-warning iransans" ng-show="invoice.Rest > 0">
+                                <div class="col-sm-8" style="border-bottom: 1px solid rgb(69, 69, 69)">
+                                    <div class="row text-right">
+                                        <div class="col-xs-7">مبلغ باقیمانده</div>
+                                        <div class="col-xs-5 ng-binding">{{ invoice.Rest|digitGroup }}&nbsp;{{ getCurrency() }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-success iransans" ng-show="invoice.Rest == 0">
+                                <div class="col-sm-8 text-center ng-binding" style="border-bottom: 1px solid rgb(69, 69, 69)">
+                                    کل مبلغ این فاکتور {{ invoice.InvoiceType == 0 || invoice.InvoiceType == 3 ? 'دریافت' : 'پرداخت' }} شده است
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8" style="border-top: 1px solid rgb(69, 69, 69); margin-top: 1px; margin-bottom: 10px;"></div>
+                            </div>
+                        </div>
+                        <div ng-show="invoice.Note !== ''">
+                            <span class="title1" style="margin-right: -10px;">توضیحات</span>
+                            <div class="ng-binding">{{ invoice.Note }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row text-left">
+                            <div class="col-xs-4 title1">جمع</div>
+                            <div class="col-xs-8 title1 ng-binding">{{ invoice.Sum|digitGroup }}&nbsp;{{ getCurrency() }}</div>
+                        </div>
+                        <div class="row text-left" ng-show="totalDiscount > 0">
+                            <div class="col-xs-4 title1">جمع تخفیف</div>
+                            <div class="col-xs-8 title1 red ng-binding">({{ totalDiscount|digitGroup}})&nbsp;{{ getCurrency() }}</div>
+                        </div>
+                        <div class="row text-left" ng-show="totalTax > 0">
+                            <div class="col-xs-4 title1">جمع مالیات</div>
+                            <div class="col-xs-8 title1 ng-binding">{{ totalTax|digitGroup }}&nbsp;{{ getCurrency() }}</div>
+                        </div>
+                        <div class="row" style="border-top: 1px solid rgb(69, 69, 69); margin-top: 1px; margin-bottom: 1px;"></div>
+                        <div class="row text-left" style="border-bottom: 1px solid rgb(69, 69, 69)">
+                            <div class="col-xs-4 title1 txt-bold">مبلغ کل</div>
+                            <div class="col-xs-8 title1 txt-bold ng-binding" ng-class="{'red' : invoice.Payable < 0}">{{ invoice.Payable|digitGroup }}&nbsp;{{ getCurrency() }}</div>
+                        </div>
+                        <div class="row" style="border-top: 1px solid rgb(69, 69, 69); margin-top: 1px; margin-bottom: 10px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-info center-block hesabfa-panel" id="panelPayment" ng-show="invoice.Status == 2 &amp;&amp; invoice.InvoiceType != 4">
+
+            <div class="panel-body hesabfa-panel-body" ng-show="invoice.InvoiceType == 0 || invoice.InvoiceType == 3">
+                <h5 class="txt-bold" style="margin-bottom: 20px;">دریافت مبلغ فاکتور</h5>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addCashPay()">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن دریافت نقدی
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addBankPay()">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن فیش بانکی
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addChequePay()">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن چک
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 form-inline text-left">
+                        <label>تاریخ: </label>
+                        <input date-picker="" display-numbers="" type="text" class="form-control input-sm pdate" id="receiveDate" ng-model="rp.DisplayDate">
+                    </div>
+                </div>
+                <div class="separator1 mr-t-10"></div>
+                <!-- ngRepeat: transaction in rp.Items -->
+                <div class="row ng-scope" ng-repeat="transaction in rp.Items">
+                    <div class="row mr-10 hesabfa-paybox" style="background-color: #337AB7; border: 1px solid #337AB7;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 1">
+                        <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">وجه نقد</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-2 text-left">به صندوق:</label>
+                                <div class="col-sm-6">
+                                    <div id="receiveCashSelect{{$index}}"></div>
+                                </div>
+                                <div class="col-sm-3"></div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #337AB7;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox ng-hide" style="background-color: #9e32bd; border: 1px solid #9e32bd;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 2">
+                        <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">فیش بانکی</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-2 text-left">شماره فیش/ارجاع:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Reference" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-1 text-left">بانک:</label>
+                                <div class="col-sm-3">
+                                    <div id="receiveBankSelect{{$index}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #9e32bd;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox ng-hide" style="background-color: #bd6532; border: 1px solid #bd6532;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 3">
+                        <div class="col-sm-1 text-center" style="min-height: 85px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">چـک</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row m-b-5" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-disabled="transaction.Cheque.Status != 0" ng-blur="calTotal()" disabled="disabled">
+                                </div>
+                                <label class="col-sm-2 text-left">شماره چک:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.ChequeNumber">
+                                </div>
+                                <label class="col-sm-2 text-left">تاریخ چک:</label>
+                                <div>
+                                    <input date-picker="" display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.DisplayDate" id="chqDate{{$index}}" style="direction: ltr;"><a class="pcalBtn" href="#"></a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-left: 5px;">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3"></div>
+                                <label class="col-sm-2 text-left">بانک:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.BankName">
+                                </div>
+                                <label class="col-sm-2 text-left">شعبه:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.BankBranch">
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #bd6532;"></span>
+                    </div>
+                </div>
+
+                <div class="row mr-t-5" style="padding-left: 15px;">
+                    <div class="col-md-8">
+                        <button type="submit" ng-click="saveReceipt()" onclick="return false;" class="btn btn-success btn-sm" style="width: 80px;" ng-disabled="rp.Items.length == 0">
+                            ثبت
+                        </button>
+                        <button ng-click="printReceiptDialog()" onclick="return false;" class="btn btn-default btn-smoke btn-sm" style="width: 80px;">چاپ رسید</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row text-left" style="border-bottom: 1px solid rgb(69, 69, 69)">
+                            <div class="col-xs-2 title1 txt-bold">جمع</div>
+                            <div class="col-xs-7 title1 txt-bold ng-binding">{{ total|digitGroup }} {{ getCurrency() }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mr-t-5 text-center" ng-show="calling">
+                    <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+                </div>
+            </div>
+
+            <div class="panel-body hesabfa-panel-body" ng-show="invoice.InvoiceType == 1 || invoice.InvoiceType == 2">
+                <h5 class="txt-bold" style="margin-bottom: 20px;">پرداخت مبلغ فاکتور</h5>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addCashPay()">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن پرداخت نقدی
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addBankPay()">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن فیش بانکی
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addChequePay()">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن چک
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="openChequeList()">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                خرج چک
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 form-inline text-left">
+                        <label>تاریخ: </label>
+                        <input date-picker="" display-numbers="" type="text" class="form-control input-sm pdate" id="payDate" ng-model="rp.DisplayDate">
+                    </div>
+                </div>
+                <div class="separator1 mr-t-10"></div>
+
+                <!-- ngRepeat: transaction in rp.Items -->
+                <div class="row ng-scope" ng-repeat="transaction in rp.Items">
+                    <div class="row mr-10 hesabfa-paybox" style="background-color: #337AB7; border: 1px solid #337AB7;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 1">
+                        <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">وجه نقد</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-2 text-left">از صندوق:</label>
+                                <div class="col-sm-3">
+                                    <div id="payCashSelect{{$index}}"></div>
+                                </div>
+                                <div class="col-sm-3"></div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #337AB7;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox ng-hide" style="background-color: #9e32bd; border: 1px solid #9e32bd;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 2">
+                        <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">فیش بانکی</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-2 text-left">شماره فیش/ارجاع:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Reference" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-1 text-left">بانک:</label>
+                                <div class="col-sm-3">
+                                    <div id="payBankSelect{{$index}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #9e32bd;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox ng-hide" style="background-color: #bd6532; border: 1px solid #bd6532;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 3">
+                        <div class="col-sm-1 text-center" style="min-height: 85px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">چـک</div>
+                        </div>
+                        <div class="col-sm-11 pd-15" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row m-b-5" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-2 text-left">شماره چک:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.ChequeNumber">
+                                </div>
+                                <label class="col-sm-2 text-left">تاریخ چک:</label>
+                                <div>
+                                    <input date-picker="" display-numbers="" type="text" class="col-sm-2 form-control input-sm pdate ng-valid" ng-model="transaction.Cheque.DisplayDate" id="chqDatePay{{$index}}" style="direction: ltr;"><a class="pcalBtn" href="#"></a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-left: 5px;">
+                                <div class="col-sm-1">بانک:</div>
+                                <div class="col-sm-3 p-0">
+                                    <div id="chequeBankSelect{{$index}}"></div>
+                                </div>
+                                <label class="col-sm-2 text-left">نام:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.BankName" disabled="disabled">
+                                </div>
+                                <label class="col-sm-2 text-left">شعبه:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.BankBranch" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #bd6532;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox ng-hide" style="background-color: #bd6532; border: 1px solid #bd6532;" ng-show="transaction.Type == 4">
+                        <div class="col-sm-1 text-center" style="min-height: 85px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">خرج چـک</div>
+                        </div>
+                        <div class="col-sm-11 pd-15" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-2 text-left">مبلغ:</label>
+                                <label class="col-sm-2 text-right ng-binding">۰</label>
+                                <label class="col-sm-2 text-left">شماره چک:</label>
+                                <label class="col-sm-2 text-right ng-binding"></label>
+                                <label class="col-sm-2 text-left">تاریخ چک:</label>
+                                <label class="col-sm-2 text-right ng-binding"></label>
+                            </div>
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-2 text-left">دریافتی از:</label>
+                                <label class="col-sm-2 text-right ng-binding"></label>
+                                <label class="col-sm-2 text-left">نام بانک:</label>
+                                <label class="col-sm-2 text-right ng-binding"></label>
+                                <label class="col-sm-2 text-left">شعبه:</label>
+                                <label class="col-sm-2 text-right ng-binding"></label>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #bd6532;"></span>
+                    </div>
+                </div>
+
+
+
+
+                <div class="row mr-t-5" style="padding-left: 15px;">
+                    <div class="col-md-8">
+                        <button type="submit" ng-click="savePayment()" onclick="return false;" class="btn btn-success btn-sm" style="width: 80px;" ng-disabled="rp.Items.length == 0">
+                            ثبت
+                        </button>
+                        <button ng-click="printReceiptDialog()" onclick="return false;" class="btn btn-default btn-smoke btn-sm" style="width: 80px;">چاپ رسید</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row text-left" style="border-bottom: 1px solid rgb(69, 69, 69)">
+                            <div class="col-xs-2 title1  txt-bold">جمع</div>
+                            <div class="col-xs-7 title1 txt-bold ng-binding">{{ total|digitGroup }}&nbsp;{{ getCurrency() }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mr-t-5 text-center" ng-show="calling">
+                    <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+                </div>
+
+            </div>
+        </div>
+            <div class="panel panel-info center-block hesabfa-panel" id="panelPayment" >
+            <div class="panel-body hesabfa-panel-body">
+                <h5 class="txt-bold" style="margin-bottom: 20px">پرداخت های موقت</h5>
+                <div class="row ng-scope" ng-repeat="transaction in tempPayments">
+                    <div class="row mr-10 hesabfa-paybox" style="background-color: #337AB7; border: 1px solid #337AB7;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 1">
+                        <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">وجه نقد</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-2 text-left">از صندوق:</label>
+                                <div class="col-sm-3">
+                                    <div id="payCashSelect{{$index}}"></div>
+                                </div>
+                                <div class="col-sm-3"></div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #337AB7;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox ng-hide" style="background-color: #9e32bd; border: 1px solid #9e32bd;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 2">
+                        <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">فیش بانکی</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-2 text-left">شماره فیش/ارجاع:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Reference" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-1 text-left">بانک:</label>
+                                <div class="col-sm-3">
+                                    <div id="payBankSelect{{$index}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #9e32bd;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox ng-hide" style="background-color: #bd6532; border: 1px solid #bd6532;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 3">
+                        <div class="col-sm-1 text-center" style="min-height: 85px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">چـک</div>
+                        </div>
+                        <div class="col-sm-11 pd-15" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row m-b-5" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-2 text-left">شماره چک:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.ChequeNumber">
+                                </div>
+                                <label class="col-sm-2 text-left">تاریخ چک:</label>
+                                <div>
+                                    <input date-picker="" display-numbers="" type="text" class="col-sm-2 form-control input-sm pdate ng-valid" ng-model="transaction.Cheque.DisplayDate" id="chqDatePay{{$index}}" style="direction: ltr;"><a class="pcalBtn" href="#"></a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-left: 5px;">
+                                <div class="col-sm-1">بانک:</div>
+                                <div class="col-sm-3 p-0">
+                                    <div id="chequeBankSelect{{$index}}"></div>
+                                </div>
+                                <label class="col-sm-2 text-left">نام:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.BankName" disabled="disabled">
+                                </div>
+                                <label class="col-sm-2 text-left">شعبه:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.BankBranch" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #bd6532;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox ng-hide" style="background-color: #bd6532; border: 1px solid #bd6532;" ng-show="transaction.Type == 4">
+                        <div class="col-sm-1 text-center" style="min-height: 85px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">خرج چـک</div>
+                        </div>
+                        <div class="col-sm-11 pd-15" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-2 text-left">مبلغ:</label>
+                                <label class="col-sm-2 text-right ng-binding">۰</label>
+                                <label class="col-sm-2 text-left">شماره چک:</label>
+                                <label class="col-sm-2 text-right ng-binding"></label>
+                                <label class="col-sm-2 text-left">تاریخ چک:</label>
+                                <label class="col-sm-2 text-right ng-binding"></label>
+                            </div>
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-2 text-left">دریافتی از:</label>
+                                <label class="col-sm-2 text-right ng-binding"></label>
+                                <label class="col-sm-2 text-left">نام بانک:</label>
+                                <label class="col-sm-2 text-right ng-binding"></label>
+                                <label class="col-sm-2 text-left">شعبه:</label>
+                                <label class="col-sm-2 text-right ng-binding"></label>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #bd6532;"></span>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+            <!-- Modal Cheque List -->
+            <div class="modal fade" id="modalChequeList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title" id="myModalLabel">انتخاب چک</h4>
+                        </div>
+                        <div class="modal-body" ng-show="!loadingChequeList">
+                            <div id="gridChequeList"></div>
+                        </div>
+                        <div class="modal-body text-center" ng-show="loadingChequeList">
+                            <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+                            <div>بارگیری لیست چک های دریافتی...</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-default btn-smoke" data-dismiss="modal">انصراف</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ngInclude: '/dashboard/widgets/printReceiptDialog.html?ver=1.2.9.1' -->
+            <div ng-include="'/App/template/printReceiptDialog.html'" class="ng-scope"></div>
+            <!-- ngInclude: '/dashboard/widgets/printInvoiceBySettingsDialog.html?ver=1.2.9.1' -->
+            <div id="textHeightMeasurement" style="position: fixed; left: -1000px; top: -1000px;"></div>
+
+        </div>
+
+    <div id="publicLinkPopup" class="hidden">
+        <p>
+            برای ارسال این فاکتور برای مشتری، لینک زیر را با مشتری به اشتراک بگذارید.
+        </p>
+        <p>
+            همچنین مشتری می تواند توسط کلیه کارت های شتابی، این فاکتور را به صورت آنلاین پرداخت کند. پس از پرداخت فاکتور، کلیه اسناد حسابداری به طور اتوماتیک صادر خواهند شد.
+        </p>
+        <div class="m-t-10">
+            <input ng-model="publicLink" class="form-control input-sm ltr text-left ng-pristine ng-untouched ng-valid" onfocus="this.select()" id="publicLink">
+        </div>
+        <div class="m-t-10 text-center">
+            <button type="button" class="btn btn-sm btn-success" ng-click="copyPublicLink()">کپی لینک</button>
+        </div>
+
+        <p class="m-t-10">ارسال لینک به ایمیل زیر</p>
+        <div class="m-t-10">
+            <table style="width: 100%">
+                <tbody>
+                    <tr>
+                        <td style="width: 100%;" class="p-l-10">
+                            <input ng-model="contactEmail" class="form-control input-sm ltr text-left ng-pristine ng-untouched ng-valid">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-success" ng-click="emailPublicLink(1)">ارسال</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری...</div>
+    </div>
+
+    <img id="imgLogo" style="position: fixed; top: -1500px; left: -1500px; z-index: -1; max-width: 140px; max-height: 70px;" src="">
+
+</div>

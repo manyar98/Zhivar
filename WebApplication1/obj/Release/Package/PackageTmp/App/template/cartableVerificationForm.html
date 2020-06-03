@@ -1,0 +1,159 @@
+<div id="panel-verification-from">
+    <!--<div class="col-md-12" style="padding:13px 0 6px 0;" ng-show="false">
+        <label class="col-xs-1 control-label"> نمایش:</label>
+        <div class="col-xs-8" style="margin-right: -2px;">
+            <div class="radio radio-info radio-inline" tabindex="10">
+                <input ng-change="onChangeRbn()" type="radio" id="inlineRadio1" ng-model="model.IsActive" value="1" name="radioInline">
+                <label for="inlineRadio1"> مختصر </label>
+            </div>
+            <div class="radio radio-inline" tabindex="11">
+                <input ng-change="onChangeRbn()" type="radio" id="inlineRadio2" ng-model="model.IsActive" value="0" name="radioInline">
+                <label for="inlineRadio2"> جزئیات </label>
+            </div>
+        </div>
+    </div>-->
+    <div class="col-md-4 col-md-offset-8 open-flow-modal-wrapper">
+        <button ng-click="openFlowModal()" type="button" class="btn btn-back">مشاهده گردش کار</button>
+        <button ng-click="redirect()" type="button" class="btn btn-back">بازگشت به کارتابل</button>
+    </div>
+
+    <!-- fieldset: for laod pages -->
+    <fieldset class="col-md-12">
+        <legend ng-bind="option.Title"></legend>
+        <div class="ui-view-content" ui-view></div>
+    </fieldset>
+
+    <!--buttons panel for action-->
+    <div class="col-md-12 action-buttons-wrapper" ng-show="!model.IsView">
+        <fieldset class="col-md-12">
+            <legend>اقدامات:</legend>
+            <span ng-if="option.WorkflowStatus == 3">این فرایند توسط در خواست دهنده انصراف داده شده است: {{option.UserComment}}</span>
+            <div class="col-md-12 buttons-wrapper">
+                <button type="button" ng-repeat="typeAction in typeActions" ng-click="openModalAction(typeAction)" class="btn" ng-class="typeAction.ActionId < 0 ? 'btn-danger' : 'btn-primary'">
+                    <span ng-bind="typeAction.ActionTitle"></span>
+                </button>
+            </div>
+        </fieldset>
+    </div>
+
+    <script type="text/ng-template" id="panel-flow.html">
+        <div id="flow-modal-wrapper">
+            <div class="modal-header">
+                <h3 class="modal-title" ng-bind="model.Title"></h3>
+                <i class="fa fa-close" title="بستن" data-dismiss="modal" aria-label="Close" ng-click="closePopup()"></i>
+            </div>
+            <div class="modal-body k-rtl">
+                <div id="grid" kendo-grid options="mainGridOptions" k-ng-delay="mainGridOptions"></div>
+            </div>
+        </div>
+        <style type="text/css">
+            .modal-dialog {
+                width: 98% !important;
+                margin: 1% auto;
+            }
+        </style>
+    </script>
+
+    <script type="text/ng-template" id="verification-confirm-template.html">
+        <form id="verification-confirm-modal-wrapper" ng-init="formInit()" class="form-horizontal">
+            <div>
+                <div class="modal-header">
+                    <h3 class="modal-title blink_Status" ng-bind="modalTitle" ng-class="{ 'h3blink' : isRefuse }"></h3>
+                    <i class="fa fa-close" title="بستن" data-dismiss="modal" aria-label="Close" ng-click="closePopup()"></i>
+                </div>
+                <div class="modal-body">
+                    <div id="cartable-nextSteps" class="alert alert-info col-md-12">
+                        <div ng-repeat="nextStep in model.NextSteps" class="form-group" ng-hide="isRefuse">
+                            <label class="col-md-1 control-label">ارسال به:</label>
+                            <div class="col-md-5 k-rtl">
+                                <label class="label-readonly" ng-bind="nextStep.RoleName"></label>
+                            </div>
+                            <label class="col-md-1 control-label">جهت:</label>
+                            <div class="col-md-5">
+                                <label class="label-readonly" ng-bind="nextStep.Title"></label>
+                            </div>
+                            <div class="col-md-11 col-md-offset-1">
+                                <div class="radio radio-inline" ng-repeat="user in nextStep.UserInfoes">
+                                    <input type="radio" id="{{nextStep.RoleId}}" value="{{user.UserId}}" name="{{nextStep.Id}}" checked="{{$index == 0}}" />
+                                    <label ng-click="labelClick($event)" ng-bind-template="{{user.Gender == 1 ? 'جناب آقای' : 'سرکار خانم'}} {{user.FirstName}} {{user.LastName}}"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="isRefuse">
+                            <span>توضیحات انصراف دهنده :</span>
+                            <strong ng-bind="model.UserCommentRefuse"></strong>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label"> توضیحات:</label>
+                            <div class="col-md-11 cartable-description">
+                                <textarea ng-model="model.UserComment" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button-validation mode="modal" ng-if="isRefuse == false" class-style="btn btn-primary" click="action(model)">{{model.ActionTitle}}</button-validation>
+                    <button-validation mode="modal" ng-if="isRefuse == true" class-style="btn btn-danger" click="action(model)">{{model.ActionTitle}}</button-validation>
+                </div>
+            </div>
+            <info-window mode="confirm" accept="acceptConfirm()" is-open="confirmAction.active" title="پیغام" message="{{confirmAction.message}}"></info-window>
+        </form>
+        <style type="text/css">
+            .modal-dialog {
+                margin-top: .5% !important;
+                width: 75% !important;
+            }
+
+                .modal-dialog .modal-content {
+                    width: 100% !important;
+                }
+
+            .radio.radio-inline,
+            .radio-inline {
+                width: 33% !important;
+            }
+
+                .radio.radio-inline:not(:first-child),
+                .radio-inline:not(:first-child) {
+                    margin-right: 0px !important;
+                }
+
+            .radio label:hover,
+            .radio input:hover {
+                cursor: pointer !important;
+            }
+
+            .radio label::before {
+                background-color: #fff;
+                border: 1px solid #cccccc;
+                border-radius: 50%;
+                content: "";
+                display: inline-block;
+                height: 17px;
+                margin-right: 0 !important;
+                position: absolute;
+                right: -20px !important;
+                transition: border 0.15s ease-in-out 0s;
+                width: 17px;
+            }
+
+            .radio label::after {
+                background-color: #555555;
+                border-radius: 50%;
+                content: " ";
+                display: inline-block;
+                height: 11px;
+                left: auto !important;
+                margin-right: -20px;
+                position: absolute;
+                right: 3px !important;
+                top: 3px;
+                transform: scale(0, 0);
+                transition: transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33) 0s;
+                width: 11px;
+            }
+        </style>
+    </script>
+</div>

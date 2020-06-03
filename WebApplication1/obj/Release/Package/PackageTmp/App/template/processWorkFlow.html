@@ -1,0 +1,16 @@
+﻿
+    <div style="width:98%;">
+        <div class="modal-header" style="padding:20px!important">
+            <button id="close-modal-work-flow" class="close" aria-label="Close" data-dismiss="modal" type="button" ng-click="closePopup()">
+                <span aria-hidden="true">×</span>
+            </button>
+            <h3 id="title-modal-work-flow" class="modal-title">{{model.Title}}<span>عنوان :</span></h3>
+        </div>
+        <div class="modal-body k-rtl" style="padding:10px 8px 10px 8px">
+            <div id="grid" kendo-grid options="mainGridOptions" k-ng-delay="mainGridOptions" tabindex="8"></div>
+
+        </div>
+        <div class="modal-footer" style="display:none">
+            <button class="btn btn-danger" ng-click="closePopup()" type="button" tabindex="4"><i class="fa fa-ban"></i>انصراف</button>
+        </div>
+    </div>

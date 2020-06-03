@@ -1,0 +1,136 @@
+/* 
+    Document   : styleSwitcher
+    Created on : 11.08.2012., 16:41:51
+    Author     : Pixel Industry
+    Description:
+        Stylesheet for StyleSwitcher
+*/
+
+#style-switcher{
+    position: fixed;
+    left: -160px;
+    top: 100px;
+    background: #fff;
+    width: 160px;
+    height: 320px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 2px 2px 2px #ccc;
+    border-top: 1px solid #ccc;
+    z-index: 999;
+}
+
+.metropolis-blue.active a, 
+.metropolis-clean.active a, 
+.metropolis-default.active a{
+    color: #222;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+#style-switcher #styles-container{
+    padding: 15px;
+}
+
+#style-switcher #styles-container section{
+    margin-bottom: 25px;
+    margin-top: 20px;
+    position: relative;
+}
+
+#style-switcher h6{
+    font: 14px Arial, sans-serif;
+    line-height: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 3px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+#style-switcher p{
+    font: 12px Arial, sans-serif;
+    margin-bottom: 10px;
+}
+
+
+#style-switcher #styles-button{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 20px;
+    right: -40px;
+    background: #333;
+
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 5px;
+    box-shadow: 2px 2px 2px #222;
+}
+
+#style-switcher #styles-button #switcher-logo{
+    background: url('img/logo.png') no-repeat;
+    width: 30px;
+    height: 30px;
+}
+
+#style-switcher .styles-list{
+    overflow: hidden;
+}
+
+#style-switcher .styles-list li{
+    float: left;
+    width: 20px;
+    height: 20px;
+
+    text-indent: -9999px;
+    margin: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+#style-switcher .styles-list li:hover{
+    opacity: 0.9;
+}
+
+#style-switcher select{
+    background: #f8f8f8;
+    border: 1px solid #AAA;
+    color: #555;
+    font: 12px 'Droid Sans';
+    margin: 0;
+    overflow: hidden;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 120px;
+}
+
+/*************************
+    CUSTOM THEME STYLES
+**************************/
+
+
+/*  STYLES   */
+
+#style-switcher .styles-list .blue{
+    background: #7abcde;
+}
+
+#style-switcher .styles-list .green{
+    background: #acc86e;
+}
+
+#style-switcher .styles-list .orange{
+    background: #fb7963;
+}
+
+#style-switcher .styles-list .red{
+    background: #01918f;
+}
+
+#style-switcher .styles-list .yellow{
+    background: #ebb74c;
+}
+
+

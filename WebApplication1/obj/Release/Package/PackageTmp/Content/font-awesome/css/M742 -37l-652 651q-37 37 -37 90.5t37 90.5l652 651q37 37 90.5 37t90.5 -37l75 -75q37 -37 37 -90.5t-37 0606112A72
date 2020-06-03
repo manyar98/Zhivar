@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Pixel Industry</title>
+  <meta name="description" content="Premium wordpress themes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='../../../../../../fonts.googleapis.com/css@family=Open+Sans&v1' rel='stylesheet' type='text/css'>
+      <link href='../../../../../../fonts.googleapis.com/css@family=Lobster&v1' rel='stylesheet' type='text/css'>
+    
+  <link rel="stylesheet" href="../../../../../../pixel-industry.com/web/wp-content/plugins/ultimate-coming-soon-page/inc/template/style.css">
+  <style type="text/css">
+    body{
+        background: #ffffff url('../../../../../../pixel-industry.com/web/wp-content/uploads/2013/03/cloth_alike.png') repeat;
+            }
+        #coming-soon-container{
+        font-family:"Open Sans",sans-serif;
+    }
+            #teaser-headline{
+        font-family:"Lobster",sans-serif;
+    }
+    
+        #coming-soon-container, #coming-soon-footer{
+        color:#000;
+        text-shadow: #fff 1px 1px 0px;
+    }
+          </style>
+</head>
+
+<body id="coming-soon-page">
+
+  <div id="coming-soon-container">
+    <div id="coming-soon-main" role="main">
+        <div id="coming-soon">
+                        <img id="teaser-image" src="../../../../../../pixel-industry.com/web/wp-content/uploads/2013/05/logo.png" alt="Teaser"/>
+                        <h1 id="teaser-headline">Premium Wordpress Themes by Pixel Industry</h1>
+            <p id="teaser-description">Website is coming soon. Follow us on <a href="../../../../../../twitter.com/pixel_industry">Twitter</a> or<a href="../../../../../../themeforest.net/user/pixel-industry"> leave us</a> a message if you have any questions.
+
+Stay tuned!</p>
+                        
+
+            <div id="notify-incentive">
+                <div id="notify-incentive-text">
+                                    </div>
+                <div id="notify-incentive-link">
+                    <a href="default.htm"></a>
+                </div>
+            </div>
+        </div>
+    </div> <!--! end of #main -->
+  </div> <!--! end of #container -->
+  <div id="coming-soon-footer">
+       <script src="../../../../../../pixel-industry.com/web/wp-includes/js/jquery/jquery.js"></script>
+  <script src="../../../../../../pixel-industry.com/web/wp-content/plugins/ultimate-coming-soon-page/inc/template/script.js"></script>
+  <!--[if lt IE 7 ]>
+      <script src="../../../../../../pixel-industry.com/web/wp-content/plugins/ultimate-coming-soon-page/inc/template/dd_belatedpng.js"></script>
+      <script>DD_belatedPNG.fix('img, .png_bg');</script>
+  <![endif]-->
+  <!--[if lt IE 9]>
+  <script>
+  jQuery(document).ready(function($){
+      });
+    $('input').placeholder();
+  </script>
+  <![endif]-->
+</body>
+</html>
+

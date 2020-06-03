@@ -1,0 +1,259 @@
+﻿<div class="container ng-scope" ng-controller="contactCardController" style="width:100%">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <div style="margin-top: -5px; margin-bottom: 5px;">فیلتر های گزارش</div>
+                    <div class="col-sm-6">
+                        <div id="comboContact"></div>
+                    </div>
+                    <div class="col-sm-3">
+                    </div>
+                    <!--<div class="col-sm-3">
+                        <date-range on-range-change="getContactCard()" from-date="fromDate" to-date="toDate"></date-range>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h4 class="iransans txt-gray ng-binding">
+                                {{ contact.Name|number }}
+                                &nbsp;<small ng-show="contact.Code" class="ng-binding">(کد: {{ contact.Code|number }})</small>
+                            </h4>
+                            <div class="hesabfa-txt-10 ng-binding" style="color: gray">دسته بندی: {{ contact.DetailAccount.Node.FamilyTree }}</div>
+                        </div>
+                        <div class="col-sm-4 text-left hidden">
+                            <button class="btn btn-default btn-smoke btn-sm" ng-click="underConstruction()">
+                                <span class="fa fa-paper-plane" aria-hidden="true"></span>&nbsp;
+                                ارسال صورت وضعیت
+                            </button>
+                            <button class="btn btn-default btn-smoke btn-sm " ng-click="editContact(contact)">
+                                <span class="fa fa-edit" aria-hidden="true"></span>&nbsp;
+                                ویرایش شخص
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="bs-callout bs-callout-info row">
+                                <div class="row">
+                                    <div class="col-xs-3">تلفن:</div>
+                                    <div class="col-xs-9 ng-binding">{{ contact.Phone|number }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">فکس:</div>
+                                    <div class="col-xs-9 ng-binding">{{ contact.Fax|number }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">ایمیل:</div>
+                                    <div class="col-xs-9 ng-binding">{{ contact.ContactEmail }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">وب سایت:</div>
+                                    <div class="col-xs-9 ng-binding">{{ contact.Website }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">استان:</div>
+                                    <div class="col-xs-9 ng-binding">{{ contact.State }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">شهر:</div>
+                                    <div class="col-xs-9 ng-binding">{{ contact.City }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">آدرس:</div>
+                                    <div class="col-xs-9 ng-binding">{{ contact.Address|number }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">شخص اول:</div>
+                                    <div class="col-xs-9 ng-binding">{{ contact.Name }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">تلفن همراه:</div>
+                                    <div class="col-xs-9 ng-binding">{{ contact.Mobile|number }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">ایمیل:</div>
+                                    <div class="col-xs-9 ng-binding">{{ contact.Email }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="bs-callout bs-callout-primary row">
+                                <!--<div class="row txt-bold p-10" ng-class="getBgByBalanceState(contact.Balance)">
+        <div class="col-xs-6">مانده (تراز):</div>
+        <div class="col-xs-6 text-left ng-binding">{{ getBalance(contact)|digitGroup }} {{ getCurrency() }}&nbsp;&nbsp; ( {{ getTashkhis(contact) }} )</div>
+    </div>-->
+                                <!--<div class="row p-5 hidden" style="border-bottom: 1px solid rgb(221, 221, 221)">
+        <div class="col-xs-2">بدهکاری:</div>
+        <div class="col-xs-4 text-danger txt-bold ng-binding">{{ contact.Liability|digitGroup }} {{ getCurrency() }}</div>
+        <div class="col-xs-2">بستانکاری:</div>
+        <div class="col-xs-4 text-primary txt-bold ng-binding">{{ contact.Credits|digitGroup }} {{ getCurrency() }}</div>
+    </div>-->
+                                <div class="row p-5" style="border-bottom: 1px solid rgb(221, 221, 221)">
+                                    <div class="col-xs-12">
+                                        <a class="iransans txt-bold txt-gray" ng-show="havePermission('sl')" href="#invoices/contactid={{ contact.Id }}">فاکتورهای فروش</a>
+                                        <span class="iransans txt-bold txt-gray" ng-show="!havePermission('sl')">فاکتورهای اجاره</span>
+                                    </div>
+                                    <div class="col-xs-6">مبلغ</div>
+                                    <div class="col-xs-6 text-primary txt-bold ng-binding" data-toggle="popover" data-trigger="hover" data-placement="top"><!-- data-content="تعداد: {{ saleApprovedCount|number }} فاکتور">-->
+                                        {{ sumInvoiceRentTo|digitGroup }} {{ getCurrency() }}
+                                    </div>
+                                    <div class="col-xs-6">تعداد</div>
+                                    <div class="col-xs-6 text-danger txt-bold ng-binding" data-toggle="popover" data-trigger="hover" data-placement="top">
+                                        {{ countInvoiceRentTo|digitGroup }} عدد
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                </div>
+                                <div  class="row p-5" style="border-bottom: 1px solid rgb(221, 221, 221)">
+                                    <div class="col-xs-12">
+                                        <a class="iransans txt-bold txt-gray" ng-show="havePermission('bl')" href="#invoices/show=bills&amp;contactid={{ contact.Id }}">فاکتورهای خرید</a>
+                                        <span class="iransans txt-bold txt-gray" ng-show="!havePermission('bl')">فاکتورهای اجاره از صاحب رسانه</span>
+                                    </div>
+                                    <div class="col-xs-6">مبلغ</div>
+                                    <div class="col-xs-6 text-primary txt-bold ng-binding" data-toggle="popover" data-trigger="hover" data-placement="top">
+                                        {{ sumInvoiceRentFrom|digitGroup }} {{ getCurrency() }}
+                                    </div>
+                                    <div class="col-xs-6">تعداد</div>
+                                    <div class="col-xs-6 text-danger txt-bold ng-binding" data-toggle="popover" data-trigger="hover" data-placement="top">
+                                        {{ countInvoiceRentFrom|digitGroup }} عدد
+                                    </div>
+                                </div>
+                                <div class="row">
+                                </div>
+                                <div class="row p-5" style="border-bottom: 1px solid rgb(221, 221, 221)">
+                                    <div class="col-xs-12">
+                                        <a class="iransans txt-bold txt-gray" ng-show="havePermission('sl')" href="#invoices/contactid={{ contact.Id }}">فاکتورهای فروش</a>
+                                        <span class="iransans txt-bold txt-gray" ng-show="!havePermission('sl')">فاکتورهای فروش</span>
+                                    </div>
+                                    <div class="col-xs-6">مبلغ</div>
+                                    <div class="col-xs-6 text-primary txt-bold ng-binding" data-toggle="popover" data-trigger="hover" data-placement="top">
+                                        {{ sumInvoiceSell|digitGroup }} {{ getCurrency() }}
+                                    </div>
+                                    <div class="col-xs-6">تعداد</div>
+                                    <div class="col-xs-6 text-danger txt-bold ng-binding" data-toggle="popover" data-trigger="hover" data-placement="top">
+                                        {{ countInvoiceSell|digitGroup }} عدد
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <a class="iransans txt-bold txt-gray" ng-show="havePermission('bl')" href="#invoices/show=bills&amp;contactid={{ contact.Id }}">فاکتورهای خرید</a>
+                                        <span class="iransans txt-bold txt-gray" ng-show="!havePermission('bl')">فاکتورهای خرید</span>
+                                    </div>
+                                    <div class="col-xs-6">مبلغ</div>
+                                    <div class="col-xs-6 text-primary txt-bold ng-binding" data-toggle="popover" data-trigger="hover" data-placement="top" >
+                                        {{ sumInvoiceBuy|digitGroup }} {{ getCurrency() }}
+                                    </div>
+                                    <div class="col-xs-6">تعداد</div>
+                                    <div class="col-xs-6 text-danger txt-bold ng-binding" data-toggle="popover" data-trigger="hover" data-placement="top" >
+                                        {{ countInvoiceBuy|digitGroup }} عدد
+                                    </div>
+                                </div>
+                                <div class="row">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active"><a data-toggle="tab" href="#tab1" target="_self" ng-click="refreshGrid(1)">صورتحساب</a></li>
+                <li role="presentation"><a data-toggle="tab" href="#tab2" target="_self" ng-click="refreshGrid(2)">صورتحساب به ریز فاکتور</a></li>
+                <li role="presentation"><a data-toggle="tab" href="#tab3" target="_self" ng-click="refreshGrid(3)">خرید و فروش کالا</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="tab1" class="tab-pane fade in active">
+                    <div id="gridContainer1"></div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right m-t-10">
+                            <button class="btn btn-default btn-smoke" ng-click="print()">
+                                <span class="fa fa-print"></span>&nbsp;
+                                چاپ
+                            </button>
+                            <button class="btn btn-default btn-smoke" ng-click="pdf()">
+                                <span class="fa fa-file-pdf-o"></span>&nbsp;
+                                PDF
+                            </button>
+                            <button class="btn btn-default btn-smoke" ng-click="excel()">
+                                <span class="fa fa-file-excel-o"></span>&nbsp;
+                                Excel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab2" class="tab-pane fade">
+                    <div id="gridContainer2"></div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right m-t-10">
+                            <button class="btn btn-default btn-smoke" ng-click="print2()">
+                                <span class="fa fa-print"></span>&nbsp;
+                                چاپ
+                            </button>
+                            <button class="btn btn-default btn-smoke" ng-click="pdf2()">
+                                <span class="fa fa-file-pdf-o"></span>&nbsp;
+                                PDF
+                            </button>
+                            <button class="btn btn-default btn-smoke" ng-click="excel2()">
+                                <span class="fa fa-file-excel-o"></span>&nbsp;
+                                Excel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab3" class="tab-pane fade">
+                    <div id="gridContainer3"></div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right m-t-10">
+                            <button class="btn btn-default btn-smoke" ng-click="print3()">
+                                <span class="fa fa-print"></span>&nbsp;
+                                چاپ
+                            </button>
+                            <button class="btn btn-default btn-smoke" ng-click="pdf3()">
+                                <span class="fa fa-file-pdf-o"></span>&nbsp;
+                                PDF
+                            </button>
+                            <button class="btn btn-default btn-smoke" ng-click="excel3()">
+                                <span class="fa fa-file-excel-o"></span>&nbsp;
+                                Excel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ngInclude: '/dashboard/viewDocumentModal.html?ver=1.2.9.1' -->
+
+    <div id="gridPopup">
+        <div class="popup-content">
+            <div id="gridContainer4"></div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری...</div>
+    </div>
+
+</div>

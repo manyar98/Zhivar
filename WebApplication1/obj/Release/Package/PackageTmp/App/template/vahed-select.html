@@ -1,0 +1,33 @@
+﻿<div class="input-group">
+    <div>
+        <input display-numbers="" type="text" readonly="readOnly" class="form-control input-sm ng-valid ng-touched" id="nodeInputVahedNode" ng-model="text" ng-click="showTree()" style="cursor: pointer;">
+    </div>
+    <div class="input-group-addon hand" ng-click="showTree()" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="انتخاب گروه از درخت" data-original-title="" title="">
+        <span class="fa fa-chevron-down" aria-hidden="true"></span>
+    </div>
+</div>
+
+<div id="nodeSelectVahedNode" class="auto-complete list-group" style="width: 513px; display: none;">
+    <div>
+        <div ng-show="nodeMenu" class="">
+            <span class="fa fa-plus-circle text-success hand" aria-hidden="true" ng-click="addNode()" data-toggle="tooltip" data-placement="top" title="افزودن گروه"></span>
+            <span class="fa fa-minus-circle text-danger hand" aria-hidden="true" ng-click="deleteNodeQuestion()" data-toggle="tooltip" data-placement="top" title="حذف گروه"></span>
+            <span class="fa fa-edit text-primary hand" aria-hidden="true" ng-click="editNode()" data-toggle="tooltip" data-placement="top" title="ويرايش گروه"></span>
+        </div>
+        <div ng-show="nodeEdit" class="form-inline ng-hide">
+            <div class="form-group">
+                <div>
+                    <input display-numbers="" type="text" class="form-control input-sm ng-valid" ng-model="inputNodeName" placeholder="نام گروه...">
+                </div>
+                <span class="fa fa-check-circle text-success hand" aria-hidden="true" ng-click="submitNode()" data-toggle="tooltip" data-placement="top" title="ثبت"></span>
+                <span class="fa fa-minus-circle text-danger hand" aria-hidden="true" ng-click="cancelEditNode()" data-toggle="tooltip" data-placement="top" title="انصراف"></span>
+            </div>
+        </div>
+        <div ng-show="nodeRemove" class="ng-hide">
+            <span class="hesabfa-txt-9">آيا از حذف اين گروه مطمئن هستيد؟</span>
+            <span class="fa fa-check-circle text-success hand" aria-hidden="true" ng-click="deleteNode()" data-toggle="tooltip" data-placement="top" title="بله"></span>
+            <span class="fa fa-minus-circle text-danger hand" aria-hidden="true" ng-click="cancelDeleteNode()" data-toggle="tooltip" data-placement="top" title="خير"></span>
+        </div>
+    </div>
+    <div id="treeVahedNode" class="rg-fields-tree" style="height: 300px;"></div>
+</div>

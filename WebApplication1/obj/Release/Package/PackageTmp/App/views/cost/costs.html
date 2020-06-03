@@ -1,0 +1,192 @@
+﻿<div class="container ng-scope" ng-controller="costsController" >
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <input type="hidden" id="app_version" value="3.1" class="ng-scope">
+    <!--<div class="pageHeader ng-scope">
+        <blockquote class="border-info ng-binding" ng-show="currentBusiness">
+            {{ currentBusiness.Name|number }}
+            <ol class="breadcrumb iransanslight" style="display: inline-block;">
+
+                <li class="active" ng-show="type == 0">فاکتورهای فروش</li>
+                <li class="active" ng-show="type == 1">فاکتورهای خرید</li>
+                <li class="active" ng-show="type == 2">برگشت از فروش ها</li>
+                <li class="active" ng-show="type == 3">برگشت از خرید ها</li>
+                <li class="active" ng-show="type == 4">ضایعات کالا</li>
+                <li class="active ng-binding" ng-show="contactId > 0">{{ grid.data.length &gt; 0 ? grid.data[0].Name : ""}}</li>
+            </ol>
+        </blockquote>
+    </div>-->
+    <div class="container ng-scope">
+        <alert message="alertMessage" messages="alertMessages" alert-type="alertType" ng-show="alert"></alert>
+        <div class="center-block" ng-show="!loading">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs mr-b-10" role="tablist" id="tabs">
+                <li role="presentation" class="active">
+                    <a href="javascript:void(0)" ng-click="selectTab(null)" aria-controls="all" role="tab">همه</a>
+                </li>
+                <li role="presentation" ng-hide="type > 1">
+                    <a href="javascript:void(0)" ng-click="selectTab(0)" aria-controls="draft" role="tab">
+                        ذخیره موقت
+                        <span class="badge ng-binding" ng-show="draftStat">{{ draftStat|number }}</span>
+                    </a>
+                </li>
+                <li role="presentation" ng-hide="type > 1">
+                    <a href="javascript:void(0)" ng-click="selectTab(1)" aria-controls="awaitingApproval" role="tab">
+                        منتظر تایید
+                        <span class="badge ng-binding" ng-show="awaitingApprovalStat">{{ awaitingApprovalStat|number }}</span>
+                    </a>
+                </li>
+                <li role="presentation" ng-hide="type == 4">
+                    <a href="javascript:void(0)" ng-click="selectTab(2)" aria-controls="approved" role="tab" class="ng-binding">
+                        منتظر پرداخت
+                        <span class="badge ng-binding" ng-show="approvedStat">{{ approvedStat|number }}</span>
+                    </a>
+                </li>
+                <li role="presentation" ng-hide="type == 4">
+                    <a href="javascript:void(0)" ng-click="selectTab(3)" aria-controls="Paid" role="tab" class="ng-binding">
+                        پرداخت شده
+                    </a>
+                </li>
+            </ul>
+
+            <div class="row mr-10">
+                <div class="col-md-12">
+                    <!--<a class="btn btn-info btn-sm mr-b-10" href="#editInvoice/new" ng-show="type == 0">
+                        <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                        فاکتور فروش جدید
+                    </a>-->
+                    <button class="btn btn-info btn-sm mr-b-10" ng-click="redirectToEditCost('new')" >
+                        <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                        صورت هزینه جدید
+                    </button>
+                  
+
+                    <button class="btn btn-default btn-smoke  btn-sm mr-b-10" ng-click="deleteCost()" ng-disabled="grid.getSelectedItems().length == 0">
+                        <span class="fa fa-trash" aria-hidden="true"></span>&nbsp;
+                        حذف صورت هزینه
+                    </button>
+            
+
+                    <!--<div class="btn-group">
+                        <button type="button" class="btn btn-default btn-smoke btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            سایر گزینه ها
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="" ng-show="tab == 2" ng-click="markAs('paid')" class="ng-binding">علامت گذاری بعنوان {{ type == 0 ? 'دریافت شده' : 'پرداخت شده'}}</a></li>
+                            <li><a href="" ng-show="tab == 3" ng-click="markAs('approved')" class="ng-binding">علامت گذاری بعنوان {{ type == 0 ? 'منتظر دریافت' : 'منتظر پرداخت'}}</a></li>
+                            <li><a href="" ng-click="markAs('sent')">علامت گذاری بعنوان ارسال شده</a></li>
+
+                        </ul>
+                    </div>
+                    <button class="btn btn-default btn-smoke btn-sm pull-left" data-toggle="modal" ng-click="exportInvoicesToExcel()" ng-show="havePermission('excelExport')">
+                        <span class="fa fa-file-excel-o" aria-hidden="true"></span>&nbsp;
+                        خروج به اکسل
+                    </button>
+                    <div class="btn-group pull-left m-l-5" id="printBtns">
+                        <button type="button" class="btn btn-default btn-smoke btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="fa fa-print" aria-hidden="true"></span>
+                            چاپ <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="" ng-click="printInvoiceList()">چاپ لیست فاکتورها</a></li>
+                            <li><a href="" ng-click="pdfInvoiceList()">چاپ لیست فاکتورها (PDF)</a></li>
+                            <li><a href="" ng-click="printInvoices()">چاپ فاکتورها (PDF)</a></li>
+                            <li><a href="" ng-click="printAddressLabelDialog()">چاپ برچسب آدرس مشتری (PDF)</a></li>
+
+                        </ul>
+                    </div>-->
+                </div>
+            </div>
+
+            <div id="gridContainer"></div>
+
+            <div id="progressBarDiv">
+                <div id="progressPdfTitle">در حال تهیه PDF...</div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" id="progressPdf" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style="width: 1%;transition:none;">
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 text-center" ng-show="loading">
+            <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+            <div>بارگیری لیست...</div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalFilterInvoices">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">فیلتر فاکتورها</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-3 text-left">از شماره فاکتور</div>
+                            <div class="col-sm-3 form-group text-right">
+                                <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="invNumberFrom" ng-model="invNumberFrom">
+                            </div>
+                            <div class="col-sm-1 text-left">تا</div>
+                            <div class="col-sm-3 form-group text-right">
+                                <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="invNumberTo" ng-model="invNumberTo">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 text-left">از شماره ارجاع</div>
+                            <div class="col-sm-3 form-group text-right">
+                                <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="invReferenceFrom" ng-model="invReferenceFrom">
+                            </div>
+                            <div class="col-sm-1 text-left">تا</div>
+                            <div class="col-sm-3 form-group text-right">
+                                <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="invReferenceTo" ng-model="invReferenceTo">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 text-left">از تاریخ</div>
+                            <div class="col-sm-3 form-group text-right">
+                                <input date-picker="" display-numbers="" type="text" class="form-control input-sm" id="invDateFrom" ng-model="invDateFrom">
+                            </div>
+                            <div class="col-sm-1 text-left">تا</div>
+                            <div class="col-sm-3 form-group text-right">
+                                <input date-picker="" display-numbers="" type="text" class="form-control input-sm" id="invDateTo" ng-model="invDateTo">
+                            </div>
+                        </div>
+                        طرف حساب
+                        <div class="row">
+                            <div class="col-sm-3 text-left">استان</div>
+                            <div class="col-sm-3 form-group text-right"><input display-numbers="" type="text" class="form-control input-sm" id="stateFilter" ng-model="stateFilter"></div>
+                            <div class="col-sm-1 text-left">شهر</div>
+                            <div class="col-sm-3 form-group text-right"><input display-numbers="" type="text" class="form-control input-sm" id="cityFilter" ng-model="cityFilter"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="addFilters()">تایید</button>
+                        <button type="button" class="btn btn-default btn-smoke btn-sm" ng-click="removeFilters()">حذف فیلترها</button>
+                        <button type="button" class="btn btn-default btn-smoke btn-sm" data-dismiss="modal">انصراف</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+                        <div>در حال گرفتن خروجی اکسل...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="textHeightMeasurement" style="position: fixed; left: -1000px; top: -1000px;"></div>
+        <img id="imgLogo" style="position: fixed; top: -1500px; left: -1500px; z-index: -1; max-width: 140px; max-height: 70px;" src="">
+
+    </div>
+</div>

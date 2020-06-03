@@ -1,0 +1,57 @@
+﻿<div class="container ng-scope" ng-controller="journalReportController" style="width:100%">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <div style="margin-top: -5px; margin-bottom: 5px;">فیلتر های گزارش</div>
+                    <div class="col-sm-4">
+                        <div id="selectStatus"></div>
+                    </div>
+                    <!--<div class="col-sm-4 text-center">
+                        <date-range on-range-change="getJournal()" from-date="fromDate" to-date="toDate"></date-range>
+                    </div>-->
+                    <div class="col-sm-4 text-left">
+                        <button class="btn btn-default btn-smoke" ng-click="print()">
+                            <span class="fa fa-print"></span>&nbsp;
+                            چاپ
+                        </button>
+                        <button class="btn btn-default btn-smoke" ng-click="pdf()">
+                            <span class="fa fa-file-pdf-o"></span>&nbsp;
+                            PDF
+                        </button>
+                        <!--<button class="btn btn-default btn-smoke" ng-click="excel()">
+                            <span class="fa fa-file-excel-o"></span>&nbsp;
+                            Excel
+                        </button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="gridContainer"></div>
+        </div>
+    </div>
+
+    <div class="row mr-t-10">
+        <div class="col-sm-4">
+            <button class="btn btn-default btn-smoke" ng-click="redirect('journalTotalAccountsReport')" >تولید دفتر روزنامه در سطح معین</button>
+            <!--<a class="btn btn-default btn-smoke" href="#journalTotalAccountsReport" role="button">تولید دفتر روزنامه در سطح معین</a>-->
+        </div>
+    </div>
+
+    <div id="textHeightMeasurement" style="position: fixed; left: -1000px; top: -1000px;"></div>
+
+    <div style="margin-top: 50px;"></div>
+
+    <div ng-include="'/App/template/viewDocumentModal.html'"></div>
+    <!-- ngInclude: '/dashboard/viewDocumentModal.html?ver=1.2.9.1' -->
+
+</div>

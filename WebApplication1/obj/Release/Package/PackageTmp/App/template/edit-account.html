@@ -1,0 +1,133 @@
+﻿<div class="modal fade" id="editAccountModal" tabindex="-1" role="dialog" aria-labelledby="editAccountModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-info">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title ng-binding" id="editAccountModalLabel">
+                    ویرایش حساب
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <!-- ngInclude: '/dashboard/widgets/alertBox.html?ver=1.2.9.1' --><div ng-include="'/dashboard/widgets/alertBox.html?ver=1.2.9.1'" class="ng-scope">
+                        <div class="alert alert-danger center-block text-right hesabfa-txt-10 ng-scope ng-hide" role="alert" style="max-width: 600px;" id="error" ng-show="alertBoxVisible">
+                            <div class="row">
+                                <div class="col-xs-1" style="margin-top: -2px;">
+                                    <span class="fa fa-exclamation-circle fa-2x" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                </div>
+                                <div class="col-xs-11" style="margin-top: 1px;">
+                                    <strong class="ng-binding"></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5">
+                            سطح:
+                            <label class="radio-inline">
+                                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="2" ng-model="acc.Level" ng-change="levelChange()" class="ng-pristine ng-untouched ng-valid"> کل
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="3" ng-model="acc.Level" ng-change="levelChange()" class="ng-pristine ng-untouched ng-valid"> معین
+                            </label>
+                        </div>
+                        <div class="col-xs-7">
+                            <span class="text-warning small ng-hide" ng-show="acc.Level == 2">توجه: کد حساب کل را یک رقمی وارد کنید.</span>
+                            <span class="text-warning small ng-hide" ng-show="acc.Level == 3">توجه: کد حساب معین را دو رقمی وارد کنید.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="hesabfa-txt-9">گروه</label>
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle ng-binding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 100%;">
+                                        &nbsp;-&nbsp; <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <!-- ngRepeat: accLvl1 in accounts | filter: { Level: 1 } -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ng-hide" ng-show="acc.Level == 3">
+                            <label class="hesabfa-txt-9">کل</label>
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle ng-binding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 100%;">
+                                        &nbsp;-&nbsp; <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <!-- ngRepeat: accLvl2 in accounts | filter: { Level: 2 } | filter: { GroupCode: level1Code } -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--					<div class="row">-->
+                    <!--						<div class="col-xs-12 col-sm-6">-->
+                    <!--							<div id="comboGroupAccountSelect"></div>-->
+                    <!--						</div>-->
+                    <!--						<div class="col-xs-12 col-sm-6">-->
+                    <!--							<div ng-show="acc.Level == 3" id="comboLedgerAccountSelect"></div>-->
+                    <!--						</div>-->
+                    <!--					</div>-->
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="inputAccCode" class="hesabfa-txt-9">كـد</label>
+                                <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputAccCode" maxlength="2" ng-model="acc.Code" ng-change="acc.Coding = level1Code + level2Code + acc.Code" ng-blur="checkAccCode()" aria-describedby="inputAccCodeHelp">
+                                <span ng-show="accCodeHelp" id="inputAccCodeHelp" class="help-block small ng-hide">یك كد منحصربفرد برای این حساب</span>
+                                <span ng-show="accCodeExist" class="label label-danger ng-binding ng-hide">این کد به حساب دیگری اختصاص دارد </span>
+                                <span ng-show="accCodeAvailable" class="label label-success ng-binding ng-hide">کد  آزاد است</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="inputAccCoding" class="hesabfa-txt-9">کدینگ</label>
+                                <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputAccCoding" maxlength="6" ng-model="acc.Coding" ng-blur="checkAccCode()" aria-describedby="inputAccCodingHelp" disabled="disabled">
+                                <span ng-show="accCodeHelp" id="inputAccCodingHelp" class="help-block small ng-hide">کد کامل حساب</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="inputAccName" class="hesabfa-txt-9">نام حساب</label>
+                                <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputAccName" maxlength="150" ng-model="acc.Name" aria-describedby="inputAccNameHelp">
+                                <span id="inputAccNameHelp" class="help-block small">یك عنوان كوتاه برای این حساب (ماكزیمم 150 كاراكتر)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--					<a ng-show="acc.Level == 3 && !showSystemAccountSelection" ng-click="systemAccountSelectionQuestion()" class="hesabfa-txt-9 hand">-->
+                    <!--						<span ng-show="acc.SystemAccount == 0">تعیین این حساب بعنوان یک حساب سیستمی</span>-->
+                    <!--						<span ng-show="acc.SystemAccount > 0">این حساب یک حساب سیستمی است. [تغییر]</span>-->
+                    <!--					</a>-->
+                    <!--					<div class="form-group" ng-show="showSystemAccountSelection">-->
+                    <!--						<label class="hesabfa-txt-9">حساب سیستمی</label>-->
+                    <!--						<div class="btn-group">-->
+                    <!--							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                    <!--								{{ selectedSysAcc }} <span class="caret"></span>-->
+                    <!--							</button>-->
+                    <!--							<ul class="dropdown-menu" style="height: auto;max-height: 200px;overflow-x: hidden;">-->
+                    <!--								<li ng-repeat="sysAcc in systemAccountTypes">-->
+                    <!--									<a href="" ng-click="selectSysAcc(sysAcc)">{{ sysAcc }}</a>-->
+                    <!--								</li>-->
+                    <!--							</ul>-->
+                    <!--						</div>-->
+                    <!--						<span class="fa fa-remove hand" ng-click="selectedSysAcc = ''"></span>-->
+                    <!--					</div>-->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-smoke" data-dismiss="modal" ng-show="!calling">انصراف</button>
+                <button type="submit" onclick="return false;" class="btn btn-success" ng-click="submitAccount()" ng-show="!calling">ثبت و ذخیره</button>
+                <div ng-show="calling" class="text-center ng-hide"><span><img src="../../Content/img/ajax-loader4.gif"></span></div>
+            </div>
+        </div>
+    </div>
+</div>

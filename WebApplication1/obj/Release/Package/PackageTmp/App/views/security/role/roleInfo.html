@@ -1,0 +1,42 @@
+<div ng-controller="roleInfoController" ng-init="init()">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <form name="roleInfo" class="form-horizontal" action="#">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 site-panel" ng-show="operationAccess.canInsert">
+                <div class="form-group">
+                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">عنوان:</label>
+                    <div class="col-md-8 col-sm-8 col-xs-9">
+                        <input type="text" text-required='عنوان اجباریست' ng-model="model.Name" class="form-control" tabindex="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">کد:</label>
+                    <div class="col-md-8 col-sm-8 col-xs-9">
+                        <input type="text" text-required='کد اجباریست' ng-model="model.Code" class="form-control" tabindex="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">وضعیت:</label>
+                    <div class="col-md-8 col-sm-8 col-xs-9">
+                        <div class="radio radio-info radio-inline" tabindex="3">
+                            <input type="radio" id="inlineRadio1" ng-model="model.IsActive" value="1" name="radioInline">
+                            <label for="inlineRadio1"> فعال </label>
+                        </div>
+                        <div class="radio radio-inline" tabindex="4">
+                            <input type="radio" id="inlineRadio2" ng-model="model.IsActive" value="0" name="radioInline">
+                            <label for="inlineRadio2"> غیر فعال </label>
+                        </div>
+                    </div>
+                </div>
+            <div class="col-md-12 col-sm-12 col-xs-12" ng-show="operationAccess.canInsert">
+                <div class="button-wrapper pull-left" style="margin-left:33%;">
+                    <input type="hidden" ng-model="model.ID" />
+                    <button-validation mode="normal" class-style="btn btn-success" click="action(model)" tabindex="5">ثبت</button-validation>
+                    <button class="btn btn-danger" ng-click="redirect()" type="button" tabindex="6">انصراف</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

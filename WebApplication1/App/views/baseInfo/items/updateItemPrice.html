@@ -1,0 +1,127 @@
+﻿<div class="container ng-scope" ng-controller="updateItemPriceController" style="width:100%">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <div class="center-block" ng-show="!loading">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs mr-b-10" role="tablist" id="tabs">
+            <li role="presentation" class="active">
+                <a href="javascrip:void(0)" ng-click="selectTab('all');" aria-controls="all" role="tab">همه</a>
+            </li>
+            <li role="presentation">
+                <a href="javascrip:void(0)" ng-click="selectTab('product');" role="tab">کالا ها</a>
+            </li>
+            <li role="presentation">
+                <a href="javascrip:void(0)" ng-click="selectTab('service');" role="tab">خدمات</a>
+            </li>
+        </ul>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-info btn-sm mr-b-10" ng-click="save()">
+                    <span class="fa fa-save" aria-hidden="true"></span>&nbsp;
+                    ذخیره
+                </button>
+                <button class="btn btn-default btn-smoke btn-sm mr-b-10" ng-click="updateByPercent()">
+                    %&nbsp;
+                    درصد
+                </button>
+                <button class="btn btn-default btn-smoke btn-sm mr-b-10" ng-click="updateByPrice()">
+                    <span class="fa fa-ellipsis-v" aria-hidden="true"></span>&nbsp;
+                    ثابت
+                </button>
+                <button class="btn btn-danger mr-b-10 pull-left" ng-click="redirectToInventory()">
+                    <span class="fa fa-arrow-left" aria-hidden="true"></span>&nbsp;
+                    بازگشت به فهرست کالاها و خدمات
+                </button>
+     
+
+            </div>
+        </div>
+
+        <div id="gridContainer"></div>
+    </div>
+
+    <div id="updatePercentPopup" class="hidden">
+        <div class="gridLabelCount"></div>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="width: 60px;">درصد</td>
+                    <td>
+                        <input display-numbers="" keyboard-filter="float" type="text" ng-model="percent" class="form-control input-sm ltr text-left" style="width: 100px; display: inline-block;" maxlength="6">
+                    </td>
+                </tr>
+                <tr>
+                    <td>نوع</td>
+                    <td class="p-t-5">
+                        <div id="cmbPercentType" ></div>
+                    </td>
+                </tr>
+                <tr class="p-t-5">
+                    <td>اعمال بر</td>
+                    <td class="p-t-5">
+                        <div dx-select-box="cmbPercentApply"></div>
+                    </td>
+                </tr>
+                <tr class="p-t-5">
+                    <td>گرد کردن</td>
+                    <td class="p-t-5">
+                        <div dx-select-box="cmbRound"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="m-t-10 text-left">
+            <button type="button" class="btn btn-sm btn-success" ng-click="doUpdate(0)">اعمال</button>
+        </div>
+
+
+    </div>
+    <div id="updatePricePopup" class="hidden">
+        <div class="gridLabelCount"></div>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="width: 60px;">مبلغ</td>
+                    <td>
+                        <input display-numbers="" keyboard-filter="float" type="text" ng-model="price" class="form-control input-sm ltr text-left" style="width: 100px; display: inline-block;" maxlength="8">
+                    </td>
+                </tr>
+                <tr>
+                    <td>نوع</td>
+                    <td class="p-t-5">
+                        <div dx-select-box="cmbPriceType"></div>
+                    </td>
+                </tr>
+                <tr class="p-t-5">
+                    <td>اعمال بر</td>
+                    <td class="p-t-5">
+                        <div dx-select-box="cmbPriceApply"></div>
+                    </td>
+                </tr>
+                <tr class="p-t-5">
+                    <td>گرد کردن</td>
+                    <td class="p-t-5">
+                        <div dx-select-box="cmbRound"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="m-t-10 text-left">
+            <button type="button" class="btn btn-sm btn-success" ng-click="doUpdate(1)">اعمال</button>
+        </div>
+
+
+    </div>
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری لیست کالاها و خدمات...</div>
+    </div>
+
+    <div id="textHeightMeasurement" style="position: fixed; left: -1000px; top: -1000px;"></div>
+    <img id="imgLogo" style="position: fixed; top: -1500px; left: -1500px; z-index: -1; max-width: 140px; max-height: 70px;" src="">
+
+</div>

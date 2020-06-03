@@ -1,0 +1,48 @@
+﻿<div class="container ng-scope" ng-controller="inventoryRptController" style="width:100%">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <div style="margin-top: -5px; margin-bottom: 5px;">فیلتر های گزارش</div>
+                    <div class="col-sm-4 col-xs-12">
+                        <div id="selectStatus"></div>
+                    </div>
+                    <!--<div class="col-sm-4 col-xs-12 text-right">
+                        <form class="form-inline ng-pristine ng-valid">
+                            <div class="form-group">
+                                <label for="txtUntilDate">تا تاریخ: </label>
+                                <input date-picker="" display-numbers="" type="text" id="txtUntilDate" ng-model="untilDate" class="form-control w-120">
+                            </div>
+                            <button class="btn btn-info btn-sm " ng-click="getInventoryItems()">اعمال</button>
+                        </form>
+                    </div>-->
+                    <div class="col-sm-4 col-xs-12 text-left">
+                        <button class="btn btn-default btn-smoke" ng-click="print()">
+                            <span class="fa fa-print"></span>&nbsp;
+                            چاپ
+                        </button>
+                        <button class="btn btn-default btn-smoke" ng-click="pdf()">
+                            <span class="fa fa-file-pdf-o"></span>&nbsp;
+                            PDF
+                        </button>
+                        <!--<button class="btn btn-default btn-smoke" ng-click="excel()">
+                            <span class="fa fa-file-excel-o"></span>&nbsp;
+                            Excel
+                        </button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="gridContainer"></div>
+        </div>
+    </div>
+</div>

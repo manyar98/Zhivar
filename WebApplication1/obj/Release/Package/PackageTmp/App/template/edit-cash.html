@@ -1,0 +1,52 @@
+﻿<div class="modal fade" id="editCashModal" tabindex="-1" role="dialog" aria-labelledby="editCashModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-info">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title ng-binding" id="editCashModalLabel">
+                    ویرایش
+                </h4>
+            </div>
+            <form class="ng-pristine ng-valid ng-valid-maxlength">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <!--<div ng-include="'/dashboard/widgets/alertBox.html?ver=1.2.9.1'" class="ng-scope">
+                             <div class="alert alert-danger center-block text-right hesabfa-txt-10 ng-scope ng-hide" role="alert" style="max-width: 600px;" id="error" ng-show="alertBoxVisible">
+                                 <div class="row">
+                                     <div class="col-xs-1" style="margin-top: -2px;">
+                                         <span class="fa fa-exclamation-circle fa-2x" aria-hidden="true"></span>
+                                         <span class="sr-only">Error:</span>
+                                     </div>
+                                     <div class="col-xs-11" style="margin-top: 1px;">
+                                         <strong class="ng-binding"></strong>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>-->
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="code" class="title1">کد صندوق</label>
+                                    <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="cash-code" ng-model="cash.Code" maxlength="6" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label for="name" class="title1">نام صندوق</label>
+                                    <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="cash-name" ng-model="cash.Name" ng-blur="cashNameLeave()" maxlength="100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-smoke" data-dismiss="modal" ng-show="!calling">انصراف</button>
+                    <button type="submit" onclick="return false;" class="btn btn-success" ng-click="submitCash()" ng-show="!calling">
+                        ثبت و ذخیره
+                    </button>
+                    <div ng-show="calling" class="text-center ng-hide"><span><img src="../../../Content/img/ajax-loader4.gif"></span></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

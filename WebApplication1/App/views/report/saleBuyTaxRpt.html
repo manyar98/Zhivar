@@ -1,0 +1,140 @@
+﻿<div class="container ng-scope" ng-controller="saleBuyTaxRptController" >
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <div style="margin-top: -5px; margin-bottom: 5px;">فیلتر های گزارش</div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div id="cmbBuyOrSale"></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div id="cmbContactType"></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div id="cmbCondition"></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <date-range on-range-change="getReportData()" from-date="fromDate" to-date="toDate"></date-range>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="gridContainer"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-2 col-sm-6">
+            <div class="p-5" style="border-bottom: 1px solid rgb(154, 154, 154)">
+                فروش
+            </div>
+            <div style="border-bottom: 1px solid rgb(154, 154, 154)">
+                <div class="row">
+                    <div class="col-xs-6 h6 txt-bold text-left">جمع فروش <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding"></span></div>
+                    <div class="col-xs-6 h6 txt-bold text-right ng-binding">{{ sums.sumSale|digitGroup }}</div>
+                </div>
+            </div>
+            <div style="border-bottom: 1px solid rgb(154, 154, 154)">
+                <div class="row">
+                    <div class="col-xs-6 h6 txt-bold text-left">جمع مالیات <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding"></span></div>
+                    <div class="col-xs-6 h6 txt-bold text-right ng-binding">{{ sums.sumSaleTax|digitGroup }}</div>
+                </div>
+            </div>
+            <div style="border-bottom: 4px double #333">
+                <div class="row">
+                    <div class="col-xs-6 h6 txt-bold text-left">جمع عوارش <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding"></span></div>
+                    <div class="col-xs-6 h6 txt-bold text-right ng-binding">{{ sums.sumSaleToll|digitGroup }}</div>
+                </div>
+            </div>
+            <div style="border-bottom: 4px double #333">
+                <div class="row">
+                    <div class="col-xs-6 h6 txt-bold text-left">جمع مالیات و عوارض <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding"></span></div>
+                    <div class="col-xs-6 h6 txt-bold text-right ng-binding">{{ sums.sumSaleTaxToll|digitGroup }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="p-5" style="border-bottom: 1px solid rgb(154, 154, 154)">
+                خرید
+            </div>
+            <div style="border-bottom: 1px solid rgb(154, 154, 154)">
+                <div class="row text-left">
+                    <div class="col-xs-6 h6 txt-bold">جمع خرید <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding"></span></div>
+                    <div class="col-xs-6 h6 txt-bold text-right ng-binding">{{ sums.sumPurchase|digitGroup }}</div>
+                </div>
+            </div>
+            <div style="border-bottom: 1px solid rgb(154, 154, 154)">
+                <div class="row text-left">
+                    <div class="col-xs-6 h6 txt-bold">جمع مالیات <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding"></span></div>
+                    <div class="col-xs-6 h6 txt-bold text-right ng-binding">{{ sums.sumPurchaseTax|digitGroup }}</div>
+                </div>
+            </div>
+            <div style="border-bottom: 4px double #333">
+                <div class="row text-left">
+                    <div class="col-xs-6 h6 txt-bold">جمع عوارش <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding"></span></div>
+                    <div class="col-xs-6 h6 txt-bold text-right ng-binding">{{ sums.sumPurchaseToll|digitGroup }}</div>
+                </div>
+            </div>
+            <div style="border-bottom: 4px double #333">
+                <div class="row text-left">
+                    <div class="col-xs-6 h6 txt-bold">جمع مالیات و عوارض <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding"></span></div>
+                    <div class="col-xs-6 h6 txt-bold text-right ng-binding">{{ sums.sumPurchaseTaxToll|digitGroup }}</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row m-t-10">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-body text-center txt-bold ng-binding" style="color: #333">
+                    جمع مبلغ قابل ارائه به دارایی: {{ sums.tax|digitGroup }} <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4 text-center">
+            <button class="btn btn-default btn-smoke" ng-click="print()">
+                <span class="fa fa-print"></span>&nbsp;
+                چاپ
+            </button>
+            <button class="btn btn-default btn-smoke" ng-click="pdf()">
+                <span class="fa fa-file-pdf-o"></span>&nbsp;
+                PDF
+            </button>
+            <button class="btn btn-default btn-smoke" ng-click="excel()">
+                <span class="fa fa-file-excel-o"></span>&nbsp;
+                Excel
+            </button>
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+    </div>
+    <!--<div class="row m-t-10">
+        <div class="col-sm-12">
+            <p class="hesabfa-page-top-help-box">
+                <span class="fa fa-info-circle fa-2x" style="color: #2ab27b;"></span>&nbsp;&nbsp;
+                <span>
+                    توجه: این گزارش بر مبنای فاکتورهای خرید و فروش شما تهیه می شود و سندهای دستی در این گزارش لحاظ نمی شوند.
+                    ستون های گزارش نیز بر مبنای گزارش فصلی مورد نیاز اداره دارایی تهیه شده اند.
+                </span>
+            </p>
+
+        </div>
+    </div>-->
+
+</div>

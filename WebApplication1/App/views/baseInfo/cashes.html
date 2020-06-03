@@ -1,0 +1,131 @@
+﻿<link rel="stylesheet" href="../../../Content/BankLogo/dist/ibl.min.css" />
+<div class="container ng-scope" ng-controller="cashesController">
+
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <edit-cash open="editCashModal" cash="cash" onsuccess="getEditedCash"></edit-cash>
+    <edit-bank open="editBankModal" bank="bank" onsuccess="getEditedBank"></edit-bank>
+    <!--<alert message="alertMessage" messages="alertMessages" alert-type="alertType" ng-show="alert"></alert>-->
+ 
+    <button class="btn btn-info mr-b-10" ng-click="addNewCash()">
+        <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+        افزودن صندوق جدید
+    </button>
+    <button class="btn btn-info mr-b-10" ng-click="addNewBank()">
+        <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+        افزودن بانک جدید
+    </button>
+
+    <div class="bs-callout bs-callout-primary ng-scope" ng-repeat="cash in cashes" >
+        <div class="row">
+            <div class="col-sm-1 text-center">
+                <span class="fa fa-money fa-3x green"></span>
+            </div>
+            <div class="col-sm-4">
+                <h4 class="ng-binding">{{cash.Name}}</h4>
+            </div>
+            <div class="col-sm-7 text-left">
+                <h4><span ng-class="cash.Balance < 0 ? 'red' : ''" class="ng-binding">{{cash.Balance |digitGroup}}&nbsp;{{getCurrency()}}</span></h4>
+                <div class="row mr-t-10">
+                    <div class="col-sm-12 text-left">
+                        <a role="button" class="btn btn-default" href="#" ng-click="redirect('receive','cash',cash.ID)">
+                            <span class="fa fa-arrow-down text-success" aria-hidden="true"></span>
+                            دریافت
+                        </a>
+                        <a role="button" class="btn btn-default" href="#" ng-click="redirect('pay','cash',cash.ID)">
+                            <span class="fa fa-arrow-up text-danger" aria-hidden="true"></span>
+                            پرداخت
+                        </a>
+                        <div class="btn-group col-sm-2">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="fa fa-arrow-left text-primary" aria-hidden="true"></span>
+                                انتقال به <span class="caret"></span>
+                            </button>
+                         
+
+                            <ul class="dropdown-menu">
+                                <!-- ngRepeat: cash_ in cashes -->
+                                <li ng-repeat="cash_ in cashes" ng-show="cash_.ID != cash.ID" class="ng-scope">
+     
+                                    <a href="#" class="ng-binding" ng-click="redirectMoneyTransfer('moneyTransfer','fromCashToCash',cash.ID,cash_.ID)"> {{cash_.Name}}</a>
+                                </li><!-- end ngRepeat: cash_ in cashes -->
+                                <li ng-repeat="bank_ in banks" ng-show="bank_.ID != bank.ID" class="ng-scope">
+ 
+                                    <a href="#" class="ng-binding" ng-click="redirectMoneyTransfer('moneyTransfer','fromCashToBank',cash.ID,bank_.ID)"> {{bank_.Name}}</a>
+                                </li><!-- end ngRepeat: bank_ in banks -->
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-default" ng-click="redirectToTransaction('cashTransactions',cash.ID)">
+                            <span class="fa fa-bar-chart text-warning" aria-hidden="true"></span>
+                            مشاهده گردش حساب
+                        </button>
+                        <button type="button" class="btn btn-default" ng-click="editCash(cash)">
+                            <span class="fa fa-edit text-info" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" ng-click="removeCash(cash)">
+                            <span class="fa fa-remove text-danger" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <div class="bs-callout bs-callout-primary ng-scope" ng-repeat="bank in banks">
+        <div class="row">
+            <div class="col-sm-1 text-center">
+                <i ng-class="Hesabfa.getBankLogoClass(bank.Name,64)"></i>
+            </div>
+            <div class="col-sm-4">
+                <h4 class="ng-binding">{{bank.Name}} <small class="ng-binding">{{bank.Branch}}</small></h4>
+                <div class="ng-binding">شماره حساب:{{bank.AccountNumber |number}}</div>
+            </div>
+            <div class="col-sm-7 text-left">
+                <h4><span ng-class="bank.Balance < 0 ? 'red' : ''" class="ng-binding">{{bank.Balance |digitGroup}}&nbsp;{{getCurrency()}}</span></h4>
+                <div class="row mr-t-10">
+                    <div class="col-sm-12 text-left">
+                        <a role="button" class="btn btn-default" href="#" ng-click="redirect('receive','bank',bank.ID)">
+                            <span class="fa fa-arrow-down text-success" aria-hidden="true"></span>
+                            دریافت
+                        </a>
+                        <a role="button" class="btn btn-default" href="#" ng-click="redirect('pay','bank',bank.ID)">
+                            <span class="fa fa-arrow-up text-danger" aria-hidden="true"></span>
+                            پرداخت
+                        </a>
+                        <div class="btn-group col-sm-2">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="fa fa-arrow-left text-primary" aria-hidden="true"></span>
+                                انتقال به <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <!-- ngRepeat: cash_ in cashes -->
+                                <li ng-repeat="cash_ in cashes" ng-show="cash_.ID != cash.ID" class="ng-scope">
+                                    <a href="#" class="ng-binding" ng-click="redirectMoneyTransfer('moneyTransfer','fromBankToCash',bank.ID,cash_.ID)"> {{cash_.Name}}</a>
+                        
+                                </li><!-- end ngRepeat: cash_ in cashes -->
+                                <li ng-repeat="bank_ in banks" ng-show="bank_.ID != bank.ID" class="ng-scope">
+                                    <a href="#" class="ng-binding" ng-click="redirectMoneyTransfer('moneyTransfer','fromBankToBank',bank.ID,bank_.ID)"> {{bank_.Name}}</a>
+                                </li><!-- end ngRepeat: bank_ in banks -->
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-default" ng-click="redirectToTransaction('bankTransactions',bank.ID)">
+                            <span class="fa fa-bar-chart text-warning" aria-hidden="true"></span>
+                            مشاهده گردش حساب
+                        </button>
+
+                        <button type="button" class="btn btn-default" ng-click="editBank(bank)">
+                            <span class="fa fa-edit text-info" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" ng-click="removeBank(bank)">
+                            <span class="fa fa-remove text-danger" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

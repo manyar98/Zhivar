@@ -1,0 +1,12 @@
+<div ng-controller="onlineUserSearchController" ng-init="init()" id="onlineUserSearchWrapper">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <form name="onlineUserSearch" class="form-horizontal " action="#">
+        <div class="abs anim k-rtl" ng-show="operationAccess.canView">
+            <div kendo-grid="grid" options="mainGridOptions" k-ng-delay="mainGridOptions"></div>
+        </div>
+    </form>
+    <info-window mode="confirm" accept="logOut()" is-open="confirmDelete.active" title="خروج" message="آیا شما از خروج این کاربر اطمینان دارید؟"></info-window>
+</div>

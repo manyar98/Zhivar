@@ -1,0 +1,323 @@
+﻿
+<div class="container ng-scope" ng-controller="payController">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <!--<alert message="alertMessage" messages="alertMessages" alert-type="alertType" ng-show="alert" class="ng-isolate-scope ng-hide">
+
+    </alert>-->
+    <edit-cash open="editCashModal" cash="cash" onsuccess="getEditedCash" class="ng-isolate-scope"></edit-cash>
+    <edit-bank open="editBankModal" bank="bank" onsuccess="getEditedBank" class="ng-isolate-scope"></edit-bank>
+    <edit-contact open="editContactModal" contact="contact" onsuccess="getEditedContact" class="ng-isolate-scope"></edit-contact>
+
+    <div class="row hesabfa-content-page center-block" ng-show="!loading">
+
+        <div class="panel panel-info center-block hesabfa-panel" style="max-width: none;">
+            <div class="panel-body hesabfa-panel-body">
+
+                <div class="text-info text-left txt-bold ng-binding ng-hide" style="padding-left: 10px; padding-bottom: 5px;" ng-show="rp.Number">
+                    شماره رسید: {{rp.Number | number}}
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 text-left">
+                        <label>پرداخت وجه / چک</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button ng-show="true" type="button" class="btn btn-sm btn-default" ng-class="Pay == 'contact' ? 'btn-primary' : 'btn-default'" ng-click="changePay('contact')" ng-disabled="rp.Invoice">به شخص</button>
+                            <button ng-show="true" type="button" class="btn btn-sm btn-default" ng-class="Pay == 'expense' ? 'btn-primary' : 'btn-default'" ng-click="changePay('expense')" ng-disabled="rp.Invoice">بابت هزینه</button>
+                            <button ng-show="true" type="button" class="btn btn-sm btn-default" ng-class="Pay == 'other' ? 'btn-primary' : 'btn-default'" ng-click="changePay('other')" ng-disabled="rp.Invoice">سایر</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 text-left">
+                        <label ng-show="Pay == 'contact'" class="ng-hide">شخص:</label>
+                        <label ng-show="hasCheque &amp;&amp; Pay != 'contact'" class="">پرداخت چک به:</label>
+                    </div>
+                    <div class="col-sm-4" ng-hide="rp.Invoice || disableContact">
+                        <div ng-show="Pay == 'contact' || hasCheque" id="comboContactSelect" class="">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4 ng-binding ng-hide" ng-show="rp.Invoice || disableContact">
+
+                    </div>
+                </div>
+                <div class="row mr-t-5" ng-show="Pay == 'expense' || Pay == 'other'">
+                    <div class="col-sm-2 text-left">
+                        <label ng-show="Pay == 'expense'" class="ng-hide">هزینه:</label>
+                        <label ng-show="Pay == 'other'" class="">حساب:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <div id="comboAccountSelect">
+                            
+                        </div>
+                    </div>
+                    <div class="col-sm-2 text-left">
+                        <label ng-show="Pay == 'expense'" class="ng-hide">ریز هزینه(دلخواه):</label>
+                        <label ng-show="Pay == 'other'" class="">تفصیلی:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <div id="comboDetailAccountSelect">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pd-5 mr-t-10 ng-hide" ng-show="toContact &amp;&amp; toContactDetailAccount &amp;&amp; Pay == 'contact'" ng-class="getBgByBalanceState(getTashkhisAfterTrans(toContact))">
+                    <div class="row txt-bold" style="margin-left: 0px; margin-right: 0px;">
+                        <div class="col-xs-5 ng-binding">مانده (تراز) :</div>
+                        <div class="col-xs-7 text-left ng-binding">
+                            ۰ ریال&nbsp;&nbsp; (  )
+                        </div>
+                    </div>
+                    <div class="row ng-hide" style="margin-left: 0px; margin-right: 0px;" ng-show="total">
+                        <div class="col-xs-5">مبلغ این تراکنش:</div>
+                        <div class="col-xs-7 text-left ng-binding">{{getBalance(rp.Contact) |digitGroup}} ({{getTashkhis(rp.Contact)}})</div>
+                    </div>
+                    <div class="row ng-hide" style="margin-left: 0px; margin-right: 0px;" ng-show="total">
+                        <div class="col-xs-5">مانده پس از این تراکنش:</div>
+                        <div class="col-xs-7 text-left ng-binding">
+                            {{getBalanceAfterTrans(rp.Contact) |digitGroup}} ( {{getTashkhisAfterTrans(rp.Contact)}} )
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mr-10 pd-5 ng-hide" style="border: 1px solid silver" ng-show="rp.Invoice">
+                    <div class="col-md-3 txt-bold text-info">
+                        <a href="#viewInvoice/id=" class="ng-binding">
+                            بابت فاکتور شماره
+                        </a>
+                    </div>
+                    <div class="col-md-3 ng-binding">
+                        مبلغ فاکتور:
+                    </div>
+                    <div class="col-md-3 ng-binding">
+                        مبلغ پرداخت شده:
+                    </div>
+                    <div class="col-md-3 ng-binding">
+                        مبلغ باقیمانده:
+                    </div>
+                </div>
+
+                <div class="row mr-t-10">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label>شرح</label>
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid" placeholder="شرح پرداخت..." ng-model="rp.Description">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>تاریخ</label>
+                            <input date-picker="" display-numbers="" type="text" class="form-control input-sm pdate ng-valid" id="transactionDate" ng-model="rp.DisplayDate" style="direction: ltr;"><a class="pcalBtn" href="#"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addCashPay(null,null,true)">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن پرداخت نقدی
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addBankPay(null,null,true)">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن پرداخت بانکی
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addChequePay(null,null,true)">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن چک
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="openChequeList()" >
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                خرج چک
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="separator1 mr-t-10"></div>
+
+                <!-- ngRepeat: transaction in rp.Items -->
+                <div class="row ng-scope" ng-repeat="transaction in rp.Items" style="margin-right:15px;margin-left:15px">
+                    <div class="row mr-10 hesabfa-paybox" style="background-color: #337AB7; border: 1px solid #337AB7;" ng-show="transaction.Type == 1">
+                        <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">وجه نقد</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-2 text-left">از صندوق:</label>
+                                <div class="col-sm-3 p-0">
+                                    <div id="cashSelect{{$index}}">
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-3"></div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #337AB7;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox" style="background-color: #9e32bd; border: 1px solid #9e32bd;" ng-show="transaction.Type == 2">
+                        <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">فیش بانکی</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-2 text-left">شماره فیش/ارجاع:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Reference" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-1 text-left">بانک:</label>
+                                <div class="col-sm-3 p-0">
+                                    <div id="bankSelect{{$index}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #9e32bd;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox" style="background-color: #bd6532; border: 1px solid #bd6532;" ng-show="transaction.Type == 3">
+                        <div class="col-sm-1 text-center p-0" style="min-height: 85px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">
+                                چـک
+                                <div class="hesabfa-txt-8 ng-binding">(عادی)</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row m-b-5" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div>
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-disabled="transaction.Cheque.Status != 0" ng-blur="calTotal()" disabled="disabled">
+                                </div>
+                                <label class="col-sm-2 text-left">شماره چک:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.ChequeNumber">
+                                </div>
+                                <label class="col-sm-2 text-left">تاریخ چک:</label>
+                                <div>
+                                    <input date-picker="" display-numbers="" type="text" class="col-sm-2 form-control input-sm pdate ng-valid" ng-model="transaction.Cheque.DisplayDate" id="chqDate0" style="direction: ltr;"><a class="pcalBtn" href="#"></a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-left: 5px;">
+                                <div class="col-sm-1">بانک:</div>
+                                <div class="col-sm-3 p-0">
+                                    <div id="chequeBankSelect{{$index}}"></div>
+                                </div>
+                                <label class="col-sm-2 text-left">نام:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.BankName" disabled="disabled">
+                                </div>
+                                <label class="col-sm-2 text-left">شعبه:</label>
+                                <div>
+                                    <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Cheque.BankBranch" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #bd6532;"></span>
+                    </div>
+
+
+                    <div class="row mr-10 hesabfa-paybox" style="background-color: #bd6532; border: 1px solid #bd6532;" ng-show="transaction.Type == 4">
+                        <div class="col-sm-1 text-center p-0" style="min-height: 55px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">خرج چـک</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-2 text-left">مبلغ:</label>
+                                <label class="col-sm-2 text-right ng-binding">{{transaction.Cheque.Amount |digitGroup}}</label>
+                                <label class="col-sm-2 text-left">شماره چک:</label>
+                                <label class="col-sm-2 text-right ng-binding">{{transaction.Cheque.ChequeNumber |number}}</label>
+                                <label class="col-sm-2 text-left">تاریخ چک:</label>
+                                <label class="col-sm-2 text-right ng-binding">{{transaction.Cheque.DisplayDate |number}}</label>
+                            </div>
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-2 text-left">دریافتی از:</label>
+                                <label class="col-sm-2 text-right ng-binding">{{transaction.Cheque.Contact.Name}}</label>
+                                <label class="col-sm-2 text-left">نام بانک:</label>
+                                <label class="col-sm-2 text-right ng-binding">{{transaction.Cheque.BankName}}</label>
+                                <label class="col-sm-2 text-left">شعبه:</label>
+                                <label class="col-sm-2 text-right ng-binding">{{transaction.Cheque.BankBranch}}</label>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow($index)" data-placement="top" title="حذف" style="background-color: #bd6532;"></span>
+                    </div>
+                </div>
+
+                <div class="row mr-t-5" style="padding-left: 15px;">
+                    <div class="col-md-8">
+                        <div class="btn-group col-md-4">
+                            <button type="submit" ng-click="submit()" onclick="return false;" class="btn btn-success btn-sm" style="width: 80px;" ng-disabled="rp.Items.length == 0">
+                                ثبت
+                            </button>
+                            <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="rp.Items.length == 0">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="" ng-click="submit(false,true)">ثبت و بعدی</a></li>
+                                <li><a href="" ng-click="submit(true)">ثبت و چاپ رسید</a></li>
+                            </ul>
+                        </div>
+                        <button ng-click="printReceiptDialog()" onclick="return false;" class="btn btn-default btn-smoke btn-sm" style="width: 80px;">چاپ رسید</button>
+                        <button ng-click="cancel()" onclick="return false;" class="btn btn-default btn-smoke btn-sm" style="width: 80px;">انصراف</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row text-left" style="border-bottom: 1px solid rgb(69, 69, 69)">
+                            <div class="col-xs-4 h5 txt-bold">جمع <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></div>
+                            <div class="col-xs-7 h5 txt-bold ng-binding">{{total |digitGroup}}</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div ng-include="'/App/template/printReceiptDialog.html'" class="ng-scope"></div>
+
+        <div id="textHeightMeasurement" style="position: fixed; left: -1000px; top: -1000px;"></div>
+        <!-- Modal Cheque List -->
+        <div class="modal fade" id="modalChequeList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel">انتخاب چک</h4>
+                    </div>
+                    <div class="modal-body" ng-show="!loadingChequeList">
+                        <div id="gridChequeList" class="dx-widget dx-rtl dx-visibility-change-handler" role="application" aria-label="Data grid" style="height: auto;"><div class="dx-datagrid dx-datagrid-borders"><div class="dx-datagrid-columns-separator dx-datagrid-columns-separator-transparent" style="top: 0px; height: 221px;"></div><div class="dx-hidden"></div><div class="dx-datagrid-tracker" style="display: none; top: 0px; height: 221px;"></div><div class="dx-hidden"></div><div class="dx-datagrid-headers" style="padding-left: 0px;"><div class="dx-datagrid-content dx-datagrid-scroll-container dx-datagrid-content-fixed dx-pointer-events-target" style="padding-left: 0px;"><table class="dx-datagrid-table dx-pointer-events-none dx-datagrid-table-fixed" role="grid"><colgroup><col class="dx-col-fixed" style="width: 36px;"><col class="dx-col-fixed" style="width: 50px;"><col style="width: 105px;"><col style="width: 120px;"><col style="width: 100px;"><col style="width: 235px;"><col style="width: 120px;"><col style="width: 100px;"></colgroup><tbody><tr class="dx-row dx-column-lines dx-header-row" role="row"><td role="gridcell" class="dx-command-select dx-editor-cell dx-editor-inline-block dx-cell-focus-disabled" aria-label="انتخاب همه" style="text-align: center;"><div class="dx-select-checkbox dx-datagrid-checkbox-size dx-checkbox dx-widget dx-rtl" role="checkbox" aria-checked="false" tabindex="-1"><input type="hidden" value="false"><div class="dx-checkbox-container"><span class="dx-checkbox-icon"></span></div></div></td><td role="columnheader" aria-label="# ستون" aria-sort="none" class="dx-cell-focus-disabled" style="text-align: center;"><div class="dx-datagrid-text-content">#</div></td><td role="gridcell" colspan="6" class="dx-pointer-events-none dx-last-cell dx-cell-focus-disabled" style="text-align: right;">&nbsp;</td></tr><tr class="dx-row dx-column-lines dx-datagrid-filter-row" role="row"><td role="gridcell" class="dx-command-select" style="text-align: center;">&nbsp;</td><td role="gridcell" aria-label="ستون #, مقدار undefined" style="text-align: center;"></td><td role="gridcell" colspan="6" class="dx-pointer-events-none dx-last-cell" style="text-align: right;">&nbsp;</td></tr></tbody></table></div><div class="dx-datagrid-content dx-datagrid-scroll-container"><table class="dx-datagrid-table dx-datagrid-table-fixed" role="grid"><colgroup><col style="width: 36px;"><col style="width: 50px;"><col style="width: 105px;"><col style="width: 120px;"><col style="width: 100px;"><col style="width: 235px;"><col style="width: 120px;"><col style="width: 100px;"></colgroup><tbody><tr class="dx-row dx-column-lines dx-header-row" role="row" style=""><td role="gridcell" class="dx-command-select dx-cell-focus-disabled" style="text-align: center;">&nbsp;</td><td role="columnheader" aria-label="# ستون" class="dx-cell-focus-disabled" style="text-align: center;">&nbsp;</td><td role="columnheader" aria-label="شماره چک ستون" class="dx-datagrid-action dx-cell-focus-disabled dx-datagrid-drag-action" aria-sort="none" style="text-align: right;"><div class="dx-column-indicators" style="float: left;"><span class="dx-sort dx-sort-none"></span><span class="dx-header-filter dx-header-filter-empty"></span></div><div class="dx-datagrid-text-content dx-text-content-alignment-right dx-header-filter-indicator">شماره چک</div></td><td role="columnheader" aria-label="مبلغ چک ستون" class="dx-datagrid-action dx-cell-focus-disabled dx-datagrid-drag-action" aria-sort="none" style="text-align: right;"><div class="dx-column-indicators" style="float: left;"><span class="dx-sort dx-sort-none"></span><span class="dx-header-filter dx-header-filter-empty"></span></div><div class="dx-datagrid-text-content dx-text-content-alignment-right dx-header-filter-indicator">مبلغ چک</div></td><td role="columnheader" aria-label="تاریخ چک ستون" class="dx-datagrid-action dx-cell-focus-disabled dx-datagrid-drag-action" aria-sort="none" style="text-align: right;"><div class="dx-column-indicators" style="float: left;"><span class="dx-sort dx-sort-none"></span><span class="dx-header-filter dx-header-filter-empty"></span></div><div class="dx-datagrid-text-content dx-text-content-alignment-right dx-header-filter-indicator">تاریخ چک</div></td><td role="columnheader" aria-label="دریافت از ستون" class="dx-datagrid-action dx-cell-focus-disabled dx-datagrid-drag-action" aria-sort="none" style="text-align: right;"><div class="dx-column-indicators" style="float: left;"><span class="dx-sort dx-sort-none"></span><span class="dx-header-filter dx-header-filter-empty"></span></div><div class="dx-datagrid-text-content dx-text-content-alignment-right dx-header-filter-indicator">دریافت از</div></td><td role="columnheader" aria-label="بانک ستون" class="dx-datagrid-action dx-cell-focus-disabled dx-datagrid-drag-action" aria-sort="none" style="text-align: right;"><div class="dx-column-indicators" style="float: left;"><span class="dx-sort dx-sort-none"></span><span class="dx-header-filter dx-header-filter-empty"></span></div><div class="dx-datagrid-text-content dx-text-content-alignment-right dx-header-filter-indicator">بانک</div></td><td role="columnheader" aria-label="شعبه ستون" class="dx-datagrid-action dx-cell-focus-disabled dx-datagrid-drag-action" aria-sort="none" style="text-align: right;"><div class="dx-column-indicators" style="float: left;"><span class="dx-sort dx-sort-none"></span><span class="dx-header-filter dx-header-filter-empty"></span></div><div class="dx-datagrid-text-content dx-text-content-alignment-right dx-header-filter-indicator">شعبه</div></td></tr><tr class="dx-row dx-column-lines dx-datagrid-filter-row" role="row"><td role="gridcell" class="dx-command-select" style="text-align: center;">&nbsp;</td><td role="gridcell" aria-label="ستون #, مقدار undefined" style="text-align: center;">&nbsp;</td><td role="gridcell" class="dx-first-cell dx-editor-cell" aria-label="ستون شماره چک, Filter cell" style="text-align: right;"><div><div class="dx-editor-container"><div class="dx-textbox dx-texteditor dx-texteditor-empty dx-widget dx-rtl"><div class="dx-texteditor-container"><input autocomplete="off" class="dx-texteditor-input" type="text" spellcheck="false" role="textbox" tabindex="0"><div class="dx-placeholder"></div><div class="dx-texteditor-buttons-container"></div></div></div></div></div></td><td role="gridcell" aria-label="ستون مبلغ چک, Filter cell" class="dx-editor-cell" style="text-align: right;"><div><div class="dx-editor-container"><div class="dx-textbox dx-texteditor dx-texteditor-empty dx-widget dx-rtl"><div class="dx-texteditor-container"><input autocomplete="off" class="dx-texteditor-input" type="text" spellcheck="false" role="textbox" tabindex="0"><div class="dx-placeholder"></div><div class="dx-texteditor-buttons-container"></div></div></div></div></div></td><td role="gridcell" aria-label="ستون تاریخ چک, Filter cell" class="dx-editor-cell" style="text-align: right;"><div><div class="dx-editor-container"><div class="dx-textbox dx-texteditor dx-texteditor-empty dx-widget dx-rtl"><div class="dx-texteditor-container"><input autocomplete="off" class="dx-texteditor-input" type="text" spellcheck="false" role="textbox" tabindex="0"><div class="dx-placeholder"></div><div class="dx-texteditor-buttons-container"></div></div></div></div></div></td><td role="gridcell" aria-label="ستون دریافت از, Filter cell" class="dx-editor-cell" style="text-align: right;"><div><div class="dx-editor-container"><div class="dx-textbox dx-texteditor dx-texteditor-empty dx-widget dx-rtl"><div class="dx-texteditor-container"><input autocomplete="off" class="dx-texteditor-input" type="text" spellcheck="false" role="textbox" tabindex="0"><div class="dx-placeholder"></div><div class="dx-texteditor-buttons-container"></div></div></div></div></div></td><td role="gridcell" aria-label="ستون بانک, Filter cell" class="dx-editor-cell" style="text-align: right;"><div><div class="dx-editor-container"><div class="dx-textbox dx-texteditor dx-texteditor-empty dx-widget dx-rtl"><div class="dx-texteditor-container"><input autocomplete="off" class="dx-texteditor-input" type="text" spellcheck="false" role="textbox" tabindex="0"><div class="dx-placeholder"></div><div class="dx-texteditor-buttons-container"></div></div></div></div></div></td><td role="gridcell" aria-label="ستون شعبه, Filter cell" class="dx-editor-cell" style="text-align: right;"><div><div class="dx-editor-container"><div class="dx-textbox dx-texteditor dx-texteditor-empty dx-widget dx-rtl"><div class="dx-texteditor-container"><input autocomplete="off" class="dx-texteditor-input" type="text" spellcheck="false" role="textbox" tabindex="0"><div class="dx-placeholder"></div><div class="dx-texteditor-buttons-container"></div></div></div></div></div></td></tr></tbody></table></div></div><div class="dx-datagrid-rowsview dx-scrollable dx-scrollable-customizable-scrollbars dx-scrollable-both dx-scrollable-simulated dx-rtl dx-visibility-change-handler dx-fixed-columns" style="height: 140px;"><div class="dx-scrollable-wrapper"><div class="dx-scrollable-container"><div class="dx-scrollable-content" style="left: 0px; top: 0px; transform: none;"><div class="dx-datagrid-content"><table class="dx-datagrid-table dx-select-checkboxes-hidden dx-datagrid-table-fixed" role="grid"><colgroup><col style="width: 36px;"><col style="width: 50px;"><col style="width: 105px;"><col style="width: 120px;"><col style="width: 100px;"><col style="width: 235px;"><col style="width: 120px;"><col style="width: 100px;"></colgroup><tbody><tr class="dx-row dx-freespace-row dx-column-lines" role="row" style="height: 0px;"><td role="gridcell" class="dx-command-select" style="text-align: center;"></td><td role="gridcell" style="text-align: center;"></td><td role="gridcell" style="text-align: right;"></td><td role="gridcell" style="text-align: right;"></td><td role="gridcell" style="text-align: right;"></td><td role="gridcell" style="text-align: right;"></td><td role="gridcell" style="text-align: right;"></td><td role="gridcell" style="text-align: right;"></td></tr></tbody></table></div></div><div class="dx-scrollable-scrollbar dx-widget dx-scrollbar-horizontal dx-scrollbar-hoverable" style=""><div class="dx-scrollable-scroll dx-state-invisible" style="width: 15px; transform: translate(0px, 0px);"><div class="dx-scrollable-scroll-content"></div></div></div><div class="dx-scrollable-scrollbar dx-widget dx-scrollbar-vertical dx-scrollbar-hoverable" style=""><div class="dx-scrollable-scroll dx-state-invisible" style="height: 15px; transform: translate(0px, 0px);"><div class="dx-scrollable-scroll-content"></div></div></div></div></div><div class="dx-datagrid-content dx-datagrid-content-fixed dx-pointer-events-target" style="margin-left: 0px; margin-bottom: 0px;"><table class="dx-datagrid-table dx-pointer-events-none dx-select-checkboxes-hidden dx-datagrid-table-fixed" role="grid" style="top: 0px;"><colgroup><col class="dx-col-fixed" style="width: 36px;"><col class="dx-col-fixed" style="width: 50px;"><col style="width: 105px;"><col style="width: 120px;"><col style="width: 100px;"><col style="width: 235px;"><col style="width: 120px;"><col style="width: 100px;"></colgroup><tbody><tr class="dx-row dx-freespace-row dx-column-lines" role="row" style="height: 0px;"><td role="gridcell" class="dx-command-select" style="text-align: center;"></td><td role="gridcell" style="text-align: center;"></td><td role="gridcell" colspan="6" class="dx-pointer-events-none dx-last-cell" style="text-align: right;"></td></tr></tbody></table></div><span class="dx-datagrid-nodata"></span></div><div class="dx-overlay dx-widget dx-visibility-change-handler dx-state-invisible dx-loadpanel"><div class="dx-overlay-content dx-rtl" aria-hidden="true" style="width: 200px; height: 90px;"></div></div><div class="dx-hidden" style="padding-left: 0px;"></div><div></div><div class="dx-hidden"></div><div class="dx-datagrid-drag-header dx-datagrid-text-content dx-widget" style="display: none;"></div><div class="dx-context-menu dx-has-context-menu dx-widget dx-rtl dx-visibility-change-handler dx-collection dx-datagrid" role="menu"></div><div class="dx-header-filter-menu"></div></div></div>
+                    </div>
+                    <div class="modal-body text-center ng-hide" ng-show="loadingChequeList">
+                        <span><img src="../../Content/img/ajax-loader4.gif"></span>
+                        <div>بارگیری لیست چک های دریافتی...</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-default btn-smoke" data-dismiss="modal">انصراف</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+        
+
+     
+
+</div>
+
+    <div class="col-xs-12 text-center ng-hide" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری رسید...</div>
+    </div>
+
+
+
+</div>

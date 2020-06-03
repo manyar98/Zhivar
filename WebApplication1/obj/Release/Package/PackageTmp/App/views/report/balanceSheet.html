@@ -1,0 +1,100 @@
+﻿<div class="container ng-scope" ng-controller="balanceSheetController">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <div class="hesabfa-content-page center-block" ng-show="!loading">
+
+        <div class="row" style="margin-bottom: 20px; margin-top: 15px;">
+            <h4 class="txt-gray text-center txt-bold">ترازنامه</h4>
+            <h5 class="text-muted text-center ng-binding">ژیور</h5>
+            <h5 class="text-muted text-center ng-binding">{{ balanceSheetDate }}</h5>
+        </div>
+
+
+        <div class="row" style="border-top: 2px solid whitesmoke;">
+            <div class="col-sm-6">
+                <div class="bs-callout bs-callout-success" style="background-color: #EDF8ED">
+                    <h4>دارایی ها</h4>
+                    <!-- ngRepeat: asset in assets -->
+                    <div ng-repeat="asset in assets" class="ng-scope">
+                        <div class="row ng-hide" ng-show="asset.Type != 'title'">
+                            <div class="col-xs-7 ng-binding">{{asset.Description}}</div>
+                            <div class="col-xs-5 ng-binding" ng-class="capital.Amount < 0 ? 'red' : ''">{{asset.Amount |digitGroup}}</div>
+                        </div>
+                        <div class="row txt-bold" style="border-top: 1px solid #abdeab; border-bottom: 1px solid #abdeab" ng-show="asset.Type == 'title'">
+                            <div class="col-xs-12 ng-binding">{{asset.Description}}</div>
+                        </div>
+                    </div>
+                    <div class="row bg-success txt-bold" style="margin-top: 10px; margin-bottom: -15px;">
+                        <div class="col-xs-7">جمع دارایی ها</div>
+                        <div class="col-xs-5 ng-binding" ng-class="assetsSum < 0 ? 'red' : ''">{{ assetsSum|digitGroup }}&nbsp;{{ Hesabfa.moneyUnit }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" style="border-right: 2px solid whitesmoke;">
+                <div class="bs-callout bs-callout-danger" style="background-color: #FFF1F2">
+                    <h4>بدهی ها</h4>
+                    <!-- ngRepeat: liability in liabilities -->
+                    <div ng-repeat="liability in liabilities" class="ng-scope">
+                        <div class="row ng-hide" ng-show="liability.Type != 'title'">
+                            <div class="col-xs-7 ng-binding">{{liability.Description}}</div>
+                            <div class="col-xs-5 ng-binding" ng-class="capital.Amount < 0 ? 'red' : ''">{{liability.Amount|digitGroup}}</div>
+                        </div>
+                        <div class="row txt-bold" style="border-top: 1px solid #e7bcbf; border-bottom: 1px solid #e7bcbf" ng-show="liability.Type == 'title'">
+                            <div class="col-xs-12 ng-binding">{{liability.Description}}</div>
+                        </div>
+                    </div>
+                    <div class="row bg-danger txt-bold" style="margin-top: 10px; margin-bottom: -15px;">
+                        <div class="col-xs-7">جمع بدهی ها</div>
+                        <div class="col-xs-5 ng-binding" ng-class="liabilitiesSum < 0 ? 'red' : ''">{{ liabilitiesSum|digitGroup }}&nbsp;{{ Hesabfa.moneyUnit }}</div>
+                    </div>
+                </div>
+                <div class="bs-callout bs-callout-info" style="background-color: #F4FDFF">
+                    <h4>حقوق صاحبان سهام</h4>
+                    <!-- ngRepeat: capital in capitals -->
+                    <div ng-repeat="capital in capitals" class="ng-scope">
+                        <div class="row ng-hide" ng-show="capital.Type != 'title'">
+                            <div class="col-xs-7 ng-binding">{{capital.Description}}</div>
+                            <div class="col-xs-5 ng-binding" ng-class="capital.Amount < 0 ? 'red' : ''">{{capital.Amount|digitGroup}}</div>
+                        </div>
+                        <div class="row txt-bold" style="border-top: 1px solid #bbe0e8; border-bottom: 1px solid #bbe0e8" ng-show="capital.Type == 'title'">
+                            <div class="col-xs-12 ng-binding">{{capital.Description}}</div>
+                        </div>
+                    </div>
+                    <div class="row bg-info txt-bold" style="margin-top: 10px; margin-bottom: -15px;">
+                        <div class="col-xs-7">جمع حقوق صاحبان سهام</div>
+                        <div class="col-xs-5 ng-binding" ng-class="capitalSum < 0 ? 'red' : ''">{{ capitalSum|digitGroup }}&nbsp;{{ Hesabfa.moneyUnit }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row txt-bold" style="margin: 1px; margin-bottom: 15px; margin-top: 0px; background-color: rgb(95, 95, 95); color: whitesmoke">
+            <div class="col-xs-6">
+                <span class="pull-right">جمع دارایی ها</span>
+                <span class="pull-left ng-binding">{{ sumRight|digitGroup }}&nbsp;{{ Hesabfa.moneyUnit }}</span>
+            </div>
+            <div class="col-xs-6">
+                <span class="pull-right">جمع بدهی ها و سرمایه</span>
+                <span class="pull-left ng-binding">{{ sumLeft|digitGroup }}&nbsp;{{ Hesabfa.moneyUnit }}</span>
+            </div>
+        </div>
+        <button class="btn btn-default btn-smoke" ng-click="print()">
+            <span class="fa fa-print"></span>&nbsp;
+            چاپ
+        </button>
+        <button class="btn btn-default btn-smoke" ng-click="generatePDF()">
+            <span class="fa fa-file-pdf-o"></span>&nbsp;
+            PDF
+        </button>
+    </div>
+
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری ترازنامه...</div>
+    </div>
+
+    <div id="textHeightMeasurement" style="position: fixed; left: -1000px; top: -1000px;"></div>
+
+    <div style="margin-top: 50px;"></div>
+</div>

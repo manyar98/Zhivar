@@ -1,0 +1,33 @@
+﻿<div ng-controller="defaultController" ng-init="logoff()" id="defaultWrapper">
+    <div ng-include="'/app/template/navbar.html'"></div>
+    <ng-include src="'/app/template/waveDecoration.html'"></ng-include>
+
+    <div id="mainContainer" class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h1>
+                    <span>سامانه مدیریت بیلبورد تبلیغاتی !</span>
+                    <img src="/Content/images/chemical-2.png" />
+                </h1>
+                <p id="title_description" style="text-align:justify">
+                    سامانه برای مدیریت شرکت تبلیغاتی شما با امکانات فراوان شامل حسابداری و انبارداری و دبیرخانه و مدیریت سفارشات و قراردادها و سی ار ام و ...
+                </p>
+                <!--<input name="files" type="file" kendo-upload k-select="onSelectFile" k-localization="{select: 'بارگذاري اكسل'}" value="&#xf0c2;" class="fa-fa" />-->
+
+                <p id="experimentLinkContainer">
+                </p>
+                <p id="experimentLinkContainer">
+                    <a href="/login" ui-sref="login">ورود به سامانه</a>
+                </p>
+                <!--<p id="experimentLinkContainer">
+                    <a href="#" ui-sref="diabetesQuestionnaire">تست دیابت</a>
+                </p>-->
+            </div>
+            <div class="col-md-5">
+                <img id="mainIntroImage" src="/Content/images/chemical-1.png" />
+            </div>
+        </div>
+    </div>
+
+    <ng-include src="'/app/template/footerLinks.html'"></ng-include>
+</div>

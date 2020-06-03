@@ -1,0 +1,250 @@
+﻿          <!-- Small boxes (Stat box) -->
+<div ng-controller="financialController">
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h4>قرارداد</h4>
+                    <p>مدیریت قرارداد</p>
+                </div>
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/قرارداد.png" style="width:25%;height:25%;" />
+                </div>
+
+                <div class="small-box-footer">
+                    <a href="/contract" style="color:white; padding-left:25%;" >ایجاد مورد جدید  <i class="fa fas fa-plus"></i></a>
+                    <a href="#" style="color:white">نمایش لیست <i class="fa fas fa-align-justify"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-maroon">
+                <div class="inner">
+                    <h4>دریافت وجه/چک</h4>
+                    <p>مدیریت دریافت وجه/چک</p>
+                </div>
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/رسید دریافت وجه.png" style="width:25%;height:25%;" />
+                </div>
+
+                <div class="small-box-footer">
+                    <a href="/receive" style="color:white; padding-left:25%;">ایجاد مورد جدید <i class="fa fas fa-plus"></i></a>
+                    <a href="#" style="color:white" ng-click="redirectToReceiveAndPay('receive')">نمایش لیست <i class="fa fas fa-align-justify"></i></a>
+                </div>
+
+
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h4>فاکتور فروش</h4>
+                    <p>مدیریت فاکتورهای فروش</p>
+                </div>
+
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/فاکتور فروش.png" style="width:25%;height:25%;" />
+                </div>
+
+                <div class="small-box-footer">
+                    <a href="#" style="color:white; padding-left:25%;"  ng-click="redirectInvoice('invoice','new')">ایجاد مورد جدید <i class="fa fas fa-plus"></i></a>
+                    <a href="#" style="color:white"  ng-click="redirectInvoices('invoices','new')">نمایش لیست <i class="fa fas fa-align-justify"></i></a>
+                </div>
+              
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h4>فاکتورهای خرید</h4>
+                    <p>مدیریت فاکتورهای خرید</p>
+                </div>
+    
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/فاکتور خرید.png" style="width:25%;height:25%;" />
+                </div>
+                <div class="small-box-footer">
+                    <a href="#" style="color:white; padding-left:25%;" ng-click="redirectInvoice('invoice','newBill')">ایجاد مورد جدید <i class="fa fas fa-plus"></i></a>
+                    <a href="#" style="color:white" ng-click="redirectInvoices('invoices','bills')">نمایش لیست <i class="fa fas fa-align-justify"></i></a>
+                </div>
+                
+            </div>
+        </div>
+        <!-- ./col -->
+   
+    </div>
+    <div class="row">
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-olive">
+                <div class="inner">
+                    <h4>انتقال وجه</h4>
+                    <p>مدیریت انتقال وجه</p>
+                </div>
+
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/انتقال وجه.png" style="width:25%;height:25%;" />
+                </div>
+
+                <div class="small-box-footer">
+                    <a href="/moneyTransfer" style="color:white; padding-left:25%;">ایجاد مورد جدید <i class="fa fas fa-plus"></i></a>
+                    <a href="/transfers" style="color:white">نمایش لیست <i class="fa fas fa-align-justify"></i></a>
+                </div>
+
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-navy">
+                <div class="inner">
+                    <h4>پرداخت وجه/چک </h4>
+                    <p>مدیریت پرداخت وجه/چک </p>
+                </div>
+
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/رسید پرداخت وجه.png" style="width:25%;height:25%;" />
+                </div>
+
+                <div class="small-box-footer">
+                    <a href="/pay" style="color:white; padding-left:25%;">ایجاد مورد جدید <i class="fa fas fa-plus"></i></a>
+                    <a href="#" style="color:white" ng-click="redirectToReceiveAndPay('pay')">نمایش لیست <i class="fa fas fa-align-justify"></i></a>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h4>برگشت از فروش ها</h4>
+                    <p>مدیرت برگشت از فروش ها</p>
+                </div>
+
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/فاکتور خرید.png" style="width:25%;height:25%;" />
+                </div>
+
+                <div class="small-box-footer">
+                    <a href="#" style="color:white; padding-left:25%;" ng-click="redirectInvoice('invoice','saleReturn')">ایجاد مورد جدید <i class="fa fas fa-plus"></i></a>
+                    <a href="#" style="color:white" ng-click="redirectInvoices('invoices','saleReturn')">نمایش لیست <i class="fa fas fa-align-justify"></i></a>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-lime">
+                <div class="inner">
+                    <h4>برگشت از خریدها</h4>
+                    <p>مدیریت برگشت از خریدها</p>
+                </div>
+
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/برگشت از فروش.png" style="width:25%;height:25%;" />
+                </div>
+
+                <div class="small-box-footer">
+                    <a href="#" style="color:white; padding-left:25%;" ng-click="redirectInvoice('invoice','purchaseReturn')">ایجاد مورد جدید <i class="fa fas fa-plus"></i></a>
+                    <a href="#" style="color:white" ng-click="redirectInvoices('invoices','purchaseReturn')">نمایش لیست <i class="fa fas fa-align-justify"></i></a>
+                </div>
+
+            </div>
+        </div>
+     
+
+      
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-purple">
+                <div class="inner">
+                    <h4>ثبت سند حسابداری</h4>
+                    <p>مدیریت اسناد حسابداری </p>
+                </div>
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/سند حسابداری.png" style="width:25%;height:25%;" />
+                </div>
+
+                <div class="small-box-footer">
+                    <a href="/editDocument" style="color:white; padding-left:25%;" ng-click="redirect('editDocument','new')">ایجاد مورد جدید <i class="fa fas fa-plus"></i></a>
+                    <a href="/documents" style="color:white">نمایش لیست <i class="fa fas fa-align-justify"></i></a>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-orange">
+                <div class="inner">
+                    <h4> سند افتتاحیه</h4>
+                    <p>مانده اول دوره</p>
+                </div>
+
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/انتقال وجه.png" style="width:25%;height:25%;" />
+                </div>
+
+                <div class="small-box-footer">
+                    <a href="/accountsBalance" style="color:white; padding-left:25%;">ایجاد مورد جدید <i class="fa fas fa-plus"></i></a>
+ 
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-teal">
+                <div class="inner">
+                    <h4>سند اختتامیه</h4>
+                    <p>بستن دوره مالی </p>
+                </div>
+             
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/سند اختتامیه.png" style="width:25%;height:25%;" />
+                </div>
+
+                <div class="small-box-footer">
+                    <a href="/closeFinanYear" style="color:white; padding-left:25%;" >ایجاد مورد جدید <i class="fa fas fa-plus"></i></a>
+       
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-navy">
+                <div class="inner">
+                    <h4>صورت هزینه </h4>
+                    <p>مدیریت صورت هزینه </p>
+                </div>
+
+                <div class="icon" style="text-align:left">
+                    <img src="../../../../Content/img/رسید پرداخت وجه.png" style="width:25%;height:25%;" />
+                </div>
+
+                <div class="small-box-footer">
+                    <a href="#" style="color:white; padding-left:25%;" ng-click="redirectCost('cost','new')">ایجاد مورد جدید <i class="fa fas fa-plus"></i></a>
+                    <a href="/costs" style="color:white" >نمایش لیست <i class="fa fas fa-align-justify"></i></a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

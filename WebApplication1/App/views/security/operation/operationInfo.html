@@ -1,0 +1,42 @@
+<div ng-controller="operationInfoController" ng-init="init()" id="operationInfoWrapper">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <form name="actionOperation" class="form-horizontal" action="#">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 site-panel">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">عنوان:</label>
+                    <div class="col-md-8">
+                        <input type="text" text-required='عنوان اجباریست' ng-model="model.Name" class="form-control" tabindex="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">کد:</label>
+                    <div class="col-md-8">
+                        <input type="text" text-required='کد اجباریست' ng-model="model.Code" class="form-control" tabindex="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">وضعیت:</label>
+                    <div class="col-md-8">
+                        <div class="radio radio-info radio-inline" tabindex="3">
+                            <input type="radio" id="inlineRadio1" ng-model="model.IsActive" value="1" name="radioInline">
+                            <label for="inlineRadio1"> فعال </label>
+                        </div>
+                        <div class="radio radio-inline" tabindex="4">
+                            <input type="radio" id="inlineRadio2" ng-model="model.IsActive" value="0" name="radioInline">
+                            <label for="inlineRadio2"> غیر فعال </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-wrapper col-md-push-3">
+                    <input type="hidden" value="model.ID" />
+                    <button-validation mode="normal" class-style="btn btn-success" click="action(model)">ثبت</button-validation>
+                    <button class="btn btn-danger" ng-click="redirect()" type="button" tabindex="5">انصراف</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,88 @@
+﻿<div ng-controller="registerController" ng-init="logoff() class="overflow-hidden">
+    <div class="backgroundlogin p-3 m-0 p-0" style="overflow-y:scroll !important">
+        <div style="height:99vh !important">
+            <div class="col-lg-10 col-md-10 col-sm-8 col-12 mx-auto m-0 p-0 login mt-lg-3 row">
+                <div class="col-lg-6 col-md-7 col-12 m-0 p-0">
+                    <div class="col-12 m-0 px-5">
+                        <div class="mx-auto overflow-hidden rounded-circle overflow-hidden d-flex justify-content-center p-3" style="width:180px ; height:150px">
+                            <img src="../../../../../Content/style login/img-icon/zhivar.png" style="width:100%" />
+                        </div>
+                        <form role="form" class="pt-2 pb-4">
+                            <h4 class="text-center m-0 p-0">ثبت نام </h4>
+                            <div class="form-group mt-4">
+                                <div class="input-group mb-3">
+                                    <input type="tel" class="form-control text-center border-primary" text-length="10" text-numeric="" ng-model="model.MobileNo" name="mobileNo" maxlength="10" tabindex="1" placeholder="  (09xx xxxx xxxx) شماره موبایل">
+                                    <div class="input-group-append bg-light ">
+                                        <span class="bg-light input-group-text fa fa-phone border-primary" style="width:42px"></span>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="password" class="form-control text-center border-primary" text-required='  رمز عبور را وارد کنید ' ng-model="model.Password" name="password" text-numeric-char="" tabindex="2" placeholder=" رمز عبور را وارد کنید">
+                                    <div class="input-group-append bg-light ">
+                                        <span class=" bg-light input-group-text fa fa-key border-primary"></span>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="password" class="form-control text-center border-primary" text-required=' تکرار رمز عبور را وارد کنید ' ng-model="model.ConfirmPassword" text-numeric-char="" name="confirmPassword" tabindex="3" placeholder="تکرار رمز عبور را وارد کنید">
+                                    <div class="input-group-append bg-light ">
+                                        <span class=" bg-light input-group-text fa fa-key border-primary"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row m-0 p-0">
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 mx-auto p-0 m-0 my-3 d-flex justify-content-around">
+                                    <button class="btn btn-light border-dark mt-2" tabindex="5" ng-click="generate()"> <i class="fa fa-refresh"></i></button>
+                                    <!--<captcha-image captchaoption="captchaOption" class="" />-->
+                                    <div>
+                                        <div class="captcha-wrapper ng-isolate-scope" captchaoption="captchaOption"><img class="captcha-image" ng-style="imgStyle" ng-click="generate()" style="height: 50px; width: 120px;" src="data:image/png;base64,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"><a ng-click="generate()"><i class="glyphicon glyphicon-refresh"></i></a></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 mx-auto my-3 m-0 p-0">
+                                    <!--<input type="text" class="form-control rounded-pill text-center border-dark" ng-model="model.captcha" display-numbers="" text-required='کد امنیتی را وارد کنید' placeholder="کد امنیتی" tabindex="3" maxlength="5">-->
+                                    <div class="input-group">
+                                        <input type="text" class="form-control border-primary text-center" placeholder="کد امنیتی" text-required="کد امنیتی را وارد نمایید" ng-model="model.captcha" tabindex="4" maxlength="5">
+                                        <div class="input-group-append bg-light ">
+                                            <span class="bg-light input-group-text fa fa-eye border-primary" style="width:42px"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center m-0 p-0 mt-2">
+                                <button type="button" ng-click="register(model)" class="btn btn-block rounded-pill btn-login p-0 m-0 text-light border-0" ng-disabled="disabled" class-style="btn btn-success" click="register(model)" tabindex="6">ثبت نام</button>
+
+                            </div>
+                            <div class="d-flex justify-content-center m-0 p-0 mt-3 pb-1">
+                                <button class="btn btn-block rounded-pill btn-regester border-0" ng-click="redirect()" tabindex="7">
+                                    <span>بازگشت </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-5 col-12 m-0 p-0 mb-5 mt-lg-5">
+                    <div class="m-3 p-2">
+                        <h3 class="text-danger text-center mt-2 mb-5">توجه</h3>
+                        <ol style="direction:rtl ; class="mt-lg-5">
+                            <li style="font-size:16px" class="text-justify mt-2">
+                                پس از کلیک برروی دکمه ثبت نام، پیامک کد فعالسازی توسط اپراتور برای شما ارسال می گردد. لطفا تلفن همراه خود را در دسترس قرار دهید
+                            </li>
+                            <li style="font-size:16px" class="text-justify mt-2">
+                                شماره تلفن همراه ثبت شده، نام کاربری شما در سامانه خواهد بود
+                            </li>
+                            <li style="font-size:16px" class="text-justify mt-2">
+                                کلمه عبور می بایست ترکیبی از حروف و اعداد باشد
+                            </li>
+                            <li style="font-size:16px" class="text-justify mt-2">
+                                پس از ثبت نام برای ورود به سیستم می بایست از نام کاربری (شماره تلفن همراه) و رمز عبور ثبت شده استفاده نمایید
+                            </li>
+                            <li style="font-size:16px" class="text-justify mt-2">
+                                در حفظ و نگهداری نام کاربری و رمز عبور کوشا باشید
+                            </li>
+                        </ol>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

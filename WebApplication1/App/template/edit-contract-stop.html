@@ -1,0 +1,300 @@
+﻿<div class="modal fade" id="editContractStopModal" tabindex="-1" role="dialog" aria-labelledby="editReservationModalLabel">
+    <div class="modal-dialog" role="document" style="width:80%">
+        <div class="modal-content">
+            <div class="modal-header modal-header-info">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title ng-binding" id="editContractStopModalLabel">
+                    توقف اکران رسانه
+                </h4>
+            </div>
+            <form class="ng-pristine ng-valid ng-valid-maxlength">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="panel-body hesabfa-panel-body">
+                                <div class="row">
+                                    <div class="col-sm-7">
+
+                                        <label class="title1">نوع توقف</label>
+                                        <div class="dropdown">
+                                            <button class="btn btn-default btn-sm dropdown-toggle ng-binding" type="button" style="width: 100%;text-align: right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                                                <span ng-if="contractStop.Type == 1">توقف اکران بدون هیچ واکنشی</span>
+                                                <span ng-if="contractStop.Type == 2">توقف اکران  با کسر هزینه مدت زمان توقف اکران</span>
+                                                <span ng-if="contractStop.Type == 3">توقف اکران و افزودن عین خاموشی به زمان اکران</span>
+                                                <span ng-if="contractStop.Type == 4">توقف اکران و افزودن با ضریب به زمان اکران</span>
+                                                <span class="fa fa-caret-down pull-left"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                <li><a href="" ng-click="contractStop.Type = 1">توقف اکران بدون هیچ واکنشی</a></li>
+                                                <li><a href="" ng-click="contractStop.Type = 2">توقف اکران  با کسر هزینه مدت زمان توقف اکران</a></li>
+                                                <li><a href="" ng-click="contractStop.Type = 3">توقف اکران و افزودن عین خاموشی به زمان اکران</a></li>
+                                                <li><a href="" ng-click="contractStop.Type = 4">توقف اکران و افزودن با ضریب به زمان اکران</a></li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="invoiceDate" class="title1 ng-binding">تاریخ</label>
+                                               
+                                                <input date-picker="" display-numbers="" type="text" id="invoiceDate21111" ng-model="contractStop.DisplayDateRegister" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ رزرو " data-original-title="" title="" aria-describedby="popover216080">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-2" ng-show="contractStop.Type == 4">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="invoiceDate" class="title1 ng-binding">ضریب افزودن</label>
+                                                <input display-numbers="" type="text" class="form-control input-sm ng-valid" id="inputRatio" ng-model="contractStop.Ratio" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="ضریب افزودن" data-original-title="" title="">
+                                               
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr class="active" style="font-size: 9pt; font-weight: bold;">
+                                            <td>#</td>
+                                            <td> رسانه</td>
+                                            <td>تاریخ توقف</td>
+                                            <td>مدت توقف</td>
+                                            <td>نوع توقف</td>
+
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="contractStopDetail in contractStop.ContractStopDetails" style="height: 37px!important;" class="ng-scope">
+                                            <td style="width: 30px; padding: 0px; vertical-align: middle; text-align: center;" ng-mouseover="MoveBtns = true" ng-mouseleave="MoveBtns = false">
+                                                <span ng-show="!MoveBtns" class="ng-binding">{{$index+1 |number}}</span>
+                                                <div ng-show="MoveBtns" style="font-size: 9pt; color: silver;" class="ng-hide">
+                                                    <span class="fa fa-arrow-up move-up" aria-hidden="true" title="انتقال به بالا" ng-click="MoveBtns = false; moveUpRow(contractStopDetail)"></span>
+                                                    <span class="fa fa-arrow-down move-down" aria-hidden="true" title="انتقال به پایین" ng-click="MoveBtns = false; moveDownRow(contractStopDetail)"></span>
+                                                </div>
+                                            </td>
+                                            <td style="min-width: 240px; padding: 0px;" class="invoice-td" id="tdItem2{{$index}}" ng-click="moveRowEditor($index,$event)">
+
+
+                                                <div ng-hide="contractStopDetail.RowNumber == actRow2.RowNumber" class="invoice-td-div ng-binding ng-hide">{{contractStopDetail.Saze.Title}}</div>
+                                            </td>
+                                            <td style="min-width: 100px; padding: 0px;" class="invoice-td" id="tdDate2{{$index}}" ng-click="moveRowEditor($index,$event)">
+
+                                                <div ng-hide="contractStopDetail.RowNumber == actRow2.RowNumber" class="invoice-td-div ng-binding">{{contractStopDetail.DisplayStartDate |number}}</div>
+                                            </td>
+                                            <td style="width: 60px; padding: 0px;" class="invoice-td" id="tdStock2{{$index}}" ng-click="moveRowEditor($index,$event)">
+
+                                                <div ng-hide="contractStopDetail.RowNumber == actRow2.RowNumber" class="invoice-td-div ng-binding">{{contractStopDetail.Quantity |number}}</div>
+                                            </td>
+
+
+                                            <td style="width: 180px; padding: 0px;" class="invoice-td" id="tdNoeEjare2{{$index}}" ng-click="moveRowEditor($index,$event)">
+                                                <div ng-hide="contractStopDetail.RowNumber == actRow2.RowNumber" class="invoice-td-div ng-binding ng-hide">{{contractStopDetail.NoeEjare.Title}}</div>
+
+                                            </td>
+
+                                            <td style="width: 20px; padding: 0px; vertical-align: middle; text-align: center;">
+                                                <span class="fa fa-remove fa-fw close-grid-row" aria-hidden="true" ng-click="deleteRow(contractStopDetail)"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div id="hideme2" style="display: none;">
+                                    <div id="comboItemContractStop">
+                                    </div>
+
+                                    <div>
+                                        <input date-picker="" display-numbers="" type="text" id="inputStartDate2" ng-model="actRow2.DisplayStartDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ شروع اکران... " data-original-title="" title="" aria-describedby="popover216080213">
+                                       
+                                    </div>
+
+                                    <div>
+                                        <input display-numbers="" keyboard-filter="float" type="text" id="inputQuantity2" class="input-grid-factor input-sm" ng-model="actRow2.Quantity" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="مدت اجاره ...">
+                                    </div>
+
+                                    <div id="comboNoeEjareContractStop">
+                                    </div>
+
+                                </div>
+                                <!--<div class="col-md-12  ">
+                                    <div class="form-group">
+
+                                        <div class="col-md-2 ">
+                                            <div class="k-rtl">
+                                                <input name="fileShow" type="file" kendo-upload k-select="onSelect"
+                                                       k-multiple="false" k-show-file-list="false" k-localization="{select: 'بارگزاری تصویر '}"
+                                                       tabindex="36" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+
+                                            <img style="width:150px;height:150px;border:solid 1px blue" id="fileShow" class="file-icon">
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <!--<div class="col-md-12">
+
+                                    <div class="form-group">
+
+                                        <label class="col-md-3">پیوست تصویر: </label>
+                                        <div class="col-md-7">
+                                            <label class="control-label" style="position:relative;margin-top:-12px !important;text-align:right;color:red;font-weight:bold">
+                                                (حجم:200کیلوبایت ،فرمت :JPEG)
+                                            </label>
+                                            <img class="file-icon" ng-src="{{contractStop.Blob}}" id="fileShow" />
+                                            <input type="file" kendo-upload k-options="fileOptions" tabindex="2" />
+                                        </div>
+
+                                    </div>
+
+                                </div>-->
+
+                                <div class="form-group">
+                                    <label class="title1" for="comment">توضیحات</label>
+                                    <textarea class="form-control ng-pristine ng-untouched ng-valid" rows="4" id="comment" ng-model="contractStop.Description"></textarea>
+                                </div>
+
+                                <!--<div class="row" style="padding-left: 15px;">
+                                    <div class="col-md-8 col-sm-12">
+                                        <div class="row">
+                                            <div class="col-md-12 text-right">
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="btn-group">
+                                                                    <button type="button" ng-click="addRow()" onclick="return false;" class="btn btn-default btn-sm">
+                                                                        <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                                                        افزودن سطر
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-default btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <span class="caret"></span>
+                                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="" ng-click="addRow(5)">افزودن ۵ سطر</a></li>
+                                                                        <li><a href="" ng-click="addRow(10)">افزودن ۱۰ سطر</a></li>
+                                                                        <li><a href="" ng-click="addRow(20)">افزودن ۲۰ سطر</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="saveReservation()" type="button" ng-show="!calling">
+                        <i class="fa fa-search"></i>
+                        ثبت
+                    </button>
+
+                    <button class="btn btn-danger" ng-click="closePopup()" type="button" data-dismiss="modal" ng-show="!calling" tabindex="8"><i class="fa fa-ban"></i>انصراف</button>
+
+                    <div ng-show="calling" class="text-center ng-hide"><span><img src="../../../Content/img/ajax-loader4.gif"></span></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <script type="text/ng-template" id="moshaverTasavirInfoPopup.html">
+      
+        <style type="text/css">
+            #mashMadarekWrapper .file-wrapper .form-group {
+                margin-bottom: 0 !important;
+            }
+
+            #mashMadarekWrapper .file-wrapper .upload-button-wrapper {
+                padding-right: 8px !important;
+            }
+
+            #mashMadarekWrapper .file-wrapper .k-upload-sync .k-upload-button {
+                margin-top: -35px !important;
+                margin-bottom: 22px !important;
+                width: 300px !important;
+                margin-right: 26px !important;
+            }
+
+            #mashMadarekWrapper .file-wrapper .file-icon {
+                border: 1px solid #cacaca;
+                box-shadow: 0 0 0 rgba(0, 0, 0, 0.05) inset !important;
+                display: inline-block;
+                height: 180px;
+                margin-top: 0;
+                margin-right: 13px;
+                width: 300px;
+            }
+
+            #mashMadarekWrapper .file-wrapper .k-upload-button span {
+                font-size: 12px;
+            }
+
+            #mashMadarekWrapper div.modal-body {
+                height: 380px !important;
+            }
+
+            #mashMadarekWrapper .k-upload-sync .k-upload-button {
+                padding: 4px 3px !important;
+                font-size: 12px !important;
+                float: left !important;
+                top: 0px !important;
+                left: -86px !important;
+                z-index: 1;
+                height: 25px;
+                vertical-align: middle;
+                width: 163px;
+                text-align: center;
+                position: absolute;
+            }
+        </style>
+
+    </script>
+    <script type="text/ng-template" id="TasvirPopup.html">
+        <form id="imageOrginalWrapper" class="form-horizontal" action="#" ng-init="formInit()">
+            <div class="modal-header">
+                <h3 class="modal-title" ng-bind="modalTitle"></h3>
+                <i class="fa fa-close" title="بستن" ng-click="closePopup()"></i>
+            </div>
+            <div class="modal-body">
+                <div class=" file-wrapper">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <img class="img-responsive" ng-src="{{modelModal.Blob}}" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+        <style type="text/css">
+            div.modal-dialog {
+                max-width: 900px !important;
+                /*margin: 0 auto !important;*/
+            }
+        </style>
+
+    </script>
+    <style>
+        div.abs.anim.k-rtl.tabGrid div.k-grid-content {
+            height: 84% !important;
+        }
+    </style>
+</div>

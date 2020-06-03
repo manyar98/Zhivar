@@ -1,0 +1,39 @@
+<div ng-controller="roleOperationController" ng-init="initialize()" id="roleOperationWrapper">
+    <form name="operationUser" class="form-horizontal group-border-dashed" style="border-radius: 0px;" action="#">
+        <div class="row">
+            <div class="col-xs-12" style="margin-top:-5px; " ng-show="roleOperationAccess.canInsert">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label"><i class="fa fa-user"></i> عنوان نقش:</label>
+                        <label class="col-xs-6 control-label label_blue" ng-bind="FullName"></label>
+                    </div>
+                </div>
+                <!--<div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="fa fa-copy"></i>کپی دسترسی: </label>
+                        <div class="col-sm-6 k-rtl">
+                            <select kendo-dropdownlist class="form-control" k-data-text-field="'Name'" k-data-value-field="'ID'" k-data-source="roleOperations" ng-change="changeRole(roleUser)" ng-model="roleUser" k-value-primitive="true" id="ddlRole" tabindex="1"></select>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+            <div class="col-md-12" ng-show="roleOperationAccess.canInsert">
+                <div class="abs anim k-rtl">
+                    <div class="abs anim k-rtl" check-tree-list="treeList" k-options="mainTreeOptions" k-ng-delay="mainTreeOptions" html-options="treeHtmlOptions"></div>
+
+                </div>
+            </div>
+        </div>
+        <div class="button-wrapper" ng-show="roleOperationAccess.canInsert">
+            <input type="hidden" ng-model="model.ID" />
+            <button class="btn btn-primary" ng-click='action()' type="button" tabindex="2"><i class="fa fa-save"></i>ثبت</button>
+            <button class="btn btn-danger" ng-click="redirect()" type="button" tabindex="3"><i class="fa fa-ban"></i>انصراف</button>
+        </div>
+        <input type="hidden" ng-model="RoleId">
+    </form>
+</div>
+<style>
+    .treeHtmlOptions {
+        height: 500px !important;
+    }
+</style>

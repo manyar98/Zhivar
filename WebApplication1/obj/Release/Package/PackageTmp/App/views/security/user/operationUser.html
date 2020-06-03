@@ -1,0 +1,32 @@
+<div ng-controller="operationUserController" ng-init="initComplete()" id="operationUserWrapper">
+    <form name="operationUser" class="form-horizontal group-border-dashed" style="border-radius: 0px;" action="#">
+        <div class="row">
+            <div class="col-xs-12" style="margin-top:-5px;" ng-show="userOperationOperationAccess.canInsert">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label"><i class="fa fa-user"></i> نام کاربر:</label>
+                        <label class="col-xs-6 control-label label_blue" ng-bind="FullName"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" ng-show="userOperationOperationAccess.canInsert">
+                <div class="abs anim k-rtl">
+                    <div class="abs anim k-rtl" check-tree-list="treeList" k-options="mainTreeOptions" k-ng-delay="mainTreeOptions" html-options="treeHtmlOptions"></div>
+
+                </div>
+            </div>
+        </div>
+        <div class="button-wrapper" ng-show="userOperationOperationAccess.canInsert">
+            <input type="hidden" ng-model="model.ID" />
+            <button class="btn btn-primary" ng-click='action()' type="button" tabindex="3"><i class="fa fa-save"></i>ثبت</button>
+            <button class="btn btn-danger" ng-click="redirect()" type="button" tabindex="4"><i class="fa fa-ban"></i>انصراف</button>
+        </div>
+        <input type="hidden" ng-model="UserId">
+    </form>
+</div>
+
+<style>
+    .treeHtmlOptions {
+        height: 500px !important;
+    }
+</style>

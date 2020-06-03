@@ -1,0 +1,161 @@
+﻿<div class="container ng-scope" ng-controller="orgSettingsController" style="width:100%">
+
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <!-- ngIf: setupMode -->
+    <alert message="alertMessage" alert-type="alertType" ng-show="alert" class="ng-isolate-scope ng-hide">
+        <!-- ngIf: alertType == 'success' -->
+        <!-- ngIf: alertType == 'info' -->
+        <!-- ngIf: alertType == 'warning' -->
+        <!-- ngIf: alertType == 'danger' -->
+    </alert>
+
+    <div class="panel panel-info center-block hesabfa-panel">
+        <div class="panel-heading">
+            <span class="panel-title"><strong>تنظیمات موسسه</strong></span>
+        </div>
+        <div class="panel-body hesabfa-panel-body">
+            <form class="ng-pristine ng-valid ng-valid-maxlength">
+                <!--                <div class="title">-->
+                <!--                        <p class="text-muted hesabfa-txt-10"><strong>نام و نوع کسب و کار</strong></p>-->
+                <!--                </div>-->
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputName" class="title1">نام کسب و کار شما <span class="red">*</span></label>
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputName" ng-model="_business.name" maxlength="40" placeholder="نام موسسه" aria-describedby="inputNamehelp">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputLegalName" class="title1">نام قانونی</label>
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputLegalName" ng-model="_business.legalName" maxlength="50" placeholder="نام قانونی" aria-describedby="inputLegalNamehelp">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputType" class="title1">نوع</label>
+                            <select class="form-control input-sm ng-pristine ng-untouched ng-valid" id="inputType" ng-model="_business.organizationType" placeholder="نوع">
+                                <!-- ngRepeat: orgType in Hesabfa.orgTypes -->
+                                <option ng-repeat="orgType in Hesabfa.orgTypes" value="0" ng-selected="true" class="ng-binding ng-scope" selected="selected">شرکت</option><!-- end ngRepeat: orgType in Hesabfa.orgTypes -->
+                                <option ng-repeat="orgType in Hesabfa.orgTypes" value="1" ng-selected="false" class="ng-binding ng-scope">مغازه</option><!-- end ngRepeat: orgType in Hesabfa.orgTypes -->
+                                <option ng-repeat="orgType in Hesabfa.orgTypes" value="2" ng-selected="false" class="ng-binding ng-scope">فروشگاه</option><!-- end ngRepeat: orgType in Hesabfa.orgTypes -->
+                                <option ng-repeat="orgType in Hesabfa.orgTypes" value="3" ng-selected="false" class="ng-binding ng-scope">اتحادیه</option><!-- end ngRepeat: orgType in Hesabfa.orgTypes -->
+                                <option ng-repeat="orgType in Hesabfa.orgTypes" value="4" ng-selected="false" class="ng-binding ng-scope">کلوب</option><!-- end ngRepeat: orgType in Hesabfa.orgTypes -->
+                                <option ng-repeat="orgType in Hesabfa.orgTypes" value="5" ng-selected="false" class="ng-binding ng-scope">موسسه</option><!-- end ngRepeat: orgType in Hesabfa.orgTypes -->
+                                <option ng-repeat="orgType in Hesabfa.orgTypes" value="6" ng-selected="false" class="ng-binding ng-scope">شخصی</option><!-- end ngRepeat: orgType in Hesabfa.orgTypes -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputLineOfBusiness" class="title1">زمینه فعالیت</label>
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputLineOfBusiness" ng-model="_business.businessLine" maxlength="30" placeholder="زمینه فعالیت" aria-describedby="inputLineOfBusinesshelp">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputName" class="title1">شناسه ملی</label>
+                            <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputNationalCode" ng-model="_business.nationalCode" maxlength="11" placeholder="شناسه ملی">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="inputLegalName" class="title1">شماره ثبت</label>
+                            <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputRegistrationNumber" ng-model="_business.registrationNumber" maxlength="20" placeholder="شماره ثبت">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="economicCode" class="title1">کد اقتصادی</label>
+                            <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="economicCode" ng-model="_business.economicCode" maxlength="14" placeholder="کد اقتصادی">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                    </div>
+                </div>
+
+                <div class="page-header">
+                    <span class="hesabfa-txt-10">
+                        <p class="text-muted"><strong>اطلاعات تماس</strong></p>
+                    </span>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group input-group">
+                            <div class="input-group-addon">کشور</div>
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputCountry" ng-model="_business.country" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group input-group">
+                            <div class="input-group-addon">استان</div>
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputState" ng-model="_business.state" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group input-group">
+                            <div class="input-group-addon">شهر</div>
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputCity" ng-model="_business.city" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group input-group">
+                            <div class="input-group-addon">کد پستی</div>
+                            <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputPostalCode" ng-model="_business.postalCode" maxlength="10">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group input-group">
+                            <div class="input-group-addon">آدرس پستی</div>
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputAddress" ng-model="_business.address" maxlength="150">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group input-group">
+                            <div class="input-group-addon">تلفن</div>
+                            <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputPhone" ng-model="_business.phone" maxlength="20">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group input-group">
+                            <div class="input-group-addon">فکس</div>
+                            <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputFax" ng-model="_business.fax" maxlength="20">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group input-group">
+                            <div class="input-group-addon">وب سایت</div>
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputWebsite" ng-model="_business.website" maxlength="100">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group input-group">
+                            <div class="input-group-addon">ایمیل</div>
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="inputEmail" ng-model="_business.email" maxlength="100">
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 20px;"></div>
+            </form>
+        </div>
+        <!-- ngIf: !setupMode --><div class="panel-footer ng-scope" ng-if="!setupMode">
+            <button type="submit" ng-click="saveOrgSettings('save')" ng-show="!calling" onclick="return false;" class="btn btn-success">ثبت و ذخیره</button>
+            <button ng-click="go('/dashboard/0/7')" ng-show="!calling" onclick="return false;" class="btn btn-default btn-smoke pull-left" style="width: 80px;">انصراف</button>
+            <span ng-show="calling" class="ng-hide"><img src="/View/Images/ajax-loader4.gif"></span>
+        </div><!-- end ngIf: !setupMode -->
+    </div>
+    <!-- ngIf: setupMode -->
+
+</div>

@@ -1,0 +1,185 @@
+﻿<div class="container ng-scope" ng-controller="moneyTransferController" style="width:100%">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <div  ng-show="alert" class="ng-isolate-scope" >
+        <div class="alert alert-success center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'success'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-check-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong ng-show="message">{{ alertMessage|number }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg|number }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-info center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'info'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-info-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong ng-show="message">{{ alertMessage }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-warning center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'warning'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-info-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong ng-show="message">{{ alertMessage }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-danger center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'danger'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-exclamation-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong>{{ alertMessage }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <edit-cash open="editCashModal" cash="cash" onsuccess="getEditedCash" class="ng-isolate-scope"></edit-cash>
+    <edit-bank open="editBankModal" bank="bank" onsuccess="getEditedBank" class="ng-isolate-scope"></edit-bank>
+
+    <div class="row hesabfa-content-page center-block">
+
+        <div class="panel panel-info center-block hesabfa-panel" style="max-width: none;">
+            <div class="panel-body hesabfa-panel-body">
+
+                <div class="row">
+                    <div class="col-md-2 text-left">مبلغ:</div>
+                    <div class="col-md-3">
+                        <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="moneyAmount" class="form-control input-sm ng-valid ng-touched" ng-model="amount">
+                    </div>
+                    <div class="col-md-1 text-right ng-binding">ریال</div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2 text-left">تاریخ:</div>
+                    <div class="col-md-2">
+                        <input date-picker="" display-numbers="" type="text" class="form-control input-sm pdate ng-valid" id="transferDate" ng-model="transferDate" style="direction: ltr;"><a class="pcalBtn" href="#"></a>
+                    </div>
+                </div>
+                <div class="row mr-t-5">
+                    <div class="col-sm-2 text-left">شرح(دلخواه):</div>
+                    <div class="col-sm-10">
+                        <input display-numbers="" type="text" class="form-control input-sm ng-valid" placeholder="شرح انتقال وجه..." ng-model="transferDescription">
+                    </div>
+                </div>
+                <div class="separator1 mr-t-10"></div>
+                <div class="row">
+                    <div class="col-md-2 text-left">مبدا:</div>
+                    <div class="col-md-4">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-sm btn-default" ng-class="from == 'cash' ? 'btn-primary' : 'btn-default'" ng-click="from = 'cash'">صندوق</button>
+                            <button type="button" class="btn btn-sm btn-default" ng-class="from == 'bank' ? 'btn-primary' : 'btn-default'" ng-click="from = 'bank'">بانک</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-left">مقصد:</div>
+                    <div class="col-md-4">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-sm btn-default" ng-class="to == 'cash' ? 'btn-primary' : 'btn-default'" ng-click="to = 'cash'">صندوق</button>
+                            <button type="button" class="btn btn-sm btn-default" ng-class="to == 'bank' ? 'btn-primary' : 'btn-default'" ng-click="to = 'bank'">بانک</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mr-t-5">
+                    <div class="col-md-2 text-left">
+                        <div ng-show="from == 'cash'" class="ng-hide">انتخاب صندوق:</div>
+                        <div ng-show="from == 'bank'" class="">انتخاب بانک:</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div ng-show="from == 'cash'" class="ng-hide">
+                            <div id="comboCashFrom">
+
+                            </div>
+                        </div>
+                        <div ng-show="from == 'bank'" class="">
+                            <div id="comboBankFrom">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-left">
+                        <div ng-show="to == 'cash'" class="ng-hide">انتخاب صندوق:</div>
+                        <div ng-show="to == 'bank'" class="">انتخاب بانک:</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div ng-show="to == 'cash'" class="ng-hide">
+                            <div id="comboCashTo">
+
+                            </div>
+                        </div>
+                        <div ng-show="to == 'bank'" class="">
+                            <div id="comboBankTo">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mr-t-5">
+                    <div class="col-md-2 text-left">
+                        <div ng-show="from == 'bank'" class="">شماره ارجاع:</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div ng-show="from == 'bank'" class="">
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid" ng-model="fromReference">
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-left">
+                        <div ng-show="to == 'bank'" class="">شماره ارجاع:</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div ng-show="to == 'bank'" class="">
+                            <input display-numbers="" type="text" class="form-control input-sm ng-valid" ng-model="toReference">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mr-t-5" style="padding-left: 15px; margin-top: 25px;">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <button type="submit" ng-click="submit()" onclick="return false;" class="btn btn-success btn-sm" style="width: 80px;">ثبت</button>
+                        <button ng-click="cancel()" onclick="return false;" class="btn btn-default btn-smoke btn-sm" style="width: 80px;">انصراف</button>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row mr-t-5 text-center ng-hide" ng-show="calling">
+            <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        </div>
+
+    </div>
+</div>

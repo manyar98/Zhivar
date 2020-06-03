@@ -1,0 +1,216 @@
+﻿<link href="../../dist/imageuploadify.min.css" rel="stylesheet">
+<div class="modal fade" id="editItemModal" tabindex="-1" role="dialog" aria-labelledby="editItemModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg ui-draggable" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header modal-header-info ui-draggable-handle">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title ng-binding" id="editItemModalLabel">
+                    افزودن رسانه جدید
+                </h4>
+            </div>
+            <!--<form class="ng-pristine ng-valid ng-valid-maxlength">-->
+                <div class="modal-body">
+                    <div class="container-fluid">
+
+
+                    </div>
+                    <uib-tabset class="markazDarmani-tabset">
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <i class="fa fa-user-circle"></i> اطلاعات رسانه
+                            </uib-tab-heading>
+                            <div class="col-md-12" style="background-color:white">
+
+
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label for="code" class="title1">کد رسانه <span class="red">*</span></label>
+                                            <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="itam-code" ng-model="item.Code" maxlength="6" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="code" class="title1">نام رسانه</label>
+                                            <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="title" ng-model="item.Title" select-on-click="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-4">
+                                        <div class="form-group" style="margin-top: 8%;">
+                                            <label class="col-xs-4 control-label">وضعیت:</label>
+
+                                            <div class="col-xs-8" style="margin-right: -2px;">
+                                                <div tabindex="10">
+                                                    <input type="radio" id="statusRadio1" ng-model="item.Status" value="1" name="radioStatus" tabindex="9">
+                                                    <label for="statusRadio1"> فعال </label>
+
+                                                    <input type="radio" id="statusRadio2" ng-model="item.Status" value="0" name="radioStatus" tabindex="10">
+                                                    <label for="statusRadio2"> غیر فعال </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label for="name" class="title1">گروهبندی رسانه</label>
+
+                                            <gorohe-saze-select filter="product" text="item.NodeGoroheSaze.FamilyTree" bind="item.NodeGoroheSaze" start="startNodeSelect" eid="goroheSazeNode" class="ng-isolate-scope"></gorohe-saze-select>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group" style="margin-top: 8%;">
+                                            <label class="col-xs-4 control-label">آیا نور دارد؟:</label>
+
+                                            <div class="col-xs-8" style="margin-right: -2px;">
+                                                <div tabindex="10">
+                                                    <input type="radio" id="inlineRadio1" ng-model="item.NoorDard" value="1" name="radioInline" tabindex="9">
+                                                    <label for="inlineRadio1"> بله </label>
+
+                                                    <input type="radio" id="inlineRadio2" ng-model="item.NoorDard" value="0" name="radioInline" tabindex="10">
+                                                    <label for="inlineRadio2"> خیر </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label for="name" class="title1">نوع رسانه</label>
+
+                                            <noe-saze-select filter="product" text="item.NodeNoeSaze.FamilyTree" bind="item.NodeNoeSaze" start="startNodeSelect" eid="NoeSazeNode" class="ng-isolate-scope"></noe-saze-select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label for="name" class="title1">نوع اجاره</label>
+
+                                            <noe-ejare-select filter="product" text="item.NodeNoeEjare.FamilyTree" bind="item.NodeNoeEjare" start="startNodeSelect" eid="NoeEjareNode" class="ng-isolate-scope"></noe-ejare-select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                         
+                                    <div class="row">
+
+
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label for="name" class="title1">آدرس رسانه <span class="red">*</span></label>
+                                                <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="item-name" ng-model="item.Address" ng-blur="itemNameLeave()" maxlength="100">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label for="buyPrice" class="title1"> طول </label>
+                                                <input display-numbers="" digit-group="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" ng-model="item.Tol" maxlength="20" ng-blur="calculateMasaht()" placeholder="لطفا مقدار را به متر وارد نمایید">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label for="buyPrice" class="title1">عرض  </label>
+                                                <input display-numbers="" digit-group="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" ng-model="item.Arz" maxlength="100" ng-blur="calculateMasaht()" placeholder="لطفا مقدار را به متر وارد نمایید">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label for="buyPrice" class="title1">مساحت  </label>
+                                                <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" ng-model="Masaht" maxlength="100" readonly="readonly">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="separator1"></div>
+
+                                </div>
+
+
+
+</uib-tab>
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <i class="fa fa-map-signs"></i> نقشه رسانه
+                            </uib-tab-heading>
+                            <div class="col-md-12" style="padding:20px">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div leaflet-map k-options="mapOptions" html-options="mapHtmlOptions">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <i class="fa fa-credit-card"></i> تصاویر رسانه
+                            </uib-tab-heading>
+
+
+                          
+
+                            <div class="mr-4 ml-6 d-flex flex-wrap justify-content-around " style="margin-top:20px">
+
+                                <div ng-repeat="image in item.Images">
+                                    <button type="button" class="btn btn-danger glyphicon glyphicon-remove" ng-click="deleteImage(image.ID , item.Images, $index )"></button>
+
+                                    <img  ng-src="{{ image.TasvirBlobBase64 }}" style="width:180px" alt="" class="img-thumbnail mt-2 " />
+                                </div>
+                            </div>
+
+
+                            <div class="container" style="margin-top: 10px;">
+                                <form>
+
+                                    <input type="file" accept="image/*" multiple>
+
+                                </form>
+                            </div>
+
+
+                            <script type="text/javascript" src="../../dist/imageuploadify.min.js"></script>
+
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    $('input[type="file"]').imageuploadify();
+                                })
+
+
+
+                            </script>
+
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+                    <!--</form>-->
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-smoke" data-dismiss="modal" ng-show="!calling">انصراف</button>
+                <button type="submit" onclick="return false;" class="btn btn-success" ng-click="submitItem()" ng-show="!calling">
+                    ثبت و ذخیره
+                </button>
+                <button type="button" onclick="return false;" class="btn btn-success ng-hide" ng-click="submitItem(true)" ng-show="!calling &amp;&amp; next">
+                    ثبت و بعدی
+                </button>
+                <div ng-show="calling" class="text-center ng-hide"><span><img src="../../Content/img/ajax-loader4.gif"></span></div>
+            </div>
+      
+    </div>
+        </div>
+    </div>
+

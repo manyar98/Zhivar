@@ -1,0 +1,41 @@
+﻿<div class="container ng-scope" ng-controller="capitalStatementController" style="width:100%">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <div class="hesabfa-content-page center-block" ng-show="!loading">
+
+        <div class="row" style="margin-bottom: 20px; margin-top: 15px;">
+            <h4 class="txt-gray text-center txt-bold">صورتحساب سرمایه</h4>
+            <h5 class="text-muted text-center ng-binding">{{ currentBusiness.Name|number }}</h5>
+            <h5 class="text-muted text-center ng-binding">به تاریخ {{ reportDate |number }}</h5>
+        </div>
+
+        <div id="gridContainer"></div>
+
+        <div class="mr-t-5">
+            <button class="btn btn-default btn-smoke" ng-click="print()">
+                <span class="fa fa-print"></span>&nbsp;
+                چاپ
+            </button>
+            <button class="btn btn-default btn-smoke" ng-click="generatePDF()">
+                <span class="fa fa-file-pdf-o"></span>&nbsp;
+                PDF
+            </button>
+            <!--<button class="btn btn-default btn-smoke" ng-click="excel()">
+                <span class="fa fa-file-excel-o"></span>&nbsp;
+                Excel
+            </button>-->
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری صورتحساب سرمایه...</div>
+    </div>
+
+    <div id="textHeightMeasurement" style="position: fixed; left: -1000px; top: -1000px;"></div>
+
+    <div style="margin-top: 50px;"></div>
+</div>

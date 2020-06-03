@@ -1,0 +1,55 @@
+<div>
+    <!--<style>
+        .k-window-action {
+            display: none !important;
+        }
+
+        .k-window-titlebar .k-link {
+            background: #fe2712;
+            font-family: Tahoma;
+        }
+    </style>-->
+    <div id="messageDetails">
+        <div class="col-md-11" style="position:static;text-align: left;">
+            <input type="image" name="submit" src="../../Content/images/dialog_close.png" id="Dissuasion" />
+        </div>
+        <div class="col-md-11 Site-panel">
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <label class="control-label">کانال:</label>
+                    <label class="label-readonly " ng-bind="item.ChannelName"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <label class="control-label">نوع پیام:</label>
+                    <label class="label-readonly k-label" ng-bind=" item.TypeName"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label class="control-label">متن:</label>
+                    <label class="label-readonly" ng-bind=" item.Text"></label>
+                    <!--<p style="min-height:50px;overflow-x:hidden;overflow-y:scroll;">
+                        <label class="label-readonly" ng-bind=" item.Text"></label>
+                    </p>-->
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <label class="control-label">نام فایل:</label>
+                    <label class="label-readonly" ng-bind=" item.FileName"></label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-11 Site-panel">
+            <div class="form-group">
+                <div class="col-sm-12" style="position:center;">
+                    <img id="fileShow" style="width:150px;" src="{{image}}" class='userProfile file-icon' />
+                </div>
+                <a id="download" href="" download=""></a>
+                <button type="button" class="downloadButton k-button k-button-icontext k-primary k-grid-update" id="btnDownload" ng-click="download()"><span class="k-icon k-foo"></span>دريافت فايل</button> 
+            </div>
+        </div>
+    </div>
+</div>

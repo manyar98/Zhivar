@@ -1,0 +1,614 @@
+﻿
+<style>
+    .ui-state-highlight {
+        height: 100px;
+        background-color: #ccc !important;
+    }
+
+    .ui-sortable-helper {
+        display: table !important;
+        background-color: white;
+    }
+
+    div.editable-input input {
+        direction: ltr;
+        text-align: center;
+    }
+
+    .red {
+        color: red !important;
+    }
+
+    .blue {
+        color: blue !important;
+    }
+
+    .green {
+        color: green !important;
+    }
+</style>
+
+<link rel="stylesheet" href="../../../Content/js-persian-cal.css" />
+<div ng-controller="newContractController">
+
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+
+    <edit-chap open="editChapModal" chapkhanes="chapkhanes" bazareabs="bazareabs" tarahs="tarahs" nasabs="nasabs" item="item" onsuccess="getEditedItem" listnasabs="listnasabs" listtarahs="listtarahs" listbazareabs="listbazareabs" listchapkhanes="listchapkhanes" listnoechaps="listnoeChaps" semat="semat" metrazh ="metrazh"></edit-chap>
+    <edit-saze open="editItemModal" item="item" onsuccess="getEditedSaze"></edit-saze>
+    <!--<edit-item open="editItemModal" item="item" onsuccess="getEditedItem"></edit-item>-->
+    <edit-contact open="editContactModal" contact="contact" onsuccess="getEditedContact" class="ng-isolate-scope"></edit-contact>
+    <div class="panel panel-info center-block hesabfa-panel" style="max-width: none;" id="panelEditInvoice" ng-show="!loading">
+        <div class="panel-heading">
+            <span class="panel-title" ng-show="contract.ContractType == 0"> تنظیم قرارداد جهت اجاره به طرف حساب</span>
+            <span class="panel-title" ng-show="contract.ContractType == 2"> تنظیم پیش قرارداد جهت اجاره به طرف حساب</span>
+        </div>
+        <div class="panel-body hesabfa-panel-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="invoiceContact" class="title1">طرف حساب</label>
+
+                        <a class="title1 m-r-5 ng-binding blue ng-hide" ng-class="getContactBalanceClass(invoice.Contact.Balance)" ng-show="invoice.Contact.ID > 0" href="#contactCard/" target="_blank">
+                            &nbsp;مانده: {{invoice.Contact.Balance |digitGroup}} {{getContactTashkhis(invoice.Contact.Balance)}}&nbsp;
+                        </a>
+
+                        <div id="comboContact">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="row">
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="invoiceDate" class="title1 ng-binding">تاریخ قرارداد</label>
+                                <input date-picker="" display-numbers="" type="text" id="invoiceDate" ng-model="contract.DisplayDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ قرارداد " data-original-title="" title="" aria-describedby="popover216080" >
+                            </div>
+                        </div>
+                        <!--<div class="col-sm-3" ng-hide="invoice.InvoiceType == 4">
+                            <div class="form-group">
+                                <label for="invoiceDueDate" class="title1">سر رسید</label>
+                                <input date-picker="" display-numbers="" type="text" id="invoiceDueDate" ng-model="invoice.DisplayDueDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ سررسید قرارداد " data-original-title="" title="" aria-describedby="popover216080">
+                            </div>
+                        </div>-->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="invoiceNumber" class="title1">شماره قرارداد</label>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input display-numbers="" type="text" class="form-control input-sm ng-valid ng-valid-maxlength" id="invoiceNumber" ng-model="contract.Number" maxlength="20" ng-disabled="true" disabled="disabled">
+                                            </td>
+                                            <td>
+                                                <!--<div class="radio radio-info radio-inline">
+                                                    <input type="radio" id="parking_true" ng-model="model.Parking" value="1" name="radioInline" tabindex="13">
+                                                    <label for="parking_true"> اتوماتیک </label>
+
+                                                    <input type="radio" id="parking_false" ng-model="model.Parking" value="0" name="radioInline" tabindex="14">
+                                                    <label for="parking_false">    دستی </label>
+                                                </div>-->
+                                                <!--<div id="automaticNumberSwitch" style="direction:ltr !important;   text-align: left  !important ;margin-right:10px;font-family:'BYeKan';height:30px;"></div>-->
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="invoiceReference" class="title1" style="white-space: nowrap">
+                                    ارجاع
+                                    <small ng-show="invoice.InvoiceType == 1 || invoice.InvoiceType == 3" class="hidden-md hidden-sm ng-hide">(شماره قرارداد خرید)</small>
+                                    <small ng-show="invoice.InvoiceType == 2" class="hidden-md hidden-sm ng-hide">(شماره قرارداد فروش)</small>
+                                </label>
+                                <input display-numbers="" type="text" class="form-control input-sm ng-valid" id="invoiceReference" ng-model="invoice.Reference" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="شماره ارجاع" data-original-title="" title="" >
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="row mr-b-20">
+                <div class="col-md-12">
+                    <label class="title1 ng-binding">
+                        عنوان قرارداد
+                    </label>
+                    <input display-numbers="" type="text" class="form-control input-sm ng-valid" ng-model="contract.ContractTitle" style="width: 100%" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="عنوانی که در قرارداد نمایش داده می شود" data-original-title="" title="">
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="active" style="font-size: 9pt; font-weight: bold;">
+                        <td>#</td>
+                        <td> رسانه</td>
+                        <td>تاریخ شروع اکران/عملیات</td>
+                        <td>مدت اجاره</td>
+                        <td>نوع اجاره</td>
+                        <td>فی اجاره <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></td>
+                        <td>بازاریاب</td>
+                        <td>طراح</td>
+                        <td>چاپ</td>
+                        <td>نصب</td>
+                        <td>تخفیف</td>
+                        <td>مالیات</td>
+                        <td>مبلغ کل <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    <tr ng-repeat="invoiceItem in contract.Contract_Sazes" style="height: 37px!important;" class="ng-scope">
+                        <td style="width: 30px; padding: 0px; vertical-align: middle; text-align: center;" ng-mouseover="MoveBtns = true" ng-mouseleave="MoveBtns = false">
+                            <span ng-show="!MoveBtns" class="ng-binding">{{$index+1}}</span>
+                            <div ng-show="MoveBtns" style="font-size: 9pt; color: silver;" class="ng-hide">
+                                <span class="fa fa-arrow-up move-up" aria-hidden="true" title="انتقال به بالا" ng-click="MoveBtns = false; moveUpRow(invoiceItem)"></span>
+                                <span class="fa fa-arrow-down move-down" aria-hidden="true" title="انتقال به پایین" ng-click="MoveBtns = false; moveDownRow(invoiceItem)"></span>
+                            </div>
+                        </td>
+                        <td style="min-width: 240px; padding: 0px;" class="invoice-td" id="tdItem{{$index}}" ng-click="moveRowEditor($index,$event)">
+
+                            <div ng-hide="invoiceItem.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding ng-hide">{{invoiceItem.Saze.Title}}</div>
+                        </td>
+                        <td style="min-width: 100px; padding: 0px;" class="invoice-td" id="tdDate{{$index}}" ng-click="moveRowEditor($index,$event)">
+
+                            <div ng-hide="invoiceItem.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{invoiceItem.DisplayTarikhShorou |number}}</div>
+                        </td>
+                        <td style="width: 60px; padding: 0px;" class="invoice-td" id="tdStock{{$index}}" ng-click="moveRowEditor($index,$event)">
+
+                            <div ng-hide="invoiceItem.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{invoiceItem.Quantity |number}}</div>
+                        </td>
+
+
+                        <td style="width: 180px; padding: 0px;" class="invoice-td" id="tdNoeEjare{{$index}}" ng-click="moveRowEditor($index,$event)">
+                            <div ng-hide="invoiceItem.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding ng-hide">{{invoiceItem.NoeEjare.Title}}</div>
+
+                        </td>
+
+                        <td style="width: 120px; padding: 0px;" class="invoice-td" id="tdUnitPrice{{$index}}" ng-click="moveRowEditor($index,$event)">
+                            <div ng-hide="invoiceItem.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{invoiceItem.UnitPrice |digitGroup}}</div>
+
+                        </td>
+
+
+
+                        <td style="width: 80px; padding: 0px;" class="invoice-td" id="tdBazaryab{{$index}}" ng-click="moveRowEditor($index,$event)">
+                            <div ng-hide="invoiceItem.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{invoiceItem.PriceBazareab |digitGroup}}</div>
+
+                        </td>
+                        <td style="width: 80px; padding: 0px;" class="invoice-td" id="tdTarah{{$index}}" ng-click="moveRowEditor($index,$event)">
+                            <div ng-hide="invoiceItem.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{invoiceItem.PriceTarah |digitGroup}}</div>
+
+                        </td>
+                        <td style="width: 80px; padding: 0px;" class="invoice-td" id="tdChap{{$index}}" ng-click="moveRowEditor($index,$event)">
+                            <div ng-hide="invoiceItem.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{invoiceItem.PriceChap |digitGroup}}</div>
+
+                        </td>
+                        <td style="width: 80px; padding: 0px;" class="invoice-td" id="tdNasb{{$index}}" ng-click="moveRowEditor($index,$event)">
+                            <div ng-hide="invoiceItem.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding">{{invoiceItem.PriceNasab |digitGroup}}</div>
+
+                        </td>
+
+                        <td style="width: 120px; padding: 0px;" class="invoice-td" id="tdDiscount{{$index}}" ng-click="moveRowEditor($index,$event)">
+
+                            <div ng-hide="invoiceItem.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding ng-hide">{{(invoiceItem.Discount |digitGroup)}}</div>
+                        </td>
+                        <td style="width: 120px; padding: 0px;" class="invoice-td" id="tdTax{{$index}}" ng-click="moveRowEditor($index,$event)">
+
+                            <div ng-hide="invoiceItem.RowNumber == actRow.RowNumber" class="invoice-td-div ng-binding ng-hide">{{invoiceItem.Tax |digitGroup}} </div>
+                        </td>
+                        <td style="width: 60px; padding: 5px; vertical-align: middle;" class="ng-binding" ng-bind="invoiceItem.TotalAmount |digitGroup"></td>
+
+                        <td style="width: 20px; padding: 0px; vertical-align: middle; text-align: center;">
+                            <span class="fa fa-remove fa-fw close-grid-row" aria-hidden="true" ng-click="deleteRow(invoiceItem)"></span>
+                        </td>
+                    </tr><!-- end ngRepeat: invoiceItem in invoice.Contract_Sazes -->
+
+
+
+                </tbody>
+            </table>
+            <div id="hideme" style="display: none;">
+                <div id="comboItem">
+                </div>
+
+                <div>
+                    <input date-picker="" display-numbers="" type="text" id="inputContractDate" ng-model="actRow.DisplayTarikhShorou" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ شروع اکران... " data-original-title="" title="" aria-describedby="popover216080" ng-change="change()">
+                    <!--<input                display-numbers="" type="text" id="inputDescription"  ng-model="actRow.Description" class="input-grid-factor input-sm"                                               data-toggle="popover" data-trigger="hover focus" data-placement="top" data-content="تاریخ شروع اکران...">-->
+                </div>
+
+                <div>
+                    <input display-numbers="" keyboard-filter="float" type="text" id="inputQuantity" class="input-grid-factor input-sm" ng-model="actRow.Quantity" ng-change="changeQuantity() " ng-blur="calculateInvoice()" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="مدت اجاره ...">
+                </div>
+                <div>
+                    <!--@*<input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputUnitPrice" class="input-grid-factor input-sm" ng-model="actRow.UnitPrice" ng-change="actRow.calcTax=true" ng-blur="calculateInvoice()" ng-disabled="!havePermission('changePriceInvoice')" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="قیمت خرید: {{ (havePermission('viewItems')?actRow.Item.BuyPrice:0)|digitGroup }} {{ getCurrency() }}">*@-->
+                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputUnitPrice" class="input-grid-factor input-sm" ng-model="actRow.UnitPrice" ng-change="actRow.calcTax=true" ng-blur="calculateInvoice()" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="مبلغ اجاره: ">
+                </div>
+                <div id="comboNoeEjare">
+                </div>
+
+                <div id="inputBazaryab">
+                    <button type="submit" onclick="return false;" class="btn btn-primary" ng-click="chapSwitchChecked(true,7)" style="background-color: #00c0ef; border: 1px solid #00c0ef;margin-right:5px">
+                        افزودن
+                    </button>
+                </div>
+                <div id="inputTarah">
+
+                    <button type="submit" onclick="return false;" class="btn btn-primary" ng-click="chapSwitchChecked(true, 8)" style="background-color: #00a65a; border: 1px solid #00a65a;margin-right:5px">
+                        افزودن
+                    </button>
+                </div>
+                <div id="inputNasb">
+                    <button type="submit" onclick="return false;" class="btn btn-primary" ng-click="chapSwitchChecked(true, 10)" style="background-color: #f39c12; border: 1px solid #f39c12;margin-right:5px">
+                        افزودن
+                    </button>
+
+                </div>
+                <div id="inputChap">
+
+                    <button type="submit" onclick="return false;" class="btn btn-primary" ng-click="chapSwitchChecked(true, 9)" style="background-color: #dd4b39; border: 1px solid #dd4b39;margin-right:5px">
+                        افزودن
+                    </button>
+
+
+                </div>
+                <div>
+                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integerpercent" digit-group="" type="text" id="inputDiscount" class="input-grid-factor input-sm" ng-model="actRow.Discount" ng-change="actRow.calcTax=true" ng-blur="calculateInvoice()">
+                </div>
+                <div>
+                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputTax" class="input-grid-factor input-sm" ng-model="actRow.Tax" ng-blur="calculateInvoice()" ng-focus="enterTax(actRow)" select-on-click="">
+                </div>
+
+            </div>
+
+
+            <div class="row" style="padding-left: 15px;">
+                <div class="col-md-8 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" ng-click="addRow()" onclick="return false;" class="btn btn-default btn-sm">
+                                                    <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                                    افزودن سطر
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="caret"></span>
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="" ng-click="addRow(5)">افزودن ۵ سطر</a></li>
+                                                    <li><a href="" ng-click="addRow(10)">افزودن ۱۰ سطر</a></li>
+                                                    <li><a href="" ng-click="addRow(20)">افزودن ۲۰ سطر</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <!--@*
+                                        <td>
+                                            <form class="form-inline ng-pristine ng-valid" style="margin-right: 10px;">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon hand" ng-click="openBarcodeList()" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="ورود گروهی توسط بارکد" data-original-title="" title="">
+                                                            <span class="fa fa-barcode" aria-hidden="true"></span>
+                                                        </div>
+                                                        <input display-numbers="" type="text" id="barcodeScan" class="form-control input-sm ng-valid" ng-model="barcode" placeholder="ورود توسط بارکدخوان" select-on-click="" style="width: 140px;">
+                                                    </div>
+                                                    <div class="input-group" id="barcodeOK" style="display: none;">
+                                                        <span class="fa fa-check text-success form-inline" aria-hidden="true"></span>
+                                                    </div>
+                                                    <div class="input-group" id="barcodeNoOK" style="display: none;">
+                                                        <span class="fa fa-remove text-danger form-inline" aria-hidden="true"></span>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </td>*@-->
+                                        <td>
+                                            <form class="form-inline ng-pristine ng-valid" style="margin-right: 10px;">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon hand" ng-click="addDiscount()" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="افزودن تخفیف" data-original-title="" title="">
+                                                            %
+                                                        </div>
+                                                        <div>
+                                                            <input display-numbers="" keyboard-filter="float" type="text" class="form-control input-sm ng-valid" ng-model="discount" placeholder="تخفیف" select-on-click="" on-enter="addDiscount()" style="width: 80px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </td>
+                                        <td class="ltr">
+                       
+                                            <div class="radio radio-info radio-inline">
+
+                                                <input type="radio" id="tax_true" ng-model="autoCalTax" value="1" name="radioInline" tabindex="13" ng-click="taxSwitchChecked(true)">
+                                                <label for="tax_true"> محاسبه مالیات </label>
+                                            </div>
+                                            <div class="radio radio-inline">
+                                                <input type="radio" id="tax_false" ng-model="autoCalTax" value="0" name="radioInline" tabindex="14" ng-click="taxSwitchChecked(false)">
+                                                <label for="tax_false">    بدون مالیات </label>
+                                            </div>
+
+
+                                        </td>
+                               
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mr-t-10">
+                        <div class="col-md-2 ltr text-right">
+                            <!--							<div dx-switch="taxSwitch" ng-model="autoCalTax" class="ltr auto-invoice-number"></div>-->
+                        </div>
+                    </div>
+                    <div ng-show="showNote" class="form-group ng-hide">
+                        <label class="title1" for="comment">توضیحات</label>
+                        <textarea class="form-control ng-pristine ng-untouched ng-valid" rows="4" id="comment" ng-model="invoice.Note"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="row text-left">
+                        <div class="col-xs-5 title1">جمع <span style="font-weight: normal" class="ng-binding">(ریال)</span></div>
+                        <div class="col-xs-7 title1 ng-binding">{{contract.Sum |digitGroup}}</div>
+                    </div>
+                    <div class="row text-left ng-hide" ng-show="totalDiscount > 0">
+                        <div class="col-xs-5 title1">جمع تخفیف <span style="font-weight: normal" class="ng-binding">(ریال)</span></div>
+                        <div class="col-xs-7 title1 red ng-binding">{{totalDiscount |digitGroup}}</div>
+                    </div>
+                    <div class="row text-left ng-hide" ng-show="totalTax > 0">
+                        <div class="col-xs-5 title1">جمع مالیات <span style="font-weight: normal" class="ng-binding">(ریال)</span></div>
+                        <div class="col-xs-7 title1 ng-binding">{{totalTax |digitGroup}}</div>
+                    </div>
+                    <div class="row" style="border-top: 1px solid rgb(69, 69, 69); margin-top: 1px; margin-bottom: 1px;"></div>
+                    <div class="row text-left" style="border-bottom: 1px solid rgb(69, 69, 69)">
+                        <div class="col-xs-5 h5 txt-bold">مبلغ کل <span style="font-weight: normal" class="ng-binding">(ریال)</span></div>
+                        <div class="col-xs-7 h5 txt-bold ng-binding" ng-class="{'red' : contract.Payable < 0}">{{contract.Payable |digitGroup}}</div>
+                    </div>
+                    <div class="row" style="border-top: 1px solid rgb(69, 69, 69); margin-top: 1px; margin-bottom: 10px;"></div>
+                </div>
+            </div>
+
+            <div class="panel-body hesabfa-panel-body">
+                <h5 class="txt-bold" style="margin-bottom: 20px;">توافقات نحوه دریافت از طرف حساب</h5>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addCashPay()">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن دریافت نقدی
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addBankPay()">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن فیش بانکی
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addChequePay()">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                افزودن چک
+                            </button>
+                            <!--<button type="button" class="btn btn-default btn-sm" ng-click="openChequeList()">
+                                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                خرج چک
+                            </button>-->
+                        </div>
+                    </div>
+                    <!--<div class="col-sm-4 form-inline text-left">
+                        <label>تاریخ: </label>
+                        <input date-picker="" display-numbers="" type="text" class="form-control input-sm pdate" id="payDate" ng-model="rp.DisplayDate">
+                    </div>-->
+                </div>
+                <div class="separator1 mr-t-10"></div>
+
+                <!-- ngRepeat: transaction in rp.Items -->
+                <div class="row ng-scope" ng-repeat="transaction in contract.Contract_PayRecevies[0].Contract_DetailPayRecevies">
+                    <div class="row mr-10 hesabfa-paybox" style="background-color: #337AB7; border: 1px solid #337AB7;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 1">
+                        <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">وجه نقد</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div class="col-sm-2">
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-12 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <!--<label class="col-sm-2 text-left">به صندوق:</label>
+                                <div class="col-sm-4">
+                                    <div id="receiveCashSelect{{$index}}"></div>
+                                </div>-->
+                                <div class="col-sm-3"></div>
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow2($index)" data-placement="top" title="حذف" style="background-color: #337AB7;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox ng-hide" style="background-color: #9e32bd; border: 1px solid #9e32bd;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 2">
+                        <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">فیش بانکی</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+                                <div class="col-sm-2">
+                                    <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-12 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                </div>
+                                <label class="col-sm-2 text-left">شماره فیش/ارجاع:</label>
+
+                                <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.Reference" ng-blur="calTotal()">
+
+                                <!--<label class="col-sm-1 text-left">بانک:</label>
+                                <div class="col-sm-4">
+                                    <div id="receiveBankSelect{{$index}}"></div>
+                                </div>-->
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow2($index)" data-placement="top" title="حذف" style="background-color: #9e32bd;"></span>
+                    </div>
+                    <div class="row mr-10 hesabfa-paybox ng-hide" style="background-color: #bd6532; border: 1px solid #bd6532;width:95%;margin-left: 10px;margin-right: 10px" ng-show="transaction.Type == 3">
+                        <div class="col-sm-1 text-center" style="min-height: 85px; display: table;">
+                            <div style="display: table-cell; vertical-align: middle;">چـک</div>
+                        </div>
+                        <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                            <div class="row m-b-5" style="margin-left: 5px;">
+                                <label class="col-sm-1 text-left">مبلغ:</label>
+
+                                <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount"  ng-blur="calTotal()" >
+
+                                <label class="col-sm-2 text-left">شماره چک:</label>
+
+                                <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.ChequeNumber">
+
+                                <label class="col-sm-2 text-left">تاریخ چک:</label>
+
+                                <input date-picker="" display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.DisplayDateCheque" id="chqDate{{$index}}" style="direction: ltr;"><a class="pcalBtn" href="#"></a>
+
+                            </div>
+                            <div class="row" style="margin-left: 5px;">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3"></div>
+                                <label class="col-sm-2 text-left">بانک:</label>
+
+                                <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.BankNameCheque">
+
+                                <label class="col-sm-2 text-left">شعبه:</label>
+
+                                <input display-numbers="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="transaction.BankBranchCheque">
+
+                            </div>
+                        </div>
+                        <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRow2($index)" data-placement="top" title="حذف" style="background-color: #bd6532;"></span>
+                    </div>
+                </div>
+
+
+                <!--<div class="row mr-t-5" style="padding-left: 15px;">
+                    <div class="col-md-8">
+                        <button type="submit" ng-click="savePayment()" onclick="return false;" class="btn btn-success btn-sm" style="width: 80px;" ng-disabled="rp.Items.length == 0">
+                            ثبت
+                        </button>
+                        <button ng-click="printReceiptDialog()" onclick="return false;" class="btn btn-default btn-smoke btn-sm" style="width: 80px;">چاپ رسید</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row text-left" style="border-bottom: 1px solid rgb(69, 69, 69)">
+                            <div class="col-xs-2 title1  txt-bold">جمع</div>
+                            <div class="col-xs-7 title1 txt-bold ng-binding">{{ total|digitGroup }}&nbsp;{{ getCurrency() }}</div>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="row mr-t-5 text-center" ng-show="calling">
+                    <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel-footer" ng-show="operationAccess.canInsert">
+            <div class="row">
+                <div class="col-sm-8" ng-show="!calling">
+                    <div class="btn-group col-md-7" ng-show="contract.Status < 2">
+                        <button type="button" class="btn btn-primary" ng-click="saveInvoice('saveAndSubmitForApproval')" onclick="return false;" style="width: 160px;">ذخیره و ارسال جهت تایید</button>
+                        <button type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="" ng-click="saveTemp('save')">ذخیره موقت</a></li>
+                            <li><a href="" ng-click="saveTemp('saveAndContinueEdit')">ذخیره موقت و ادامه ویرایش</a></li>
+                            <li><a href="" ng-click="saveInvoice('saveAndNext')">ذخیره و ثبت قرارداد بعدی</a></li>
+                            <li><a href="" ng-click="saveInvoice('saveAndSubmitForApproval')">ذخیره و ارسال جهت تایید</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="btn-group col-md-5 col-md-pull-3">
+                        <button type="button" class="btn btn-default btn-smoke" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="fa fa-gear" aria-hidden="true"></span>&nbsp;
+                            انتخاب ها
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-show="!showNote">
+                                <a href="" ng-click="showNote = true">
+                                    <span class="fa fa-comment-o" aria-hidden="true"></span>&nbsp;
+                                    افزودن توضیحات
+                                </a>
+                            </li>
+                            <!--<li ng-show="invoice.Status == 0 &amp;&amp; invoice.InvoiceType == 0" class="">
+                                <a href="" ng-click="printProformaInvoice()">
+                                    <span class="fa fa-print" aria-hidden="true"></span>&nbsp;
+                                    چاپ پیش قرارداد
+                                </a>
+                            </li>
+                            <li ng-show="invoice.Status == 0 &amp;&amp; invoice.InvoiceType == 0" class="">
+                                <a href="" ng-click="pdfProformaInvoice()">
+                                    <span class="fa fa-file-pdf-o" aria-hidden="true"></span>&nbsp;
+                                    PDF پیش قرارداد
+                                </a>
+                            </li>-->
+                            <!--<li>
+                                <a href="" ng-click="setAllowItemRepeat()">
+                                    <span ng-show="!allowItemRepeat" class="fa fa-remove txt-gray" aria-hidden="true"></span>
+                                    <span ng-show="allowItemRepeat" class="fa fa-check green ng-hide" aria-hidden="true"></span>&nbsp;
+                                    اجازه ثبت آیتم تکراری در قرارداد
+                                </a>
+                            </li>-->
+                            <li>
+                                <a href="" ng-click="setAutoCalTax()">
+                                    <span ng-show="!autoCalTax" class="fa fa-remove txt-gray ng-hide" aria-hidden="true"></span>
+                                    <span ng-show="autoCalTax" class="fa fa-check green" aria-hidden="true"></span>&nbsp;
+                                    محاسبه مالیات بصورت اتوماتیک
+                                </a>
+                            </li>
+                            <li ng-show="invoice.Status == 0 &amp;&amp; invoice.InvoiceType != 4" class="">
+                                <a href="" ng-click="!autoSaveInvoice ? autoSaveInvoice = true : autoSaveInvoice = false;setAutoSave(autoSaveInvoice);">
+                                    <span ng-show="!autoSaveInvoice" class="fa fa-remove txt-gray" aria-hidden="true"></span>
+                                    <span ng-show="autoSaveInvoice" class="fa fa-check green ng-hide" aria-hidden="true"></span>&nbsp;
+                                    ذخیره قرارداد بصورت خودکار هر ۱ دقیقه
+                                </a>
+                            </li>
+                            <!--<li ng-show="invoice.InvoiceType == 0" class="">
+                                <a href="" ng-click="setSendSms()">
+                                    <span ng-show="!sendSmsByApprove" class="fa fa-remove txt-gray" aria-hidden="true"></span>
+                                    <span ng-show="sendSmsByApprove" class="fa fa-check green ng-hide" aria-hidden="true"></span>&nbsp;
+                                    ارسال پیامک با تایید قرارداد&nbsp;
+                                    <span style="color: blue" ng-click="openSmsEditor()">[تنظیم]</span>
+                                </a>
+                            </li>-->
+                        </ul>
+                    </div>
+                </div>
+                <!--<div class="col-sm-6 text-left" ng-show="!calling">
+                    <div class="btn-group col-md-4 col-md-push-7">
+                        <button type="button" class="btn btn-success" ng-click="saveInvoice('approve')" onclick="return false;" style="width: 100px;">تایید</button>
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="" ng-click="saveInvoice('approve')">تایید</a></li>
+                            <li><a href="" ng-click="saveInvoice('approveAndNext')">تایید و ثبت قرارداد بعدی</a></li>
+                            <li><a href="" ng-click="saveInvoice('approveAndPrint')">تایید و چاپ</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-md-push-6">
+                        <button type="button" ng-click="cancel()" class="btn btn-default btn-smoke" style="width: 80px;">انصراف</button>
+                    </div>
+                </div>-->
+                <div class="col-sm-12 text-center ng-hide" ng-show="calling">
+                    <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

@@ -1,0 +1,46 @@
+﻿<div class="row ng-scope" style="margin-left: 0px;">
+    <div class="btn-group col-md-5 col-sm-6 col-xs-12" role="group">
+        <button type="button" class="btn btn-default btn-sm" ng-click="grid.goToPage(1)" ng-disabled="grid.currentPage <= 1" title="صفحه اول" disabled="disabled">
+            <span class="fa fa-step-forward" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-sm" ng-click="grid.previousPage()" ng-disabled="grid.currentPage <= 1" disabled="disabled">
+            <span class="fa fa-chevron-right" aria-hidden="true"></span>&nbsp;
+            صفحه قبل
+        </button>
+        <button type="button" class="btn btn-default btn-sm" ng-click="grid.nextPage()" ng-disabled="grid.currentPage == grid.totalPage" disabled="disabled">
+            صفحه بعد&nbsp;
+            <span class="fa fa-chevron-left" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-sm" ng-click="grid.goToPage(grid.totalPage)" ng-disabled="grid.currentPage == grid.totalPage" title="صفحه آخر" disabled="disabled">
+            <span class="fa fa-step-backward" aria-hidden="true"></span>
+        </button>
+
+        <div class="input-group input-group-sm" role="group">
+            <span class="input-group-addon">صفحه</span>
+            <input class="form-control text-center ng-pristine ng-untouched ng-valid" ng-model="grid.displayCurrentPage" ng-focus="grid.onPageNavigationFocus($event)" ng-blur="grid.onPageNavigationBlur()" ng-enter="grid.goToPage(grid.displayCurrentPage, $event)">
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-1 hidden-xs"></div>
+
+    <div class="input-group input-group-sm col-md-4 col-sm-5 col-xs-12" role="group">
+        <span class="input-group-addon" id="sizing-addon1">نتایج در هر صفحه:</span>
+        <input class="form-control ng-pristine ng-untouched ng-valid" ng-model="grid.rpp" ng-enter="grid.changeRpp(grid.rpp)">
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="hand ng-binding" ng-click="grid.changeRpp(10)">۱۰</a></li>
+                <li><a class="hand ng-binding" ng-click="grid.changeRpp(25)">۲۵</a></li>
+                <li><a class="hand ng-binding" ng-click="grid.changeRpp(50)">۵۰</a></li>
+                <li><a class="hand ng-binding" ng-click="grid.changeRpp(100)">۱۰۰</a></li>
+            </ul>
+        </div>
+        <span class="input-group-addon ng-hide" ng-show="pageLoading"><img src="../../Content/img/ajax-loader4.gif"></span>
+        <span class="input-group-addon ng-binding" ng-show="!pageLoading">
+            ۷ ركورد در ۱ صفحه
+        </span>
+    </div>
+</div>

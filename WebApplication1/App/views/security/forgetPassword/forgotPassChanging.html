@@ -1,0 +1,54 @@
+<div ng-controller="forgotPassChangingController" id="forgotPassChangingWrapper">
+    <div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1 forgetPasswordChanging-container">
+        <div class="col-xs-12 text-center">
+            <span class="auth-head-icon"><i class="fa fa-lock"></i></span>
+        </div>
+        <div class="col-xs-12">
+            <h4 class="font-strong text-center">تغییر رمز عبور</h4>
+        </div>
+        <div class="col-md-6 col-xs-12 no-pad-left no-pad-right">
+            <form class="form-horizontal" role="form">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label ng-bind="forgotPass.UserName" class="form-control"></label>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <input type="password" ng-model="model.newPassword" text-required="کلمه ی عبور جدید الزامیست"
+                               text-numeric-char placeholder="کلمه عبور جدید" class="form-control" tabindex="1">
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <input type="password" ng-model="model.confirmPassword" text-numeric-char text-required="تکرار کلمه ی عبور جدید الزامیست"
+                               placeholder="تکرار کلمه عبور" class="form-control" tabindex="2">
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-8 col-xs-8 " style="padding-right:0;margin-top:15px;margin-right:15px">
+                    <div class="form-group">
+                        <div class="col-xs-7">
+                            <input type="text" ng-model="model.captcha" text-required='کد امنیتی را وارد کنید ' placeholder="کد امنیتی" class="form-control ui-input-field" tabindex="4" maxlength="5">
+
+                        </div>
+                        <div class="col-md-5 col-sm-5 col-xs-12" style="padding:0">
+                            <captcha-image captchaoption="captchaOption" ng-init="resetCaptcha()" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group forget-btn">
+                        <button-validation mode="normal" class-style="btn btn-success" click="changePass(model)" tabindex="3">تغییر رمز عبور</button-validation>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <ul>
+                <li class="control-label">کلمه عبور می بایست ترکیبی از حروف و اعداد باشد.</li>
+                <li class="control-label">برای ورود به سیستم می بایست از نام کاربری و رمز عبور جدید استفاده نمایید.</li>
+                <li class="control-label">در حفظ و نگهداری نام کاربری و رمز عبور کوشا باشید.</li>
+            </ul>
+        </div>
+    </div>
+</div>

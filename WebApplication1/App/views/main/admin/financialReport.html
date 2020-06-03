@@ -1,0 +1,300 @@
+﻿          <!-- Small boxes (Stat box) -->
+<div ng-controller="financialReportController">
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h4>ترازنامه</h4>
+                    <p>مشاهده ترازنامه</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-contrast"></i>
+                </div>
+                <a href="/balanceSheet" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h4>صورت سود و زیان</h4>
+                    <p>مشاهده صورت سود و زیان</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-flame"></i>
+                </div>
+                <!--<input type="button" class="small-box-footer" ng-click="show('new')" value="نمایش" />-->
+                <a href="/incomeStatement" class="small-box-footer" ng-click="redirect('invoice','new')">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h4>صورتحساب سرمایه</h4>
+                    <p>مشاهده صورتحساب سرمایه </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="/capitalStatement" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h4>دفتر روزنامه</h4>
+                    <p>مشاهده دفتر روزنامه </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="/journalReport" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-lime">
+                <div class="inner">
+                    <h4>دفتر کل، معین و تفصیلی</h4>
+                    <p>مشاهده دفتر کل، معین و تفصیلی </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="/ledgerReport" class="small-box-footer" >نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-maroon">
+                <div class="inner">
+                    <h4>تراز حساب ها (تراز آزمایشی)</h4>
+                    <p>مشاهده تراز حساب ها (تراز آزمایشی)</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer" ng-click="redirect('chartOfAccounts','trialBalance')">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+        
+        <!--<!--<div class="col-lg-3 col-xs-6">
+            
+            <div class="small-box bg-navy">
+                <div class="inner">
+                    <h4>مرور حساب ها </h4>
+                    <p>مشاهده مرور حساب ها </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="/exploreAccounts" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>-->
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-olive">
+                <div class="inner">
+                    <h4> دفتر روزنامه در سطح معین</h4>
+                    <p>مشاهده دفتر روزنامه در سطح معین </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="/journalTotalAccountsReport" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-orange">
+                <div class="inner">
+                    <h4>  بدهکاران و بستانکاران</h4>
+                    <p>مشاهده بدهکاران و بستانکاران</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="/debtorsCreditors" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        
+      
+   
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-teal">
+                <div class="inner">
+                    <h4>فروش به تفکیک کالا </h4>
+                    <p>مشاهده فروش به تفکیک کالا </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="/salesByItem" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+        <!-- ./col-->
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-whitesmoke">
+                <div class="inner">
+                    <h4>خرید به تفکیک کالا</h4>
+                    <p>مشاهده خرید به تفکیک کالا</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="/purchase" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h4> موجودی کالا</h4>
+                    <p>مشاهده موجودی کالا </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="/inventoryRpt" class="small-box-footer" ng-click="redirect('invoice','saleReturn')">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-maroon">
+                <div class="inner">
+                    <h4>گردش حساب بانک</h4>
+                    <p>مشاهده گردش حساب بانک)</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="/bankTransactions" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-purple">
+                <div class="inner">
+                    <h4>  کارت حساب اشخاص</h4>
+                    <p>مشاهده کارت حساب اشخاص </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="/contactCard" class="small-box-footer" >نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+        <!--<div class="col-lg-3 col-xs-6">
+         
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h4>فروش کالا یا خدمات به تفکیک فاکتور</h4>
+                    <p>مشاهده فروش کالا یا خدمات به تفکیک فاکتور</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-contrast"></i>
+                </div>
+                <a href="/itemByInvoice" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+  
+        <div class="col-lg-3 col-xs-6">
+          
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h4>خرید کالا به تفکیک فاکتور</h4>
+                    <p>مشاهده خرید کالا به تفکیک فاکتور</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-flame"></i>
+                </div>
+      
+                <a href="/itemByInvoicePurchase" class="small-box-footer" ng-click="redirect('invoice','new')">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>-->
+        <!-- 
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h4> خرید، فروش و مالیات</h4>
+                    <p>(فصلی و ماهیانه) </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="/saleBuyTaxRpt" class="small-box-footer" ng-click="redirect('invoice','newBill')">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+         -->
+        
+        
+
+        <!--<div class="col-lg-3 col-xs-6">
+         
+            <div class="small-box bg-lime">
+                <div class="inner">
+                    <h4>کارت حساب کالا</h4>
+                    <p>مشاهده کارت حساب کالا </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="/itemCard" class="small-box-footer" ng-click="redirect('invoice','purchaseReturn')">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>-->
+      
+        
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-navy">
+                <div class="inner">
+                    <h4>گردش حساب صندوق</h4>
+                    <p>مشاهده گردش حساب صندوق </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="/cashTransactions" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+     
+   
+        
+          <!--
+        <div class="col-lg-3 col-xs-6">
+   
+            <div class="small-box bg-olive">
+                <div class="inner">
+                    <h4> دفتر روزنامه در سطح معین</h4>
+                    <p>مشاهده دفتر روزنامه در سطح معین </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="/moneyTransfer" class="small-box-footer">نمایش <i class="fa fa-arrow-circle-left"></i></a>
+            </div>
+        </div>
+                -->
+    </div>
+</div>

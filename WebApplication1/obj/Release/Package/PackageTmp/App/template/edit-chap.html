@@ -1,0 +1,331 @@
+﻿<div class="modal fade" id="editChapModal" tabindex="-1" role="dialog" aria-labelledby="editChapModalLabel" aria-hidden="true" style="display: none;">
+    <edit-personel open="editBankModal" bank="bank" type="type" onsuccess="getEditedPerson"></edit-personel>
+    <edit-noe-chap open="editNoeChapModal" cash="noeChap" onsuccess="getEditedNoeChap"></edit-noe-chap>
+
+    <div class="modal-dialog ui-draggable" role="document" style="width:75%">
+        <div class="modal-content">
+            <div class="modal-header modal-header-info ui-draggable-handle">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title ng-binding" id="editChapModalLabel">
+                   اطلاعات رسانه
+                </h4>
+            </div>
+            <form class="ng-pristine ng-valid ng-valid-maxlength">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <!-- ngInclude: '/dashboard/widgets/alertBox.html?ver=1.2.9.1' -->
+                        <!--<div class="alert alert-danger center-block text-right hesabfa-txt-10 ng-scope ng-hide" role="alert" style="max-width: 600px;" id="error" ng-show="alertBoxVisible">
+                            <div class="row">
+                                <div class="col-xs-1" style="margin-top: -2px;">
+                                    <span class="fa fa-exclamation-circle fa-2x" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                </div>
+                                <div class="col-xs-11" style="margin-top: 1px;">
+                                    <strong class="ng-binding"></strong>
+                                </div>
+                            </div>
+                        </div>-->
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group ">
+                                <div class="col-sm-12">
+                                    <div class="btn-group mr-10" role="group" aria-label="...">
+                                        <button type="button" class="btn btn-primary btn-sm" ng-click="addBazareab()" style="background-color: #00c0ef; border: 1px solid #00c0ef;">
+                                            <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                            بازاریابی
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm" ng-click="addTarah()" style="background-color: #00a65a; border: 1px solid #00a65a;">
+                                            <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                            طراحی
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm" ng-click="addChapkhane()" style="background-color: #dd4b39; border: 1px solid #dd4b39;">
+                                            <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                            چاپ
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm" ng-click="addNasab()" style="background-color: #f39c12; border: 1px solid #f39c12;">
+                                            <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                                            نصب
+                                        </button>
+                                  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        
+                    </div>
+                   
+                   
+                    <div class="separator1"></div>
+                    <div ng-repeat="bazareab in bazareabs">
+                        <div class="row mr-10  hesabfa-paybox" style="background-color: #00c0ef; border: 1px solid #00c0ef;" ng-show="true">
+                            <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                                <div style="display: table-cell; vertical-align: middle;">بازاریابی</div>
+                            </div>
+                            <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                                <div class="row" style="margin-left: 5px;">
+                                    <label class="col-sm-1 text-left">بازاریاب:</label>
+                                    <div class="col-sm-3 p-0">
+                                        <div id="bazaryabSelect{{$index}}"></div>
+                                    </div>
+                           
+                                    <div id="divMainBazryab{{$index}}" style="display:none">
+                                        <label class="col-sm-2 text-left">نوع دستمزد:</label>
+                                        <div class="col-sm-2 p-0">
+
+                                            <div class="dropdown">
+                                                <button class="btn btn-default btn-sm dropdown-toggle ng-binding" type="button" style="width: 100%;text-align: right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                                                    <span ng-if="bazareab.NoeMozdBazryab == 1">پروژه ای</span>
+                                                    <span ng-if="bazareab.NoeMozdBazryab == 2">ماهانه</span>
+                                                    <span class="fa fa-caret-down pull-left"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                                                    <li><a href="" ng-click="setNoeMozdBazryab(1,$index)">پروژه ای</a></li>
+                                                    <li><a href="" ng-click="setNoeMozdBazryab(2,$index)">ماهانه</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div id="divBazryab{{$index}}" style="display:none">
+                                            <label class="col-sm-2 text-left">درصد :</label>
+                                            <div>
+                                                <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-2 form-control input-sm ng-valid" ng-model="bazareab.Darsad" ng-blur="calTotal() " required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRowBazareab($index)" data-placement="top" title="حذف" style="color: #00c0ef;"></span>
+
+
+
+                        </div>
+                    </div>
+
+                    <div ng-repeat="tarah in tarahs">
+                        <div class="row mr-10  hesabfa-paybox" style="background-color: #00a65a; border: 1px solid #00a65a;" ng-show="true">
+                            <div class="col-sm-1 text-center" style="min-height: 58px; display: table;">
+                                <div style="display: table-cell; vertical-align: middle;">طراحی</div>
+                            </div>
+                            <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                                <div class="row  m-b-5" style="margin-left: 5px;">
+                                    <label class="col-sm-1 text-left">طراح:</label>
+                                    <div class="col-sm-3 p-0">
+                                        <div id="tarahSelect{{$index}}"></div>
+                                    </div>
+                                    <div id="divMainTarah1{{$index}}" style="display:none">
+                                        <div class="col-sm-6">
+                                            <label class="col-sm-4 text-left">مبلغ مشتری:</label>
+                                            <div>
+                                                <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-6 form-control input-sm ng-valid" ng-model="tarah.HazineMoshtari" ng-blur="calTotal()" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                <div id="divMainTarah2{{$index}}" style="display:none">
+                                    <div class="row m-b-5" style="margin-left:5px;">
+                                        <label class="col-sm-1 text-left"> دستمزد:</label>
+                                        <div class="col-sm-3 p-0">
+
+                                            <div class="dropdown">
+                                                <button class="btn btn-default btn-sm dropdown-toggle ng-binding" type="button" style="width: 100%;text-align: right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                                                    <span ng-if="tarah.NoeMozdTarah == 1">پروژه ای</span>
+                                                    <span ng-if="tarah.NoeMozdTarah == 2">ماهانه</span>
+                                                    <span class="fa fa-caret-down pull-left"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                                                    <li><a href="" ng-click="setNoeMozdTarah(1,$index)">پروژه ای</a></li>
+                                                    <li><a href="" ng-click="setNoeMozdTarah(2,$index)">ماهانه</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div id="divTarah{{$index}}" class="col-sm-6"  style="display:none">
+                                            <label class="col-sm-4 text-left">هزینه طراح:</label>
+                                            <div>
+                                                <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-6 form-control input-sm ng-valid" ng-model="tarah.Hazine" ng-blur="calTotal()" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            <span class="fa fa-remove hesabfa-paybox-remove" aria-hidden="true" data-toggle="tooltip" ng-click="deleteRowTarah($index)" data-placement="top" title="حذف" style="color: #00a65a;"></span>
+                        </div>
+
+
+                    </div>
+
+                    
+
+                    <div ng-repeat="chapkhane in chapkhanes">
+                        <div class="row mr-10 hesabfa-paybox" style="background-color: #dd4b39; border: 1px solid #dd4b39;" ng-show="true">
+                            <div class="col-sm-1 text-center p-0" style="min-height: 58px; display: table;">
+                                <div style="display: table-cell; vertical-align: middle;">
+                                    چاپ
+
+                                </div>
+                            </div>
+                            <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                                <div class="row m-b-5" style="margin-left: 5px;">
+                                    <label class="col-sm-1 text-left">کاربر:</label>
+                                    <div class="col-sm-3 p-0">
+                                        <div id="chapkhanehSelect{{$index}}"></div>
+                                    </div>
+                                    <div id="divMainChap1{{$index}}" style="display:none">
+                                        <div id="divChap1{{$index}}" class="col-sm-4" style="display:none">
+                                            <label class="col-sm-6 text-left">فی چاپخانه:</label>
+                                            <div>
+                                                <input display-numbers="" digit-group="" type="text" class="col-sm-6 form-control input-sm ng-valid" ng-model="chapkhane.FiChapkhane" required ng-keyup="calcAmountChap($index)">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label class="col-sm-6 text-left"> فی مشتری:</label>
+                                            <div>
+                                                <input display-numbers="" digit-group="" type="text" class="col-sm-6 form-control input-sm ng-valid" ng-model="chapkhane.FiMoshtari" required ng-keyup="calcAmountMoshtari($index)">
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+               
+                                    <div id="divMainChap2{{$index}}"  class="row m-b-5" style="margin-left: 5px;display:none">
+                                        <label class="col-sm-1 text-left">نوع :</label>
+                                        <div class="col-sm-3 p-0">
+                                            <div id="noeChapSelect{{$index}}"></div>
+                                        </div>
+                                        <div id="divChap2{{$index}}" class="col-sm-4" style="display:none">
+                                            <label class="col-sm-6 text-left">متراژ چاپخانه:</label>
+                                            <div>
+                                                <input display-numbers="" digit-group="" type="text" class="col-sm-6 form-control input-sm ng-valid" ng-model="chapkhane.MetrazhChapkhane" required ng-keyup="calcAmountChap($index)">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label class="col-sm-6 text-left">متراژ مشتری:</label>
+                                            <div>
+                                                <input display-numbers="" digit-group="" type="text" class="col-sm-6 form-control input-sm ng-valid" ng-model="chapkhane.MetrazhMoshtari" required ng-keyup="calcAmountMoshtari($index)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="divMainChap3{{$index}}"  class="row m-b-5" style="margin-left: 5px;display:none">
+                                        <label class="col-sm-1 text-left"> چاپخانه:</label>
+                                        <div class="col-sm-3 p-0">
+
+                                            <div class="dropdown">
+                                                <button class="btn btn-default btn-sm dropdown-toggle ng-binding" type="button" style="width: 100%;text-align: right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                                                    <span ng-if="chapkhane.ChapkhaneType == 1">چاپخانه شرکت</span>
+                                                    <span ng-if="chapkhane.ChapkhaneType == 2">چاپخانه دیگر</span>
+                                                    <span class="fa fa-caret-down pull-left"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                                                    <li><a href="#" ng-click="setChapkhaneType(1,$index)">چاپخانه شرکت</a></li>
+                                                    <li><a href="#" ng-click="setChapkhaneType(2,$index)">چاپخانه دیگر</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div id="divChap3{{$index}}" class="col-md-4" style="display:none">
+                                            <label class="col-sm-6 text-left">جمع چاپخانه:</label>
+                                            <div>
+                                                <input display-numbers="" digit-group="" type="text" class="col-sm-6 form-control input-sm ng-valid" ng-model="chapkhane.TotalChapkhane" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label class="col-sm-6 text-left">جمع مشتری:</label>
+                                            <div>
+                                                <input display-numbers="" digit-group="" type="text" class="col-sm-6 form-control input-sm ng-valid" ng-model="chapkhane.TotalMoshtari" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                         
+                                </div>
+                            <span class="fa fa-remove hesabfa-paybox-remove" data-toggle="tooltip" ng-click="deleteRowChapkhane($index)" data-placement="top" title="حذف" style="color: #dd4b39;"></span>
+                        </div>
+                    </div>
+
+                    <div ng-repeat="nasab in nasabs">
+                        <div class="row mr-10 hesabfa-paybox" style="background-color: #f39c12; border: 1px solid #f39c12;" ng-show="true">
+                            <div class="col-sm-1 text-center " style="min-height: 58px; display: table;">
+                                <div style="display: table-cell; vertical-align: middle;">
+                                    نصب
+
+                                </div>
+                            </div>
+                            <div class="col-sm-11 pd-10" style="padding-top: 15px; background-color: white; color: rgb(34, 34, 34);">
+                                <div class="row m-b-5" style="margin-left: 5px;">
+                                    <label class="col-sm-1 text-left">نصاب:</label>
+                                    <div class="col-sm-3 p-0">
+                                        <div id="nasabSelect{{$index}}"></div>
+                                    </div>
+                                    <div id="divMainNasab1{{$index}}" style="display:none">
+                                        <div class="col-sm-6">
+                                            <label class="col-sm-4 text-left">مبلغ مشتری:</label>
+                                            <div>
+                                                <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-6 form-control input-sm ng-valid" ng-model="nasab.HazineMoshtari" ng-blur="calTotal()" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                    
+                                    <div id="divMainNasab2{{$index}}" class="row m-b-5" style="margin-left: 5px;display:none">
+
+
+                                        <label class="col-sm-1 text-left"> دستمزد:</label>
+                                        <div class="col-sm-3 p-0">
+
+                                            <div class="dropdown">
+                                                <button class="btn btn-default btn-sm dropdown-toggle ng-binding" type="button" style="width: 100%;text-align: right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                                                    <span ng-if="nasab.NoeMozdNasab == 1">پروژه ای</span>
+                                                    <span ng-if="nasab.NoeMozdNasab == 2">ماهانه</span>
+                                                    <span class="fa fa-caret-down pull-left"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                                                    <li><a href="" ng-click="setNoeMozdNasab(1,$index)">پروژه ای</a></li>
+                                                    <li><a href="" ng-click="setNoeMozdNasab(2,$index)">ماهانه</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div id="divNasab{{$index}}" class="col-sm-6"  style="display:none">
+                                            <label class="col-sm-4 text-left">هزینه نصاب:</label>
+                                            <div>
+                                                <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-6 form-control input-sm ng-valid" ng-model="nasab.Hazine" ng-blur="calTotal()" required>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            <span class="fa fa-remove hesabfa-paybox-remove" data-toggle="tooltip" ng-click="deleteRowNasab($index)" data-placement="top" title="حذف" style="color: #f39c12;"></span>
+                        </div>
+                    </div>
+
+                    <div class="separator1"></div>
+                    
+                </div>
+
+                <div class="modal-footer">
+    
+
+                    <button type="submit" onclick="return false;" class="btn btn-success" ng-click="submitItem()" ng-show="!calling">
+                        ثبت
+                    </button>
+                   
+                    
+               
+                    <button type="button" class="btn btn-default btn-smoke" data-dismiss="modal" ng-show="!calling">انصراف</button>
+               
+                 
+                    <div ng-show="calling" class="text-center ng-hide"><span><img src="../../Content/img/ajax-loader4.gif"></span></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

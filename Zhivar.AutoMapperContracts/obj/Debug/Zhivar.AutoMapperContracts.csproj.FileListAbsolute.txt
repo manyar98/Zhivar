@@ -1,0 +1,12 @@
+E:\Personal\Projects\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\bin\Debug\Zhivar.AutoMapperContracts.dll
+E:\Personal\Projects\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\bin\Debug\Zhivar.AutoMapperContracts.pdb
+E:\Personal\Projects\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\obj\Debug\Zhivar.AutoMapperContracts.dll
+E:\Personal\Projects\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\obj\Debug\Zhivar.AutoMapperContracts.pdb
+E:\Personal\Projects\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\obj\Debug\Zhivar.AutoMapperContracts.csproj.CoreCompileInputs.cache
+E:\Personal\Projects\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\obj\Debug\Zhivar.AutoMapperContracts.csprojAssemblyReference.cache
+D:\zhivarV5_3\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\bin\Debug\Zhivar.AutoMapperContracts.dll
+D:\zhivarV5_3\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\bin\Debug\Zhivar.AutoMapperContracts.pdb
+D:\zhivarV5_3\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\obj\Debug\Zhivar.AutoMapperContracts.csprojAssemblyReference.cache
+D:\zhivarV5_3\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\obj\Debug\Zhivar.AutoMapperContracts.csproj.CoreCompileInputs.cache
+D:\zhivarV5_3\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\obj\Debug\Zhivar.AutoMapperContracts.dll
+D:\zhivarV5_3\zhivarV5_3\zhivarV5\Zhivar.AutoMapperContracts\obj\Debug\Zhivar.AutoMapperContracts.pdb

@@ -1,0 +1,226 @@
+﻿<div class="container ng-scope" ng-controller="chartOfAccountsController" style="width:100%">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <!-- ngInclude: '/dashboard/widgets/alertBox.html?ver=1.2.9.1' -->
+    <edit-account open="editAccountModal" account="account" accounts="grid.data" onsuccess="getEditedAccount" system-account-types="systemAccountTypes"></edit-account>
+
+    <div ng-show="!loading">
+
+        <!--<div class="row" ng-show="showTrialBalance">
+            <div class="col-sm-4 col-sm-offset-4 m-b-5">
+                <date-range on-range-change="getTrialBalance()" from-date="fromDate" to-date="toDate"></date-range>
+            </div>
+        </div>-->
+
+        <div class="panel panel-info center-block hesabfa-panel" id="panelAccounts">
+            <div class="panel-heading">
+                <span class="panel-title" ng-show="!showTrialBalance"><strong>لیست حساب ها</strong></span>
+                <span class="panel-title" ng-show="showTrialBalance"><strong>تراز حساب ها (تراز آزمایشی)</strong></span>
+            </div>
+            <div class="panel-body hesabfa-panel-body">
+                <!-- ngIf: !showTrialBalance -->
+                <!-- ngIf: !setupMode && !showTrialBalance -->
+                <!-- ngIf: setupMode -->
+                <!-- ngIf: setupMode -->
+
+                <div ng-show="!deleteAlertQuestion &amp;&amp; !showTrialBalance">
+                    <button class="btn btn-info mr-b-10" ng-click="addAccount()" id="addAccountBtn">
+                        <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                        افزودن حساب
+                    </button>
+                    <button class="btn btn-danger mr-b-10" ng-click="deleteAccountAlert()" ng-show="grid.getSelectedItems().length > 0" id="addAccountBtn">حذف</button>
+                    <!-- <li role="presentation" class="pull-left hidden-xs">-->
+                    <!-- <form class="form-inline pull-left hidden-xs">-->
+                    <!-- <div class="form-group">-->
+                    <!-- <div class="input-group">-->
+                    <!-- <div class="input-group-addon"><span class="fa fa-search" aria-hidden="true"></span></div>-->
+                    <!-- <input-text class="form-control input-sm" ng-model="searchKey" ng-change="search()" placeholder="جستجو..." style="width: 250px;"></input-text>-->
+                    <!-- </div>-->
+                    <!-- </div>-->
+                    <!-- </form>-->
+                    <!-- </li>-->
+                </div>
+                <div ng-show="deleteAlertQuestion &amp;&amp; !showTrialBalance">
+                    آیا از حذف حساب
+                    <span ng-show="grid.getSelectedItems().length > 1">های</span>
+                    انتخاب شده مطمئن هستید؟
+                    <button ng-click="deleteAccount()" onclick="return false;" class="btn btn-danger btn-sm" style="width: 80px;">حذف</button>
+                    <button ng-click="cancelDelete()" onclick="return false;" class="btn btn-default btn-smoke btn-sm" style="width: 80px;">انصراف</button>
+                </div>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs mr-b-10" role="tablist" id="tabs" ng-show="!showTrialBalance">
+                    <li role="presentation" class="active"><a href="javascript:void(0)" ng-click="grid.removeFilter();grid.applySort();" aria-controls="all" role="tab">تمام حساب ها</a></li>
+                    <li role="presentation"><a class="hand" ng-click="grid.applyFilter('GroupCode',1);grid.applySort();" aria-controls="assets" role="tab">دارایی ها</a></li>
+                    <li role="presentation"><a class="hand" ng-click="grid.applyFilter('GroupCode',2);grid.applySort();" aria-controls="liabilities" role="tab">بدهی ها</a></li>
+                    <li role="presentation"><a class="hand" ng-click="grid.applyFilter('GroupCode',3);grid.applySort();" aria-controls="equity" role="tab">حقوق صاحبان سهام</a></li>
+                    <li role="presentation"><a class="hand" ng-click="grid.applyFilter('GroupCode',5);grid.applySort();" aria-controls="income" role="tab">خرید</a></li>
+                    <li role="presentation"><a class="hand" ng-click="grid.applyFilter('GroupCode',6);grid.applySort();" aria-controls="expenses" role="tab">فروش</a></li>
+                    <li role="presentation"><a class="hand" ng-click="grid.applyFilter('GroupCode',7);grid.applySort();" aria-controls="expenses" role="tab">درآمد ها</a></li>
+                    <li role="presentation"><a class="hand" ng-click="grid.applyFilter('GroupCode',8);grid.applySort();" aria-controls="expenses" role="tab">هزینه ها</a></li>
+                    <li role="presentation"><a class="hand" ng-click="grid.applyFilter('GroupCode',9);grid.applySort();" aria-controls="expenses" role="tab">سایر حساب ها</a></li>
+                </ul>
+                <div class="row visible-xs mr-b-5" ng-show="!showTrialBalance">
+                    <div class="col-xs-12">
+                        <form class="form-inline ng-pristine ng-valid">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><span class="fa fa-search" aria-hidden="true"></span></div>
+                                    <input display-numbers="" type="text" class="form-control input-sm" ng-model="searchKey" ng-change="search()" placeholder="جستجو...">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped table-hover" id="grid">
+                    <thead>
+                        <tr class="active" style="font-size: 9pt; font-weight: bold;">
+                            <td style="width: 20px; overflow: auto;">
+                                <input type="checkbox" id="selectAllCheckbox" ng-model="grid.checkAll" disabled="disabled" class="ng-pristine ng-untouched ng-valid">
+                            </td>
+                            <td style="width: 50px;">ردیف</td>
+                            <td>
+                                <span>نام حساب</span>
+                                &nbsp;<span class="fa green" ng-class="!grid.sortAsc ? 'fa-sort-asc green' : 'fa-sort-desc orangered' " aria-hidden="true" ng-show="grid.sortField == 'Name'"></span>
+                            </td>
+                            <td>
+                                <span>كـد</span>
+                                &nbsp;<span class="fa green" ng-class="!grid.sortAsc ? 'fa-sort-asc green' : 'fa-sort-desc orangered' " aria-hidden="true" ng-show="grid.sortField == 'Code'"></span>
+                            </td>
+                            <td>
+                                <span>کدینگ (کد کامل)</span>
+                                &nbsp;<span class="fa green" ng-class="!grid.sortAsc ? 'fa-sort-asc green' : 'fa-sort-desc orangered' " aria-hidden="true" ng-show="grid.sortField == 'Coding'"></span>
+                            </td>
+                            <td ng-show="showTrialBalance"><span>مانده بدهکار</span></td>
+                            <td ng-show="showTrialBalance"><span>مانده بستانکار</span></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ngRepeat: account in grid.pageData -->
+                        <tr ng-repeat="account in grid.pageData" ng-click="editAccount(account);" class="hand ng-scope" ng-class="{'bg-selected': account.checked}">
+                            <td ng-click="noClick($event)" class="text-center">
+                                <input type="checkbox" id="blankCheckbox" ng-model="account.checked" ng-show="account.SystemAccount == 0" class="ng-pristine ng-untouched ng-valid ng-hide">
+                                <span class="fa fa-lock" aria-hidden="true" ng-show="account.SystemAccount > 0" title="تنخواه گردان"></span>
+                            </td>
+                            <td class="text-center ng-binding">{{($index + 1) | number}}</td>
+                            <td style="margin: 0px;">
+                                <div ng-class="classByLevel(account.Level)" class="ng-binding account-level3" style="text-align:center">
+                                    {{account.Name}}({{account.LevelString}})
+                                </div>
+                            </td>
+                            <td style="margin: 0px;text-align:center" class="ng-binding">{{account.Code |number}}</td>
+                            <td style="margin: 0px;text-align:center" class="text-primary"><strong class="ng-binding">{{account.Coding |number}}</strong></td>
+                            <td style="margin: 0px;text-align:center" ng-show="showTrialBalance">
+                                <span ng-show="account.Level == 3" class="ng-binding">{{account.BalanceType == 0 ? (account.Balance|digitGroup) : (0|digitGroup) }}</span>
+                            </td>
+                            <td style="margin: 0px;text-align:center" ng-show="showTrialBalance">
+                                <span ng-show="account.Level == 3" class="ng-binding">{{ account.BalanceType != 0 ? (account.Balance|digitGroup) : (0|digitGroup)}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot ng-show="showTrialBalance">
+                        <tr ng-class="sumDebitBalance == sumCreditBalance ? 'bg-success' : 'bg-danger'">
+                            <td ng-click="noClick($event)" class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td style="margin: 0px;">جمع</td>
+                            <td style="margin: 0px;"></td>
+                            <td style="margin: 0px;"></td>
+                            <td style="margin: 0px;">
+                                <span class="ng-binding">{{ sumDebitBalance|digitGroup }}</span>
+                            </td>
+                            <td style="margin: 0px;">
+                                <span class="ng-binding">{{ sumCreditBalance|digitGroup }}</span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default btn-sm col-md-2" ng-click="grid.previousPage()" ng-disabled="grid.currentPage == 1">
+                        <span class="fa fa-chevron-right" aria-hidden="true"></span>&nbsp;
+                        صفحه قبل
+                    </button>
+                    <button type="button" class="btn btn-default btn-sm col-md-2" ng-click="grid.nextPage()" ng-disabled="grid.currentPage == grid.totalPage">
+                        صفحه بعد&nbsp;
+                        <span class="fa fa-chevron-left" aria-hidden="true"></span>
+                    </button>
+
+
+                    <button type="button" class="btn btn-default btn-sm ng-binding col-md-1">صفحه {{ grid.currentPage }}</button>
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="page in grid.pages" class="ng-scope">
+                            <a class="hand ng-binding" ng-click="grid.goToPage(page)">{{page.Title}}</a>
+                        </li>
+                        <!-- ngRepeat: page in grid.pages -->
+                    </ul>
+
+
+                    <div class="btn-group col-md-3" role="group">
+                        <button type="button" class="btn btn-default btn-sm ng-binding">نتایج در هر صفحه: {{ grid.rpp }}</button>
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            <li><a class="hand" ng-click="grid.changeRpp(10)">10</a></li>
+                            <li><a class="hand" ng-click="grid.changeRpp(25)">25</a></li>
+                            <li><a class="hand" ng-click="grid.changeRpp(50)">50</a></li>
+                            <li><a class="hand" ng-click="grid.changeRpp(100)">100</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div class="btn-group pull-left col-md-2" role="group">
+                        <button type="button" class="btn btn-default btn-sm ng-binding">
+                            {{ grid.gridData.length }} ركورد در {{ grid.pages.length }} صفحه
+                        </button>
+                    </div>
+                </div>
+               <!-- <div class="row">
+                    <div class="col-md-12">
+                        <button ng-show="showTrialBalance &amp;&amp; !updatingBalances" class="btn btn-default btn-smoke btn-sm mr-t-10" ng-click="updateAccountsBalance()">
+                            <span class="fa fa-refresh" aria-hidden="true"></span>&nbsp;
+                            بروزرسانی و اصلاح تراز حساب ها
+                        </button>
+                        <button ng-show="showTrialBalance" class="btn btn-default btn-smoke btn-sm mr-t-10" data-toggle="modal" ng-click="exportTrialBalanceToExcel()">
+                            <span class="fa fa-file-excel-o" aria-hidden="true"></span>&nbsp;
+                            خروج تراز آزمایشی به اکسل
+                        </button>
+                        <span ng-show="updatingBalances">
+                            <img src="../../../Content/img/ajax-loader4.gif">
+                            &nbsp; در حال بروزرسانی تراز حساب ها...
+                        </span>
+                    </div>
+                </div>-->
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری جدول حساب ها...</div>
+    </div>
+
+    <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+                    <div>در حال گرفتن خروجی اکسل...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

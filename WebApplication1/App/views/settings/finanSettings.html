@@ -1,0 +1,117 @@
+﻿
+    <div class="container ng-scope" ng-controller="finanSettingsController" style="width:100%">
+
+        <div class="well">
+            <ncy-breadcrumb></ncy-breadcrumb>
+            <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+        </div>
+
+        <!-- ngIf: setupMode -->
+        <alert message="alertMessage" alert-type="alertType" ng-show="alert"></alert>
+
+        <div class="panel panel-info center-block hesabfa-panel">
+            <div class="panel-heading">
+                <span class="panel-title hesabfa-txt-9"><strong>تنظیمات مالی</strong></span>
+            </div>
+            <div class="panel-body hesabfa-panel-body">
+                <form class="ng-pristine ng-valid">
+
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label class="title1">واحد پول <span class="red">*</span></label>
+                                <div class="dropdown">
+                                    <button class="btn btn-default btn-sm dropdown-toggle ng-binding" type="button" id="dropdownMenu1" style="width: 100%;text-align: right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        {{ Hesabfa.currencies[_business.currency] }}
+                                        <span class="fa fa-caret-down pull-left"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                                        <li>
+                                        <a ng-repeat="currency in Hesabfa.currencies" ng-click="_business.currency = $index" href="" class="ng-binding ng-scope">{{currency}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <span id="inputCurrencyhelp" class="help-block small">واحد پولی که کسب و کار شما در اسناد مالی و گزارشات بکار میبرد را انتخاب کنید.</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label class="title1">تقویم <span class="red">*</span></label>
+                                <div class="dropdown">
+                                    <button class="btn btn-default btn-sm dropdown-toggle ng-binding" type="button" id="dropdownMenu2" style="width: 100%; text-align: right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        {{ Hesabfa.calendars[_business.calendarType] }}<!--ng-disabled="Hesabfa.calendar"-->
+                                        <span class="fa fa-caret-down pull-left"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <li>
+                                            <a ng-repeat="calendar in Hesabfa.calendars" ng-click="_business.calendars = $index" href="" class="ng-binding ng-scope">{{calendar}}</a>
+                                            <!-- ngRepeat: calendar in Hesabfa.calendars -->
+                                        </li>
+                                    </ul>
+                                </div>
+                                <span id="inputCalendarhelp" class="help-block small">تقویم کسب و کار خود را انتخاب کنید. تقویم پس از انتخاب قابل تغییر نیست.</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="title1">تاریخ شروع سال مالی <span class="red">*</span></label>
+                                <div>
+                                    <input class="form-control input-sm ng-pristine ng-untouched ng-valid" type="text" date-picker="" display-numbers="" id="startDateShamsi" ng-model="startDateShamsi" calendar-type="0" ng-show="_business.calendarType == 0">
+                                </div>
+                                <div>
+                                    <input class="form-control input-sm ng-pristine ng-untouched ng-valid" type="text" date-picker="" id="startDateGregorian" ng-model="startDateGregorian" calendar-type="1" ng-show="_business.calendarType == 1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="title1">تاریخ پایان سال مالی <span class="red">*</span></label>
+                                <div>
+                                    <input class="form-control input-sm ng-pristine ng-untouched ng-valid" type="text" date-picker="" display-numbers="" id="endDateShamsi" ng-model="endDateShamsi" calendar-type="0" ng-blur="endDateLeave()" ng-show="_business.calendarType == 0">
+                                </div>
+                                <div>
+                                    <input class="form-control input-sm ng-pristine ng-untouched ng-valid" type="text" date-picker="" id="endDateGregorian" ng-model="endDateGregorian" calendar-type="1" ng-blur="endDateLeave()" ng-show="_business.calendarType == 1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="inputFinanYearName" class="title1">عنوان سال مالی <span class="red">*</span></label>
+                                <input display-numbers="" type="text" class="form-control input-sm" id="inputFinanYearName" ng-model="_finanYear.name" maxlength="40" aria-describedby="inputFinanYearNamehelp">
+                                <span id="inputFinanYearNamehelp" class="help-block small">
+                                    عنوانی که در گزارشات و جهت انتخاب سال مالی در برنامه نشان داده می شود.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="inputTaxRate" class="title1">نرخ مالیات بر ارزش افزوده <span class="red">*</span></label>
+                                <div class="input-group">
+                                    <input display-numbers="" keyboard-filter="float" type="text" class="form-control input-sm" id="inputTaxRate" ng-model="_business.taxRate" aria-describedby="inputTaxRatehelp">
+                                    <span class="input-group-addon" id="basic-addon1">%</span>
+                                </div>
+                                <span id="inputTaxRatehelp" class="help-block small">نرخ مالیات بر ارزش افزوده</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;"></div>
+                </form>
+            </div>
+            <!-- ngIf: !setupMode -->
+            <div class="panel-footer ng-scope" ng-if="!setupMode">
+                <button type="submit" ng-click="saveFinanSettings('save')" ng-show="!calling" onclick="return false;" class="btn btn-success">ثبت و ذخیره</button>
+                <button ng-click="go('/dashboard/0/7')" ng-show="!calling" onclick="return false;" class="btn btn-default btn-smoke pull-left" style="width: 80px;">انصراف</button>
+                <span ng-show="calling" class="ng-hide"><img src="../../../Content/img/ajax-loader4.gif"></span>
+            </div>
+        </div>
+        <!-- ngIf: setupMode -->
+    </div>

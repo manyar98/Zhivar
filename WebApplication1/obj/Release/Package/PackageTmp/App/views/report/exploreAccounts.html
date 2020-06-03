@@ -1,0 +1,41 @@
+﻿<div class="container ng-scope" ng-controller="exploreAccountsController" style="width:100%">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <div class="row">
+        <div class="col-xs-1 nopadding" style="padding: 0px;">
+            <div class="hesabfa-side-tab text-center" ng-class="level == 0 ? 'hesabfa-side-tab-active' : ''" ng-click="requestLevel(0)">کل</div>
+            <div class="hesabfa-side-tab text-center" ng-class="level == 1 ? 'hesabfa-side-tab-active' : ''" ng-click="requestLevel(1)">معین</div>
+            <div class="hesabfa-side-tab text-center" ng-class="level == 2 ? 'hesabfa-side-tab-active' : ''" ng-click="requestLevel(2)">تفصیلی</div>
+        </div>
+        <div class="col-xs-11" style="border-right: 3px solid #5bc0de;">
+            <div class="row">
+                <div class="col-sm-5">
+                    <ol class="breadcrumb iransanslight" style="margin: 0">
+                        <!--<li class="ng-binding">{{ level &gt; 0 ? totalAccount.Name : "حساب های کل" }}</li>
+                        <li ng-show="level == 2" class="ng-binding">{{ account.Name }}</li>-->
+                    </ol>
+                </div>
+                <div class="col-sm-3 text-center">
+                    <date-range on-range-change="getAccountsToExplore()" from-date="fromDate" to-date="toDate"></date-range>
+                </div>
+                <div class="col-sm-4 text-left">
+                    <button class="btn btn-default btn-smoke" ng-click="print()">
+                        <span class="fa fa-print"></span>&nbsp;
+                        چاپ
+                    </button>
+                    <button class="btn btn-default btn-smoke" ng-click="pdf()">
+                        <span class="fa fa-file-pdf-o"></span>&nbsp;
+                        PDF
+                    </button>
+                    <button class="btn btn-default btn-smoke" ng-click="excel()">
+                        <span class="fa fa-file-excel-o"></span>&nbsp;
+                        Excel
+                    </button>
+                </div>
+            </div>
+            <div id="gridContainer"></div>
+        </div>
+    </div>
+</div>

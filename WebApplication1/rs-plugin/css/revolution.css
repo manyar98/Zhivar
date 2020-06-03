@@ -1,0 +1,93 @@
+.rs-wrapper{
+    float: left;
+    width: 100%;
+    margin-bottom: 21px;
+    position: relative;
+}
+.fullwidthbanner-container{
+    width: 100% !important;
+    position: relative;
+    padding-bottom: 49px;
+    max-height: 413px !important;
+    overflow: hidden;
+}
+
+.fullwidthbanner{
+    max-height: 413px;
+    border-bottom: 1px solid #e6e6e6;
+    background: #f6f6f6;
+}
+
+
+/***********************************
+        -	CAPTIONS	-
+************************************/
+.tp-caption.regular_title, 
+.tp-caption.regular_title2, 
+.tp-caption.regular_title3{
+    font: bold 30px BYeKan, Tahoma;
+    color: #fff;
+    text-shadow: 2px 1px #444;
+    white-space: normal !important;
+    line-height: 32px;
+    background: #01918f;
+    padding: 3px 5px;
+}
+
+.tp-caption.regular_title{ 
+    width: 320px !important;
+}
+
+.tp-caption.regular_title2{
+    width: 170px;
+}
+
+.tp-caption.regular_title3{
+    width: 437px;
+}
+
+.tp-caption.regular_subtitle{
+    font: 18px BYeKan, Tahoma;
+    color: #333;
+    font-weight: 300;
+    background-color: #eee;
+    background-image: url('../assets/arrow.png');
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    width: 320px;
+    padding-right: 25px;
+    padding-Left: 15px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    white-space: normal !important;
+    line-height: 15px;
+    
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.tp-caption.caption-subtitle{
+        width: 330px;
+}
+
+.tp-caption.caption-subtitle-2{
+    width: 370px !important;
+}
+
+.tp-caption.caption-subtitle-3{
+    width: 510px !important;
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 959px){
+
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px){
+
+}
+
+@media only screen and (min-width: 320px) and (max-width: 479px){
+
+}

@@ -1,0 +1,17 @@
+<div id="tree-drop-down-wrapper">
+    <div class="col-md-12 panel-main-tree k-rtl">
+        <input class="combo-message" type="text" text-required='انتخاب الزاميست' ng-model="dropDownModel.title" style="display: none;" />
+        <span class="k-widget k-dropdown k-combo-tree k-header form-control " unselectable="on" role="listbox"
+              aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="{{dropDownModel.disabled}}" aria-readonly="false" aria-busy="false">
+            <span class="k-dropdown-wrap" unselectable="on" ng-class="dropDownModel.disabled ? 'k-state-disabled' : 'k-state-default'">
+                <span class="k-input k-input-combo-tree  ng-scope" unselectable="on" ng-bind="dropDownModel.optionLabel"></span>
+                <span class="k-select" unselectable="on">
+                    <span class="k-icon k-i-arrow-s" unselectable="on">select</span>
+                </span>
+            </span>
+        </span>
+        <div class="drop-down-list-wrapper k-rtl">
+            <div class="tree-drop-down-list"></div>
+        </div>
+    </div>
+</div>

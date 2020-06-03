@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C9DF9003-E0FC-487E-91F0-40D860CBF11F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Zhivar.ViewModel</RootNamespace>
+    <AssemblyName>Zhivar.ViewModel</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\zhivar\Zhivar\OMF.Common\bin\Debug\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\..\..\Zhivar\Zhivar.ViewModel\bin\Debug\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\..\..\Zhivar\Zhivar.ViewModel\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\..\..\Zhivar\Zhivar.ViewModel\bin\Debug\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\..\..\Zhivar\Zhivar.ViewModel\bin\Debug\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\..\..\Zhivar\Zhivar.ViewModel\bin\Debug\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\..\..\Zhivar\Zhivar.ViewModel\bin\Debug\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\BehshoSolution\Behsho.Web\bin\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accunting\AccountVM.cs" />
+    <Compile Include="Accunting\BalanceModelVM.cs" />
+    <Compile Include="Accunting\CapitalStatement.cs" />
+    <Compile Include="Accunting\CasheBankVM.cs" />
+    <Compile Include="Accunting\CashTransactionVM.cs" />
+    <Compile Include="Accunting\ChequeToPayVM.cs" />
+    <Compile Include="Accunting\CostData.cs" />
+    <Compile Include="Accunting\CostItemVM.cs" />
+    <Compile Include="Accunting\CostTransObj.cs" />
+    <Compile Include="Accunting\CostVM.cs" />
+    <Compile Include="Accunting\DetailPayRecevieVM.cs" />
+    <Compile Include="Accunting\FinanAccount.cs" />
+    <Compile Include="Accunting\IncomeStatement.cs" />
+    <Compile Include="Accunting\InvoiceItemContactItem.cs" />
+    <Compile Include="Accunting\InvoiceTransObj.cs" />
+    <Compile Include="Accunting\ItemSalesByInvoice.cs" />
+    <Compile Include="Accunting\JournalInTotalAccount.cs" />
+    <Compile Include="Accunting\Ledger.cs" />
+    <Compile Include="Accunting\LedgerRow.cs" />
+    <Compile Include="Accunting\List.cs" />
+    <Compile Include="Accunting\OpeningBalanceSaveVM.cs" />
+    <Compile Include="Accunting\ReceiveAndPayVM.cs" />
+    <Compile Include="Accunting\SummeryAccount.cs" />
+    <Compile Include="Accunting\BalanceSheet.cs" />
+    <Compile Include="BaseInfo\BankVM.cs" />
+    <Compile Include="BaseInfo\BaseColorVM.cs" />
+    <Compile Include="BaseInfo\CashVM.cs" />
+    <Compile Include="BaseInfo\ChequesAndStatsVM.cs" />
+    <Compile Include="BaseInfo\ChequeVM.cs" />
+    <Compile Include="Accunting\PayRecevieVM.cs" />
+    <Compile Include="Accunting\DataToClosingFinanYear.cs" />
+    <Compile Include="Accunting\DefaultDescriptions.cs" />
+    <Compile Include="Accunting\DetailAccount.cs" />
+    <Compile Include="Accunting\DocumentVM.cs" />
+    <Compile Include="Accunting\DocumentData.cs" />
+    <Compile Include="Accunting\InvoiceVM.cs" />
+    <Compile Include="Accunting\InvoiceItemVM.cs" />
+    <Compile Include="Accunting\FinanYearVM.cs" />
+    <Compile Include="BaseInfo\BaseAccountVM.cs" />
+    <Compile Include="Accunting\InvoiceData.cs" />
+    <Compile Include="Accunting\InvoiceSettings.cs" />
+    <Compile Include="BaseInfo\CostAccountVM.cs" />
+    <Compile Include="BaseInfo\DocTypeVM.cs" />
+    <Compile Include="BaseInfo\ItemGroupVM.cs" />
+    <Compile Include="BaseInfo\ItemInfo.cs" />
+    <Compile Include="BaseInfo\ItemVM.cs" />
+    <Compile Include="BaseInfo\ItemUnit.cs" />
+    <Compile Include="Accunting\LoadTransfer.cs" />
+    <Compile Include="Accunting\NewObjectKala.cs" />
+    <Compile Include="Accunting\Node.cs" />
+    <Compile Include="Accunting\OpeningBalance.cs" />
+    <Compile Include="Accunting\OpeningBalanceStat.cs" />
+    <Compile Include="Accunting\SahamdaranVM.cs" />
+    <Compile Include="Accunting\ShareholderVM.cs" />
+    <Compile Include="Accunting\TarfeHesabVM.cs" />
+    <Compile Include="Accunting\TransactionVM.cs" />
+    <Compile Include="Accunting\TransferMoneyVM.cs" />
+    <Compile Include="Accunting\TransObj.cs" />
+    <Compile Include="BaseInfo\Cashe.cs" />
+    <Compile Include="BaseInfo\Chart.cs" />
+    <Compile Include="BaseInfo\GoroheSazeVM.cs" />
+    <Compile Include="BaseInfo\InventoryItem.cs" />
+    <Compile Include="BaseInfo\ItemCard.cs" />
+    <Compile Include="BaseInfo\ItemsAndService.cs" />
+    <Compile Include="BaseInfo\MadarekPayvastVM.cs" />
+    <Compile Include="BaseInfo\NewObjectSaze.cs" />
+    <Compile Include="BaseInfo\NoeChapVM.cs" />
+    <Compile Include="BaseInfo\NoeEjareVM.cs" />
+    <Compile Include="BaseInfo\NoeSazeVM.cs" />
+    <Compile Include="BaseInfo\Organ_ColorVM.cs" />
+    <Compile Include="BaseInfo\PersonelVM.cs" />
+    <Compile Include="BaseInfo\SazeImageVM.cs" />
+    <Compile Include="BaseInfo\SazeVM.cs" />
+    <Compile Include="BaseInfo\VahedTolVM.cs" />
+    <Compile Include="Common\BussinessVM.cs" />
+    <Compile Include="Common\ContactVM.cs" />
+    <Compile Include="Common\LocationVM.cs" />
+    <Compile Include="Common\PersonVM.cs" />
+    <Compile Include="Common\UserProfileSessionData.cs" />
+    <Compile Include="Contract\ContractData.cs" />
+    <Compile Include="Contract\ContractSazeImagesVM.cs" />
+    <Compile Include="Contract\ContractSettings.cs" />
+    <Compile Include="Contract\ContractStopData.cs" />
+    <Compile Include="Contract\ContractStopDetailsVM.cs" />
+    <Compile Include="Contract\ContractStopsVM.cs" />
+    <Compile Include="Contract\ContractTransObj.cs" />
+    <Compile Include="Contract\Contract_DetailPayReceviesVM.cs" />
+    <Compile Include="Contract\Contract_PayRecevieVM.cs" />
+    <Compile Include="Contract\Contract_SazeTransObj.cs" />
+    <Compile Include="Contract\Contract_Saze_BazareabVM.cs" />
+    <Compile Include="Contract\Contract_Saze_TarahVM.cs" />
+    <Compile Include="Contract\ContractVM.cs" />
+    <Compile Include="Contract\Contract_SazeVM.cs" />
+    <Compile Include="Contract\Contract_Saze_ChapkhaneVM.cs" />
+    <Compile Include="Contract\Contract_Saze_NasabVM.cs" />
+    <Compile Include="Contract\HasRentVM.cs" />
+    <Compile Include="Contract\ReservationData.cs" />
+    <Compile Include="Contract\ReservationTransObj.cs" />
+    <Compile Include="Contract\ReservationVM.cs" />
+    <Compile Include="Contract\Reservation_DetailVM.cs" />
+    <Compile Include="Contract\RockData.cs" />
+    <Compile Include="Contract\SazeOfContractInTime.cs" />
+    <Compile Include="Contract\TemplateDate.cs" />
+    <Compile Include="PersianDateUtils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\AccessRoleVM.cs" />
+    <Compile Include="Security\AccessUserRoleVM.cs" />
+    <Compile Include="Security\OnlineUserVM.cs" />
+    <Compile Include="Security\OperationVM.cs" />
+    <Compile Include="Security\PermisionUserVM.cs" />
+    <Compile Include="Security\PositionVM.cs" />
+    <Compile Include="Security\RoleOperationVM.cs" />
+    <Compile Include="Security\RoleVM.cs" />
+    <Compile Include="Security\UserInfoVM.cs" />
+    <Compile Include="Security\UserOperationVM.cs" />
+    <Compile Include="Security\UserRoleVM.cs" />
+    <Compile Include="Security\UsersForRule.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OMF.Common\OMF.Common.csproj">
+      <Project>{1ad95f23-d5c3-4548-863b-7bff78601c0e}</Project>
+      <Name>OMF.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OMF.Security\OMF.Security.csproj">
+      <Project>{7bf28ba3-364d-4057-a324-897158a65e3d}</Project>
+      <Name>OMF.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zhivar.DomainClasses\Zhivar.DomainClasses.csproj">
+      <Project>{1cd8242f-3821-4165-9668-b3ee764a7cdd}</Project>
+      <Name>Zhivar.DomainClasses</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

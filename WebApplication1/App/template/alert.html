@@ -1,0 +1,60 @@
+﻿<div class="alert alert-success center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+     id="error" ng-if="alertType == 'success'">
+    <div class="row">
+        <div class="col-xs-1" style="margin-top: -2px;">
+            <span class="fa fa-check-circle fa-2x" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+        </div>
+        <div class="col-xs-11" style="margin-top: 1px;">
+            <strong ng-show="message">{{ message|number }}</strong>
+            <ul ng-show="messages" style="margin-bottom: -3px;">
+                <li ng-repeat="msg in messages">{{ msg|number }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="alert alert-info center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+     id="error" ng-if="alertType == 'info'">
+    <div class="row">
+        <div class="col-xs-1" style="margin-top: -2px;">
+            <span class="fa fa-info-circle fa-2x" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+        </div>
+        <div class="col-xs-11" style="margin-top: 1px;">
+            <strong ng-show="message">{{ message }}</strong>
+            <ul ng-show="messages" style="margin-bottom: -3px;">
+                <li ng-repeat="msg in messages">{{ msg }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="alert alert-warning center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+     id="error" ng-if="alertType == 'warning'">
+    <div class="row">
+        <div class="col-xs-1" style="margin-top: -2px;">
+            <span class="fa fa-info-circle fa-2x" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+        </div>
+        <div class="col-xs-11" style="margin-top: 1px;">
+            <strong ng-show="message">{{ message }}</strong>
+            <ul ng-show="messages" style="margin-bottom: -3px;">
+                <li ng-repeat="msg in messages">{{ msg }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="alert alert-danger center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+     id="error" ng-if="alertType == 'danger'">
+    <div class="row">
+        <div class="col-xs-1" style="margin-top: -2px;">
+            <span class="fa fa-exclamation-circle fa-2x" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+        </div>
+        <div class="col-xs-11" style="margin-top: 1px;">
+            <strong ng-show="message">{{ message }}</strong>
+            <ul ng-show="messages" style="margin-bottom: -3px;">
+                <li ng-repeat="msg in messages">{{ msg }}</li>
+            </ul>
+        </div>
+    </div>
+</div>

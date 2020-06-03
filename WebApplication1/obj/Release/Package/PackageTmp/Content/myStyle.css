@@ -1,0 +1,25 @@
+﻿ .mr-10 {
+        margin: 10px;
+    }
+
+    .pd-10 {
+        padding: 10px;
+    }
+
+    .hesabfa-paybox-remove {
+        /*display: none;*/
+        position: absolute;
+        color: white;
+        padding: 3px;
+        margin-right: -16px;
+        margin-top: -1px;
+        cursor: pointer;
+        height:32px;
+        /*width:220px;*/
+        font-size:12px;
+    }
+
+    .separator1 {
+        border-bottom: 1px solid rgb(225, 225, 225);
+        margin-bottom: 10px;
+    }

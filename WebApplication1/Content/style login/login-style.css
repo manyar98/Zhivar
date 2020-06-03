@@ -1,0 +1,51 @@
+﻿/*animations*/
+@keyframes coolorbtn {
+  0%    {  color:white}
+  10%   {  color:aqua}
+  20%   {  color:white}
+  30%   {  color:aqua}
+  40%   {  color:white}
+  50%   {  color:aqua}
+  60%   {  color:white}
+  70%   {  color:aqua}
+  80%   {  color:white}
+  90%   {  color:aqua}
+  100%  {  color:white}
+
+}
+
+@font-face {
+    font-family:fontone;
+    src: url('font/BHoma.ttf')
+}
+
+body{
+    font-family:fontone !important;
+}
+
+.backgroundlogin{
+  background:url('../../../../../Content/style login/img_background/5.jpg');
+  background-size:cover;
+
+
+ 
+}
+.login{
+    background-color:white;
+    border-radius:10px;
+    user-select:none !important;
+}
+
+.btn-login{
+  background:linear-gradient(to left, #8e2de2,#4a00e0);
+}
+
+.btn-regester{
+  background:linear-gradient(to left,  #ff0099,#493240  );
+
+}
+.btn-regester span{
+    animation: coolorbtn 4s infinite;
+}
+
+

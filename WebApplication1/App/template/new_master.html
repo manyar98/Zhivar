@@ -1,0 +1,886 @@
+﻿<section ng-hide="!visibleForLoginView" ng-class="{ 'master-invisible': !visibleForLoginView }">
+    <main ui-view="login"> </main>
+</section>
+<div ng-class="{ 'master-invisible': visibleForLoginView }" style="overflow:hidden !important">
+    <script src="../../Scripts/site-Lib.js"></script>
+    <!-- start header -->
+    <header class="fixed-top d-flex justify-content-around " style="height:50px; background-color: #314b6a;;">
+        <div class="d-flex justify-content-around p-0 m-0 pl-1 menu-box-left">
+            <div class="d-flex justify-content-center align-items-center bg-hover p-0 m-0 p-2" style="cursor:pointer">
+                <div class="overflow-hidden overflow-hidden d-flex justify-content-center align-items-center rounded-circle border" style="height:30px ; width:30px">
+                    <img src="../../Content/style login/img-icon/icons-ALL/icon-header-master/men.jpg" width="100%" />
+                </div>
+            </div>
+            <a href="#" class="text-decoration-none text-light d-flex justify-content-center align-items-center bg-hover mobile-hide px-3"><i class="fa fa-question-circle text-light" style="font-size:20px"></i></a>
+            <a href="#" class="text-decoration-none text-light d-flex justify-content-center align-items-center bg-hover mobile-hide px-3"><i class="fa fa-phone text-light" style="font-size:20px"></i></a>
+            <a href="#" class="text-decoration-none text-light d-flex justify-content-center align-items-center bg-hover mobile-hide-b btn-refresh px-3"><i class="fa fa-refresh text-light" style="font-size:20px"></i></a>
+            <div class="d-flex justify-content-center align-items-center p-0 m-0 px-3">
+                <div class="position-relative border border-primary mx-auto p-0 m-0 overflow-hidden bg-light rounded" style="width: 48px;height: 25px; cursor: pointer;" id="filter">
+                    <div class="mx-auto d-flex justify-content-center align-items-center position-relative py-1" style="width:80px;height: 100%;" id="swrl">
+                        <div style="height: 100%;position: relative;top: -8px;font-size: 12px;" class="m-1 text-secondary ">بله</div>
+                        <div style="width: 13px;height: 100%;" class="bg-primary rounded m-1 "></div>
+                        <div style="height: 100%;position: relative;top: -8px;font-size: 12px;" class="m-1 text-secondary m-1">خیر</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-box-right m-0 p-0">
+            <div class="row m-0 p-0" style="height:100%">
+
+                <div class="col-lg-9 col-md-8 col-sm-8 col-8 d-flex justify-content-center align-items-center menu-nema" style=" background-color: rgb(69, 92, 118);">
+                    <p class="text-light m-0 p-0" style="font-size:20px">
+                        نام پروژه
+                    </p>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-4 col-4 menu-box-right-end d-flex justify-content-around align-items-center p-0 m-0 p-1">
+                    <div>
+                        <div class="menu-icon mb-2">
+                            <div class="line1"></div>
+                            <div class="line2"></div>
+                            <div class="line3"></div>
+                        </div>
+                    </div>
+                    <div class="img-logo">
+                        <!--<img src="https://smbt.ir/Content/images/logo.svg" width="40px" />-->
+                        <img src="../../Content/style login/img-icon/zhivar.png" width="50px" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- end header -->
+    <div style="overflow:hidden ; height:90vh !important" class="main">
+        <div class="bg-danger d-flex justify-content-start main-b" style=" height:100%">
+            <!--strat ui-vue-->
+            <div class="animate-l bg-white pb-5 px-5 pt-2" style="width:100% ; overflow-y:auto ; overflow-x:hidden !important">
+                <div ui-view> </div>
+
+            </div>
+            <!--end ui-vue-->
+            <!----------------------------------------------------------------------->
+            <!--strat menu-right-->
+            <div class="animate-r bg-white position-relative pb-5 " style=" overflow-y:auto ;overflow-x:hidden!important; height:100%;">
+                <div class="dashport d-flex justify-content-start align-items-center">
+                    <div style="width:30px" class="mr-2 ml-3">
+                        <img src="../../Content/style login/img-icon/icons-ALL/icon-menu-right-master/dashbord.svg" width="100%" />
+                    </div>
+                    <div class="text-right">
+                        داشبورد
+                    </div>
+                </div>
+                <!------------------------------------------------------------>
+                <div style="direction:ltr !important">
+                    <div class="menu-right-box-1 d-flex justify-content-start align-items-center">
+                        <div style="width:30px" class="mr-2 ml-3">
+                            <img src="../../Content/style login/img-icon/icons-ALL/icon-menu-right-master/cartable.svg" width="100%" />
+                        </div>
+                        <div class="text-right">
+                            کارتابل
+                        </div>
+                    </div>
+                </div>
+                <!------------------------------------------------------------>
+                <div style="direction:ltr !important">
+                    <div class="menu-right-box-2 d-flex justify-content-start align-items-center">
+                        <div style="width:30px" class="mr-2 ml-3">
+                            <img src="../../Content/style login/img-icon/icons-ALL/icon-menu-right-master/report.svg" width="100%" />
+                        </div>
+                        <div class="text-right">
+                            گزارشات
+                        </div>
+                    </div>
+                    <div class="menu-right-slid-2">
+                        <ul class="list-unstyled p-0 m-0 ">
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">ترازنامه </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">موجودی کالا </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">دفتر روزنامه </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">کارت حساب کالا </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">گردش حساب بانک </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">گردش حساب صندوق </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">کارت حساب اشخاص </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3"> صورتحساب سرمایه </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">صورت سود و زیان </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">فروش به تفکیک کالا </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">بدهکاران و بستانکاران </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">دفتر کل, معین و تفضیلی</span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">خرید کالا به تفکیک فاکتور </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3"> تراز حساب ها(تراز آزمایشی) </span></div></a></li>
+                            <li class="text-right color-text-slid p-0 m-0 "><a href="#" class="p-0 m-0 d-block justify-content-around"><div class="d-flex justify-content-start align-items-center"><span class="rounded-circle mr-2 style-list-type"></span> &nbsp;&nbsp;&nbsp; <span class="pl-3">خرید، فروش و مالیات(فصلی و ماهانه) </span></div></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!------------------------------------------------------------>
+                <div style="direction:ltr !important">
+                    <div class="menu-right-box-3 d-flex justify-content-start align-items-center">
+                        <div style="width:30px" class="mr-2 ml-3">
+                            <img src="../../Content/style login/img-icon/icons-ALL/icon-menu-right-master/Financial affairs.svg" width="100%" />
+                        </div>
+                        <div class="text-right">
+                            عملیات مالی
+                        </div>
+                    </div>
+                    <div class="menu-right-slid-3">
+                        <ul class="list-unstyled p-0 m-0 ">
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">سند افتتاحیه</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">سند اختتامیه</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">رسیدهای هزینه</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">انتقال وجه ها</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">رسیدهای دریافت</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">چک های دریافتی</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">چک های پرداختی</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0"> اسناد حسابداری</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">برگشت از خریدها</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0"> رسید های پرداخت</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0"> برگشت از فروش ها</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0"> لیست فاکتورهای اجاره</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0"> لیست فاکتورهای اجاره از صاحب رسانه</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!------------------------------------------------------------>
+                <div style="direction:ltr !important">
+                    <div class="menu-right-box-4 d-flex justify-content-start align-items-center">
+                        <div style="width:30px" class="mr-2 ml-3">
+                            <img src="../../Content/style login/img-icon/icons-ALL/icon-menu-right-master/business-and-finance.svg" width="100%" />
+                        </div>
+                        <div class="text-right">
+                            اطلاعات پایه
+                        </div>
+                    </div>
+                    <div class="menu-right-slid-4">
+                        <ul class="list-unstyled p-0 m-0 ">
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">اشخاص</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">پرسنل</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0"> سازه</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">نوع چاپ</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0"> سهامداران</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0"> کالا های خری</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">صندوق و بانک</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!------------------------------------------------------------>
+                <div style="direction:ltr !important">
+                    <div class="menu-right-box-5 d-flex justify-content-start align-items-center">
+                        <div style="width:30px" class="mr-2 ml-3">
+                            <img src="../../Content/style login/img-icon/icons-ALL/icon-menu-right-master/Contract management.svg" width="100%" />
+                        </div>
+                        <div class="text-right">
+                            مدیریت قرادادها
+                        </div>
+                    </div>
+                    <div class="menu-right-slid-5">
+                        <ul class="list-unstyled p-0 m-0">
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">رزروها</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">رک قراردادها</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">پیش قراردادها</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">قراردادهای اجاره به طرف حساب</a></li>
+                            <li class="text-right color-text-slid p-0 m-0 d-flex justify-content-center align-items-center text-center"><a href="#" class="p-0 m-0">قراردادهای اجاره از صاحب رسانه</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--end menu-right-->
+            <!------------------------------------------------------------>
+        </div>
+        <!------------------------------------------------------------>
+        <!--start footer-->
+        <footer class="fixed-bottom bg-footer d-flex justify-content-around align-items-center">
+
+            <div>
+                <div style="font-size:12px" class="d-flex text-light">
+                    <div>۱۳۹۹</div>
+                    <div>/</div>
+                    <div>۱</div>
+                    <div>/</div>
+                    <div>۲۹</div>
+                    <div> &nbsp; : &nbsp; </div>
+                    <div style="font-size:14px"> امروز </div>
+                </div>
+            </div>
+
+            <div class="text-light">
+                نام فرد
+            </div>
+
+            <div>
+                <div class="btn-group dropup">
+                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size:12px">
+                        سال مالی منتهی به ۱۳۹۹/۱۲/۳۰
+                    </button>
+                    <div class="dropdown-menu px-3 ml-1" style="font-size:12px">
+                        <a href="#" class="text-dark">
+                            سال مالی منتهی به ۱۳۹۹/۱۲/۳۰
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </footer>
+        <!------------------------------------------------------------>
+        <!--end footer-->
+    </div>
+
+    <!-- start stylesheet -->
+    <style>
+        html,
+        body {
+            overflow-y: hidden;
+        }
+
+        header {
+            background-color: #304967;
+            user-select: none !important;
+        }
+
+        .main {
+            margin-top: 50px !important;
+        }
+
+        .master-invisible {
+            display: none;
+        }
+
+        .bg-footer {
+            background-color: rgb(48, 73, 103);
+            height: 50px;
+        }
+
+        .border-orang {
+            border-right: 6px solid rgb(248, 172, 89);
+            border-top: 2px outset rgb(28, 110, 164);
+            border-left: 2px outset rgb(28, 110, 164);
+            border-bottom: 2px outset rgb(28, 110, 164);
+        }
+
+        .background-box-menu-right {
+            background-color: rgb(209, 209, 209);
+        }
+
+        .style-list-type {
+            width: 10px;
+            height: 10px;
+            background-size: cover;
+            background-image: url("https://app.hesabfa.com/bullet-normal.d80c1b42d135cf4517ab.png")
+        }
+        /*-----------------------------------------------------------------------------------*/
+        /*start menu stop fixt*/
+
+        .bg-hover:hover {
+            background-color: slategray;
+        }
+
+        .menu-box-left {
+            background-color: #304967;
+        }
+
+        .menu-box-right-end {
+            background-color: #314b6a;
+        }
+        /*end menu stop fixt*/
+        /*-----------------------------------------------------------------------------------*/
+        /*strat menu right && left*/
+
+        .animate-r,
+        .animate-l {
+            direction: rtl;
+        }
+
+        .animate-r {
+            border-left: 2px solid rgb(228, 229, 232);
+        }
+        /*end menu right && left*/
+        /*-----------------------------------------------------------------------------------*/
+        /*start slid down && up in menu-right*/
+
+        .dashport:hover {
+            background-color: rgb(209, 209, 209);
+            border-left: 2px outset rgb(28, 110, 164);
+            border-bottom: 2px outset rgb(28, 110, 164);
+        }
+
+        [class*="menu-right-box"]:hover {
+            background-color: rgb(220, 221, 223);
+            user-select: none;
+            border-top: 2px outset rgb(28, 110, 164);
+            border-left: 2px outset rgb(28, 110, 164);
+            border-bottom: 2px outset rgb(28, 110, 164);
+            border-right: 6px solid rgb(248, 172, 89);
+        }
+
+        [class*="menu-right-slid"] li:hover {
+            background-color: rgb(220, 221, 223);
+            user-select: none;
+        }
+
+        .dashport {
+            width: 100%;
+            height: 52px;
+            background-color: rgb(220, 221, 223);
+            border-right: 6px solid rgb(26, 179, 148);
+            cursor: pointer;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        [class*="menu-right-box"] {
+            width: 100%;
+            height: 52px;
+            cursor: pointer;
+            direction: rtl !important;
+            user-select: none;
+        }
+
+        [class*="menu-right-slid-"] {
+            width: 85%;
+            user-select: none;
+        }
+
+        [class*="menu-right-slid"] ul {
+            direction: rtl;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        [class*="menu-right-slid"] li {
+            padding: 10px 5px !important;
+            list-style-type: none;
+            background-color: rgb(232,233,235);
+            border-bottom: 1px solid white;
+        }
+
+        [class*="color-text-slid"] a {
+            font-size: 16px;
+            color: black;
+        }
+        /*end slid down && up in menu-right*/
+        /*-----------------------------------------------------------------------------------*/
+        /*strat menu click ==> times */
+
+        .menu-icon {
+            cursor: pointer;
+            transition: 0.5s;
+            height: 20px;
+            animation: 1s;
+        }
+
+            .menu-icon:hover [class*="line"] {
+                background-color: silver !important;
+            }
+
+        [class*="line"] {
+            animation: 1s;
+            background-color: white;
+            background-color: white;
+            margin-top: 5px;
+            width: 30px;
+            height: 4px;
+            transition: 0.5s;
+            border-radius: 7px;
+            opacity: 1;
+        }
+        /*end menu click ==> times */
+        /*-----------------------------------------------------------------------------------*/
+        /*start @media*/
+
+        @media (min-width: 575px) {
+            .menu-box-left {
+                width: 300px !important;
+            }
+
+            .menu-box-right {
+                width: 100% !important;
+            }
+            /*start scroll*/
+            ::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            ::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+                border-radius: 10px;
+                background-color: #F5F5F5;
+                margin-top: 2px;
+                margin-bottom: 15px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 10px;
+            }
+            /*end scroll*/
+        }
+        /*-----------------------------------------------------------------------------------*/
+
+        @media (max-width: 575px) {
+            .mobile-hide {
+                display: none !important;
+            }
+
+            .img-logo {
+                display: none !important;
+            }
+
+            .menu-box-left {
+                width: 40vw !important;
+            }
+
+            .menu-box-right {
+                width: 60vw !important;
+            }
+            /*start scroll*/
+            ::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            ::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+                border-radius: 10px;
+                background-color: #F5F5F5;
+                margin-top: 2px;
+                margin-bottom: 22px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 10px;
+            }
+            /*end scroll*/
+        }
+        /*-----------------------------------------------------------------------------------*/
+
+        @media (max-width: 500px) {
+            .menu-box-left {
+                width: 50vw !important;
+            }
+
+            .menu-box-right {
+                width: 50vw !important;
+            }
+        }
+        /*-----------------------------------------------------------------------------------*/
+
+        @media (max-width: 450px) {
+            .menu-box-left {
+                width: 60vw !important;
+            }
+
+            .menu-box-right {
+                width: 40vw !important;
+            }
+        }
+        /*-----------------------------------------------------------------------------------*/
+
+        @media (max-width: 300px) {
+            .menu-box-left {
+                width: 50vw !important;
+            }
+
+            .menu-box-right {
+                width: 50vw !important;
+            }
+
+            .mobile-hide-b {
+                display: none !important;
+            }
+        }
+        /*-----------------------------------------------------------------------------------*/
+
+        @media (max-width: 200px) {
+            .menu-box-left {
+                width: 70vw !important;
+            }
+
+            .menu-nema {
+                display: none !important;
+            }
+
+            .menu-box-right {
+                width: 10vw !important;
+            }
+
+            .mobile-hide-b {
+                display: none !important;
+            }
+        }
+        /*-----------------------------------------------------------------------------------*/
+        /*end @media*/
+    </style>
+    <!-- end stylesheet -->
+    <!-- start js -->
+    <script>
+        //شروع برای کامل رسپانسیو کردن منو در سمت راست
+        if ($("body").width() >= "1000") {
+            $(".main-b").css("width", "130%");
+            $(".animate-r").css("width", "30%");
+            let s = true;
+            $(".menu-icon").click(function() {
+                if (s == true) {
+                    $(".animate-r").animate({
+                        "margin-right": "23%"
+                    }, 500);
+                    s = false
+                } else {
+
+                    $(".animate-r").animate({
+                        "margin-right": "0%"
+                    }, 500);
+                    s = true
+                }
+            })
+        }
+        if (($("body").width() >= "800") && ($("body").width() <= "999")) {
+            $(".main-b").css("width", "140%");
+            $(".animate-r").css("width", "40%");
+            let s = true;
+            $(".menu-icon").click(function() {
+                if (s == true) {
+                    $(".animate-r").animate({
+                        "margin-right": "28.5%"
+                    }, 500);
+                    s = false
+                } else {
+
+                    $(".animate-r").animate({
+                        "margin-right": "0%"
+                    }, 500);
+                    s = true
+                }
+            })
+        }
+
+        if (($("body").width() >= "600") && ($("body").width() <= "799")) {
+            $(".main-b").css("width", "180%");
+            $(".animate-r").css("width", "80%");
+            let s = true;
+            $(".menu-icon").click(function() {
+                if (s == true) {
+                    $(".animate-r").animate({
+                        "margin-right": "44.4%"
+                    }, 500);
+                    s = false
+                } else {
+
+                    $(".animate-r").animate({
+                        "margin-right": "0%"
+                    }, 500);
+                    s = true
+                }
+            })
+        }
+        if (($("body").width() >= "400") && ($("body").width() <= "599")) {
+            $(".main-b").css("width", "200%");
+            $(".animate-r").css("width", "100%");
+            let s = true;
+            $(".menu-icon").click(function() {
+                if (s == true) {
+                    $(".animate-r").animate({
+                        "margin-right": "50%"
+                    }, 500);
+                    s = false
+                } else {
+
+                    $(".animate-r").animate({
+                        "margin-right": "0%"
+                    }, 500);
+                    s = true
+                }
+            })
+        }
+        if (($("body").width() >= "300") && ($("body").width() <= "399")) {
+            $("[class*='color-text-slid'] a").css("font-size", "10px");
+            $(".animate-r").css("font-size", "12px");
+
+            $(".main-b").css("width", "300%");
+            $(".animate-r").css("width", "200%");
+            let s = true;
+            $(".menu-icon").click(function() {
+                if (s == true) {
+                    $(".animate-r").animate({
+                        "margin-right": "66.7%"
+                    }, 500);
+                    s = false
+                } else {
+
+                    $(".animate-r").animate({
+                        "margin-right": "0%"
+                    }, 500);
+                    s = true
+                }
+            })
+        }
+        if (($("body").width() <= "299")) {
+            $("[class*='color-text-slid'] a").css("font-size", "10px");
+            $(".animate-r").css("font-size", "12px");
+
+            $(".main-b").css("width", "150%");
+            $(".animate-r").css("width", "50%");
+            let s = true;
+            $(".menu-icon").click(function() {
+                if (s == true) {
+                    $(".animate-l").animate({
+                        "margin-left": "-83%"
+                    }, 500);
+
+                    s = false
+                } else {
+
+                    $(".animate-l").animate({
+                        "margin-left": "0%"
+                    }, 500);
+                    $(".animate-r").animate({
+                        "margin-right": "0%"
+                    }, 500);
+                    s = true
+                }
+            })
+        }
+        //پایان برای کامل رسپانسیو کردن منو در سمت راست
+        //---------------------------------------------------------------------
+        //start btn-refresh
+        $(".btn-refresh").click(function() {
+            location.reload();
+        });
+        //end btn-refresh
+        //---------------------------------------------------------------------
+        // start swich
+        var y = true;
+        $("#filter").click(function() {
+            if (y === true) {
+                $("#swrl").animate({
+                    right: "29px"
+                }, 300);
+                $(".animate-l").css("filter", "blur(6px)")
+                y = false
+            } else {
+                $("#swrl").animate({
+                    right: "0px"
+                }, 300);
+                $(".animate-l").css("filter", "blur(0px)")
+                y = true
+            }
+        });
+        // end swich
+        //---------------------------------------------------------------------
+        // شروع وقتی روی منو کلیک می کنی به شکل ضبدر در می آید
+        var E = true;
+        var A = true;
+        var B = true;
+        var C = true;
+        var D = true;
+        $(".menu-icon").click(function() {
+            $("[class*='menu-right-slid']").slideUp(0);
+            $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+            $("[class*='menu-right-slid']").slideUp(500);
+            $("[class*='menu-right-box']").removeClass("border-orang");
+            $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+             E = true;
+             A = true;
+             B = true;
+             C = true;
+             D = true;
+            if ($(".line2").css("opacity") == "1") {
+                $(".menu-icon").css({
+                    "top": "5px"
+                });
+                $(this).css({
+                    "cursor": "pointer",
+                    "position": "relative",
+                    "transition": "0.5s",
+                    " width": "40px"
+                })
+                $(".line2").css({
+                    "opacity": "0"
+                });
+                $(".line1").css({
+                    "transform": "rotate(42deg)",
+                    "position": "absolute"
+                });
+                $(".line3").css({
+                    "transform": "rotate(-45deg)",
+                    "position": "absolute",
+                    "top": "-0px"
+                });
+            } else {
+                $(".menu-icon").css({
+                    "top": "0px"
+                });
+                $(".line2").css("opacity", "1");
+                $(".line1").css({
+                    "transform": "rotate(0deg)",
+                    "position": "static"
+                });
+                $(".line3").css({
+                    "transform": "rotate(0deg)",
+                    "top": "0px",
+                    "position": "static"
+                });
+            };
+        });
+        // پایان وقتی روی منو کلیک می کنی به شکل ضبدر در می آید
+        //---------------------------------------------------------------------
+        //شروع برای باکس های داخل منو ی سمت راست وقتی کلیک می کنید
+        var E = true;
+        var A = true;
+        var B = true;
+        var C = true;
+        var D = true;
+        $("[class*='menu-right-slid']").slideUp(0);
+        $(".dashport").click(function() {
+            $("[class*='menu-right-slid']").slideUp(500);
+            $("[class*='menu-right-box']").removeClass("border-orang");
+            $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+            A = true;
+            B = true;
+            C = true;
+            D = true;
+            E = true;
+        });
+        $(".menu-right-box-1").click(function() {
+            A = true;
+            B = true;
+            C = true;
+            D = true;
+            $("[class*='menu-right-box']").removeClass("border-orang");
+            if (E == true) {
+                $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+                $(this).addClass("background-box-menu-right");
+                $("[class*='menu-right-box']").removeClass("border-orang");
+                $(this).addClass("border-orang");
+                E = false;
+
+            } else {
+                $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+                $("[class*='menu-right-box']").removeClass("border-orang");
+                $(this).removeClass("background-box-menu-right");
+                $(this).removeClass("border-orang");
+                $(this).removeClass("border-orang");
+                E = true;;
+            }
+            $(".menu-right-slid-1").slideUp(500);
+            $(".menu-right-slid-2").slideUp(500);
+            $(".menu-right-slid-3").slideUp(500);
+            $(".menu-right-slid-4").slideUp(500);
+            $(".menu-right-slid-5").slideUp(500);
+        });
+        $(".menu-right-box-2").click(function() {
+            B = true;
+            E = true;
+            C = true;
+            D = true;
+            $(".animate-r").animate({
+                scrollTop: 110
+            }, 700);
+            $("[class*='menu-right-box']").removeClass("border-orang");
+            if (A == true) {
+                $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+                $(this).addClass("background-box-menu-right");
+                $("[class*='menu-right-box']").removeClass("border-orang");
+                $(this).addClass("border-orang");
+                A = false;
+            } else {
+                $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+                $("[class*='menu-right-box']").removeClass("border-orang");
+                $(this).removeClass("background-box-menu-right");
+                $(this).removeClass("border-orang");
+                $(this).removeClass("border-orang");
+                A = true;
+            }
+            $(".menu-right-slid-1").slideUp(500);
+            $(".menu-right-slid-3").slideUp(500);
+            $(".menu-right-slid-4").slideUp(500);
+            $(".menu-right-slid-5").slideUp(500);
+            $(".menu-right-slid-2").slideToggle(500);
+        });
+        $(".menu-right-box-3").click(function() {
+            A = true;
+            E = true;
+            C = true;
+            D = true;
+            $(".animate-r").animate({
+                scrollTop: 160
+            }, 700);
+            $("[class*='menu-right-box']").removeClass("border-orang");
+            if (B == true) {
+                $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+                $(this).addClass("background-box-menu-right");
+                $(this).removeClass("border-orang");
+                $(this).addClass("border-orang");
+                B = false;
+
+            } else {
+                $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+                $("[class*='menu-right-box']").removeClass("border-orang");
+                $(this).removeClass("background-box-menu-right");
+                $(this).removeClass("border-orang");
+                $(this).removeClass("border-orang");
+                B = true;;
+            }
+            $(".menu-right-slid-1").slideUp(500);
+            $(".menu-right-slid-2").slideUp(500);
+            $(".menu-right-slid-4").slideUp(500);
+            $(".menu-right-slid-5").slideUp(500);
+            $(".menu-right-slid-3").slideToggle(500);
+        });
+        $(".menu-right-box-4").click(function() {
+            A = true;
+            E = true;
+            B = true;
+            D = true;
+            $("[class*='menu-right-box']").removeClass("border-orang");
+            if (C == true) {
+                $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+                $("[class*='menu-right-box']").removeClass("border-orang");
+                $(this).addClass("background-box-menu-right");
+                $(this).addClass("border-orang");
+                C = false;
+
+            } else {
+                $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+                $("[class*='menu-right-box']").removeClass("border-orang");
+                $(this).removeClass("border-orang");
+                $(this).removeClass("background-box-menu-right");
+                $(this).removeClass("border-orang");
+                C = true;;
+            }
+            $(".menu-right-slid-1").slideUp(500);
+            $(".menu-right-slid-2").slideUp(500);
+            $(".menu-right-slid-3").slideUp(500);
+            $(".menu-right-slid-5").slideUp(500);
+            $(".menu-right-slid-4").slideToggle(500);
+        });
+        $(".menu-right-box-5").click(function() {
+            A = true;
+            E = true;
+            C = true;
+            B = true;
+            $("[class*='menu-right-box']").removeClass("border-orang");
+            if (D == true) {
+                $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+                $(this).addClass("background-box-menu-right");
+                $(this).addClass("border-orang");
+                D = false;
+            } else {
+                $("[class*='menu-right-box']").removeClass("background-box-menu-right");
+                $("[class*='menu-right-box']").removeClass("border-orang");
+                $(this).removeClass("background-box-menu-right");
+                $(this).removeClass("border-orang");
+                $(this).removeClass("border-orang");
+                D = true;;
+            }
+            $(".menu-right-slid-1").slideUp(500);
+            $(".menu-right-slid-2").slideUp(500);
+            $(".menu-right-slid-3").slideUp(500);
+            $(".menu-right-slid-4").slideUp(500);
+            $(".menu-right-slid-5").slideToggle(500);
+        });
+        //پایان برای باکس های داخل منو ی سمت راست وقتی کلیک می کنید
+        //---------------------------------------------------------------------
+        // start window.risize
+        $(window).resize(function() {
+            $(".btn-refresh").click();
+        });
+        // start window.risize
+    </script>
+    <!-- end js -->

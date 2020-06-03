@@ -1,0 +1,33 @@
+﻿<div class="container ng-scope" ng-controller="transfersController" style="width:100%">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <alert message="alertMessage" messages="alertMessages" alert-type="alertType" ng-show="alert"></alert>
+
+    <div class="center-block" ng-show="!loading">
+        <div class="row mr-b-10">
+            <div class="col-sm-3 txt-bold">
+                <span>لیست رسید های انتقال</span>
+            </div>
+            <div class="col-sm-7 text-left">
+            </div>
+            <div class="col-sm-2 text-left">
+                <button ng-click="redirect('moneyTransfer')" class="btn btn-info btn-smoke btn-sm iransans" >ثبت انتقال جدید</button>
+               
+            </div>
+        </div>
+
+        <div id="gridContainer"></div>
+
+    </div>
+
+    <!-- ngInclude: '/dashboard/viewDocumentModal.html?ver=1.2.9.1' -->
+
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری لیست انتقال ها...</div>
+    </div>
+
+</div>

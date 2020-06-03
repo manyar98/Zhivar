@@ -1,0 +1,124 @@
+﻿<section id="login-master" class="container-fluid" ng-hide="!visibleForLoginView" ng-class="{ 'master-invisible': !visibleForLoginView }">
+    <div id="decWave1"></div>
+    <div id="decWave2"></div>
+    <main ui-view="login" class="row" style="margin-left:0;margin-right:0">
+    </main>
+</section>
+<section id="master" class="container-fluid" ng-class="{ 'master-invisible': visibleForLoginView }">
+    <script src="../../Scripts/site-Lib.js"></script>
+    <header class="row master-header">
+        <div id="decWave3"></div>
+        <div id="decWave4"></div>
+        <section class="col-xs-12 col-sm-12 col-md-12 header-first-section">
+            <div class="col-md-3 col-md-offset-9 user-panel">
+                <div class="col-md-2 avatar-wrapper prevent-user-select">
+                    <img src="/Content/images/avatar3.png" />
+                </div>
+                <div class="col-md-9 user-profile prevent-user-select">
+                    <span class="control-label" ng-bind="userModel.FullName"></span>
+                </div>
+                <div class="col-md-1 log-out-wrapper">
+                    <a ng-click="logOff()" title="خروج"><i class="fa fa-power-off"></i></a><!--don't use ui-sref="default"-->
+                </div>
+            </div>
+        </section>
+        <section class="col-xs-12 col-sm-12 col-md-12 header-second-section">
+
+            <div class="col-md-1 logo-wrapper">
+                <img src="/Content/images/logo.svg" class="prevent-user-select" title="{{project.name}}" />
+            </div>
+            <div class="col-md-7 text-wrapper">
+
+                <!--<label>بهشو</label>-->
+                <!--<label class="control-label version-label">ورژن: {{project.version}}</label>
+                <label class="logo-text prevent-user-select" title="{{project.name}}" ng-bind="project.name"></label>-->
+            </div>
+            <div class="col-md-4 header-second-other">
+                <!--<span ng-bind-template="{{userModel.isOrganizationUser ? userModel.Tag10 + ' - ' + userModel.Tag9 : ''}}"></span>-->
+                <label class="date-wrapper">
+                    <span class="control-label" style="color:white">امروز:</span>
+                    <span class="control-label" ng-bind="currentDate" display-numbers="" style="color:white;"></span>
+                </label>
+            </div>
+        </section>
+        <section class="col-xs-12 col-sm-12 col-md-12 header-third-section">
+            <nav class="navbar navbar-default">
+                <div>
+                    <div class="navbar-header">
+                        <button aria-controls="navbar" aria-expanded="false" old-data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button" onclick="ShowDrawerMenu()">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbar">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown home" ng-if="userModel.isOrganizationUser"><a ui-sref="home" title="خانه"><i class="fa fa-home"></i></a></li>
+                            <li class="dropdown home" ng-if="!userModel.isOrganizationUser"><a ui-sref="home" title="خانه"><i class="fa fa-home"></i></a></li>
+                            <script type="text/ng-template" id="menuTree">
+                                <a ng-if="menuItem.Childeren.length==0 && menuItem.IsExternalLink==false" ui-sref="{{menuItem.Url}}">
+                                    <i ng-if="menuItem.CssClass" class="{{menuItem.CssClass}}"></i>
+                                    <span class="{{menuItem.TitleCss}}" ng-bind="menuItem.Title"></span>
+                                </a>
+                                <a ng-if="menuItem.Childeren.length==0 && menuItem.IsExternalLink==true" href="{{menuItem.Url}}" target="_blank">
+                                    <i ng-if="menuItem.CssClass" class="{{menuItem.CssClass}}"></i>
+                                    <span class="{{menuItem.TitleCss}}" ng-bind="menuItem.Title"></span>
+                                </a>
+                                <a ng-if="menuItem.Childeren.length>0" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i ng-if="menuItem.CssClass" class="{{menuItem.CssClass}}"></i>
+                                    <span class="{{menuItem.TitleCss}}" ng-bind="menuItem.Title"></span>
+                                    <span class="triangle"></span>
+                                </a>
+                                <ul class="dropdown-menu" ng-if="menuItem.Childeren.length>0">
+                                    <li ng-if="menuItem.Childeren.length>0" class="dropdown-submenu" data-ng-repeat="menuItem in menuItem.Childeren" ng-include="'menuTree'">
+                                    </li>
+                                    <li ng-if="menuItem.Childeren.length==0" data-ng-repeat="menuItem in menuItem.Childeren" ng-include="'menuTree'">
+                                    </li>
+                                </ul>
+                            </script>
+                            <li class="dropdown" ng-repeat="menuItem in MenuItems" ng-include="'menuTree'">
+                            </li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </nav>
+        </section>
+    </header>
+    <main>
+        <div class="jumbotron" ui-view></div>
+        <div id="drawerMenuShadow" onclick="HideDrawerMenu();"></div>
+        <div id="drawerMenuWrapper" class="drawer-menu drawer-theme-font">
+            <div style="background-color:#1f947e;height:100px;position:relative">
+                <div style="position:absolute;top:0;bottom:0;right:0;width:70px;background-color:none;height:100%;overflow:hidden;background-image:url('/Content/images/drawer-logo.png');background-position:center;background-repeat:no-repeat;    background-size: 78%;">
+
+                </div>
+                <div style="position:absolute;right:70px;left:0;top:0;bottom:0;background-color:none;height:100%;overflow:hidden;color:white;padding-top:26px;font-size: 17px;">
+                    سامانه مدیریت زنجیره ی تامین فرآورده های سلامت محور
+                </div>
+            </div>
+            <script type="text/ng-template" id="drawerMenuTree">
+                <div ng-if="menuItem.Childeren.length>0"><a href="javascript:void(0)" onclick="ExpandableDrawerMenuItemClick(this)"><table><tbody><tr><td><div class="drawer-menu-item-icon"><span ng-class="menuItem.CssClass"></span></div></td><td><span ng-bind="menuItem.Title"></span></td><td class="drawer-menu-expand-icon"><i class="fa fa-caret-left"></i></td></tr></tbody></table></a></div>
+                <div ng-if="menuItem.Childeren.length==0"><a ui-sref="{{menuItem.Url}}" onclick="HideDrawerMenu()"><table><tbody><tr><td><div class="drawer-menu-item-icon"><span ng-class="menuItem.CssClass"></span></div></td><td><span ng-bind="menuItem.Title"></span></td><td class="drawer-menu-expand-icon"><i class=""></i></td></tr></tbody></table></a></div>
+                <div class="drawer-menu-sub-items" ng-if="menuItem.Childeren.length>0">
+                    <div class="drawer-menu-item" ng-class="{'drawer-menu-exp-item-hidden':menuItem.Childeren.length>0}" ng-repeat="menuItem in menuItem.Childeren" ng-include="'drawerMenuTree'">
+
+                    </div>
+                </div>
+            </script>
+            <div class="drawer-menu-items-container">
+                <div class="drawer-menu-item"><div><a ui-sref="home" onclick="HideDrawerMenu()"><table><tbody><tr><td><div class="drawer-menu-item-icon"><span class="fa fa-home"></span></div></td><td><span>خانه</span></td><td class="drawer-menu-expand-icon"><i class=""></i></td></tr></tbody></table></a></div></div>
+                <div class="drawer-menu-item" ng-class="{'drawer-menu-exp-item-hidden':menuItem.Childeren.length>0}" ng-repeat="menuItem in MenuItems" ng-include="'drawerMenuTree'">
+
+                </div>
+            </div>
+            <!--<div class="drawer-menu-footer"></div>-->
+        </div>
+    </main>
+</section>
+<footer class="prevent-user-select" style="display:none">
+    <span>
+        &copy;
+        کپی برداری از این سایت بدون کسب اجازه از شرکت ژیور ممنوع می باشد (لطفا از مرورگرهای FireFox, IE 11+, Chrome استفاده نمایید.)
+    </span>
+</footer>

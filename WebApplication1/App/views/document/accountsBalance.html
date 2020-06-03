@@ -1,0 +1,304 @@
+﻿<div class="container ng-scope" ng-controller="accountsBalanceController">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <div ng-include="'/App/template/alertBox.html'" class="ng-scope"></div>
+    <edit-cash open="editCashModal" cash="cash" onsuccess="getEditedCash" class="ng-isolate-scope"></edit-cash>
+    <edit-bank open="editBankModal" bank="bank" onsuccess="getEditedBank" class="ng-isolate-scope"></edit-bank>
+    <edit-contact open="editContactModal" contact="contact" onsuccess="getEditedContact" typeaccount="typeaccount" class="ng-isolate-scope" ></edit-contact>
+    <edit-item open="editItemModal" item="item" onsuccess="getEditedItem" class="ng-isolate-scope"></edit-item>
+
+    <div ng-show="alert" class="ng-isolate-scope">
+        <div class="alert alert-success center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'success'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-check-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong ng-show="message">{{ alertMessage|number }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg|number }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-info center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'info'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-info-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong ng-show="message">{{ alertMessage }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-warning center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'warning'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-info-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong ng-show="message">{{ alertMessage }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-danger center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'danger'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-exclamation-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong>{{ alertMessage }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row hesabfa-content-page center-block" id="accBalances" ng-show="!loading">
+        <div class="bs-callout bs-callout-default" id="openingBalancePageHeader" style="">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h4>مانده اول دوره حساب ها (سند افتتاحیه)</h4>
+                    <!-- ngIf: setupMode -->
+                    <div class="text-danger">برای وارد کردن اطلاعات هر سرفصل بر روی همان سرفصل کلیک کنید.</div>
+                </div>
+                <div class="col-sm-4 text-left">
+                    <div class="form-group form-inline">
+                        <label>تاریخ سند افتتاحیه: </label>
+                        <input date-picker="" display-numbers="" type="text" class="form-control input-sm ng-valid ng-touched" id="docDate" ng-model="docDate" style="direction: ltr;"><a class="pcalBtn" href="#"></a>
+                    </div>
+                    <a href="" ng-click="showOpeningDocument()">[مشاهده سند افتتاحیه]</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="row text-center ng-hide" ng-show="loadingSection">
+            <div class="col-md-2 col-md-push-4">بارگیری...</div>
+            <div class="col-md-2 col-md-push-3"><img src="../../../Content/img/ajax-loader4.gif"></div>
+        </div>
+
+       <div ng-include="'/App/template/openingBalanceCash.html'" class="ng-scope"></div>
+       <div ng-include="'/App/template/openingBalanceBank.html'" class="ng-scope"></div>
+       <div ng-include="'/App/template/openingBalanceDebtors.html'" class="ng-scope"></div>
+       <div ng-include="'/App/template/openingBalanceCreditors.html'" class="ng-scope"></div>
+       <div ng-include="'/App/template/openingBalanceProducts.html'" class="ng-scope"></div>
+       <div ng-include="'/App/template/openingBalanceChequesPay.html'" class="ng-scope"></div>
+       <div ng-include="'/App/template/openingBalanceChequesRec.html'" class="ng-scope"></div>
+       <div ng-include="'/App/template/openingBalanceChequesInProgress.html'" class="ng-scope"></div>
+       <div ng-include="'/App/template/openingBalanceOtherAssets.html'" class="ng-scope"></div>
+       <div ng-include="'/App/template/openingBalanceOtherLiabilities.html'" class="ng-scope"></div>
+       <div ng-include="'/App/template/openingBalanceWithdrawals.html'" class="ng-scope"></div>
+       <div ng-include="'/App/template/openingBalanceShare.html'" class="ng-scope"></div>
+
+        <div class="row" style="border-top: 2px solid whitesmoke;">
+            <div class="col-sm-6">
+                <div class="bs-callout bs-callout-success" style="background-color: #EDF8ED">
+                    <h4>دارایی ها</h4>
+                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceCash()">
+                        <div class="col-xs-7">صندوق ها</div>
+                        <div class="col-xs-5 ng-binding">{{assets.cash |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceBank()">
+                        <div class="col-xs-7">بانک ها</div>
+                        <div class="col-xs-5 ng-binding">{{assets.bank |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceProducts()">
+                        <div class="col-xs-7">موجودی کالا</div>
+                        <div class="col-xs-5 ng-binding">{{assets.inventory |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceDebtors()">
+                        <div class="col-xs-7">بدهکاران(حسابهای دریافتنی)</div>
+                        <div class="col-xs-5 ng-binding">{{assets.debtors |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceChequesRec()">
+                        <div class="col-xs-7">چکهای دریافتی(اسناد دریافتنی)</div>
+                        <div class="col-xs-5 ng-binding">{{assets.receivables |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceChequesInProgress()">
+                        <div class="col-xs-7">چکهای در جریان وصول</div>
+                        <div class="col-xs-5 ng-binding">{{assets.inProgress |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceOtherAssets()">
+                        <div class="col-xs-7">سایر دارایی ها</div>
+                        <div class="col-xs-5 ng-binding">{{assets.otherAssets |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                    <div class="row bg-success txt-bold" style="margin-top: 10px; margin-bottom: -15px;">
+                        <div class="col-xs-7">جمع دارایی ها</div>
+                        <div class="col-xs-5 ng-binding">{{assets.sum |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" style="border-right: 2px solid whitesmoke;">
+                <div class="bs-callout bs-callout-danger" style="background-color: #FFF1F2">
+                    <h4>بدهی ها</h4>
+                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceCreditors()">
+                        <div class="col-xs-7">بستانکاران(حساب های پرداختنی)</div>
+                        <div class="col-xs-5 ng-binding">{{liabilities.creditors |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceChequesPay()">
+                        <div class="col-xs-7">چک های پرداختی(اسناد پرداختنی)</div>
+                        <div class="col-xs-5 ng-binding">{{liabilities.payables |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceOtherLiabilities()">
+                        <div class="col-xs-7">سایر بدهی ها</div>
+                        <div class="col-xs-5 ng-binding">{{liabilities.otherLiabilities |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                    <div class="row bg-danger txt-bold" style="margin-top: 10px; margin-bottom: -15px;">
+                        <div class="col-xs-7">جمع بدهی ها</div>
+                        <div class="col-xs-5 ng-binding">{{liabilities.sum |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                </div>
+                <div class="bs-callout bs-callout-info" style="background-color: #F4FDFF">
+                    <h4>حقوق صاحبان سهام</h4>
+                    <div class="row">
+                        <div class="col-xs-7">سرمایه</div>
+                        <div class="col-xs-5 ng-binding">{{capital.capital |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                    <!--                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceWithdrawals()">-->
+                    <!--                        <div class="col-xs-7">برداشت ها</div>-->
+                    <!--                        <div class="col-xs-5">{{ capital.withdrawals|digitGroup }}&nbsp;{{ getCurrency() }}</div>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="row hesabfa-menu1" ng-click="loadOpeningBalanceShares()">-->
+                    <!--                        <div class="col-xs-7">سهم سود و زیان</div>-->
+                    <!--                        <div class="col-xs-5" ng-class="capital.share < 0 ? 'red' : ''">{{ capital.share|digitGroup }}&nbsp;{{ Hesabfa.moneyUnit }}</div>-->
+                    <!--                    </div>-->
+                    <div class="row bg-info txt-bold" style="margin-top: 10px; margin-bottom: -15px;">
+                        <div class="col-xs-7">جمع حقوق صاحبان سهام</div>
+                        <div class="col-xs-5 ng-binding">{{capital.capital |digitGroup}}&nbsp;ریال</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row txt-bold" style="margin: 1px; margin-bottom: 15px; margin-top: 0px;">
+            <div class="col-xs-6" style="background-color: whitesmoke;">
+                <span class="pull-right">جمع دارایی ها</span>
+                <span class="pull-left ng-binding">{{sumRight |digitGroup}}&nbsp;ریال</span>
+            </div>
+            <div class="col-xs-6" style="background-color: whitesmoke;">
+                <span class="pull-right">جمع بدهی ها و سرمایه</span>
+                <span class="pull-left ng-binding">{{sumLeft |digitGroup}}&nbsp;ریال</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 text-center ng-hide" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری مانده اول دوره...</div>
+    </div>
+
+    <div class="modal fade ng-scope in" id="viewDocumentModal" tabindex="-1" role="dialog" aria-labelledby="viewDocumentModalLabel" aria-hidden="false" style="display: none;">
+        <div class="modal fade in" style="height: 465px;"></div>
+        <div class="modal-dialog modal-lg ui-draggable" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header-info ui-draggable-handle">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="viewDocumentModalLabel">
+                        سند حسابداری شماره
+                        <span class="orange ng-binding">{{document.Number |number}}</span>
+                    </h4>
+                </div>
+                <form class="ng-pristine ng-valid">
+                    <div class="modal-body">
+
+                        <div class="row ng-scope">
+                            <div class="col-sm-6">
+                                <label class="txt-bold">شـرح:&nbsp;</label><span class="hesabfa-txt-11 ng-binding">{{document.Description }}</span>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group ng-binding">
+                                    <label class="txt-bold">تاریخ:&nbsp;</label>{{document.DisplayDate |number}}
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group ng-binding">
+                                    <label class="txt-bold">شماره سند:&nbsp;</label>{{document.Number2 |number }}
+                                </div>
+                            </div>
+                            <!--<div class="col-sm-2">
+                                <div class="form-group ng-binding">
+                                    <label class="txt-bold">شماره عطف:&nbsp;</label>
+                                </div>
+                            </div>-->
+                        </div>
+
+                        <div class="separator1 ng-scope"></div>
+
+                        <table class="table table-bordered table-hover ng-scope">
+                            <thead>
+                                <tr class="active" style="font-size: 9pt;font-weight: bold;">
+                                    <td>#</td>
+                                    <td>کد حساب</td>
+                                    <td>حساب</td>
+                                    <td>شــرح</td>
+                                    <td>بدهکار <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></td>
+                                    <td>بستانکار <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- ngRepeat: transaction in document.Transactions -->
+                                <tr ng-repeat="transaction in document.Transactions" class="ng-scope">
+                                    <td style="width: 30px;padding: 5px; vertical-align: middle; text-align: center;" class="ng-binding">{{($index+1) |number}}</td>
+                                    <td style="width: 80px; padding: 5px; vertical-align: middle; text-align: center;" class="ng-binding">{{transaction.AccountComplteCoding |number}}</td>
+                                    <td style="padding: 5px; text-align:center;" class="text-primary ng-binding">
+                                        {{transaction.AccountName}}
+                                        <!--<span class="text-warning ng-binding"> / کالا 1</span>-->
+                                    </td>
+                                    <td style="padding: 5px; text-align:center;" class="ng-binding">{{transaction.Description}}</td>
+                                    <td style="padding: 5px; vertical-align: middle; text-align: center;" class="ng-binding">{{transaction.Debit |digitGroup}}</td>
+                                    <td style="padding: 5px; vertical-align: middle; text-align: center;" class="ng-binding">{{transaction.Credit |digitGroup}}</td>
+                                </tr><!-- end ngRepeat: transaction in document.Transactions -->
+
+
+                            </tbody>
+                        </table>
+
+                        <div class="row ng-scope" style="padding-left: 15px;">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <div class="row text-left" style="border-bottom: 1px solid rgb(69, 69, 69)" ng-class="totalRowClass()">
+                                    <div class="col-xs-4 h5 txt-bold">جمع <span style="font-weight: normal" ng-bind="getCurrency(true)" class="ng-binding">(ریال)</span></div>
+                                    <div class="col-xs-4 h5 txt-bold ng-binding">{{getTotalDebit() |digitGroup|number}}</div>
+                                    <div class="col-xs-4 h5 txt-bold ng-binding">{{getTotalCredit() |digitGroup}}</div>
+                                </div>
+                                <div class="row" style="border-top: 1px solid rgb(69, 69, 69); margin-top: 1px;margin-bottom: 10px;"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-smoke" data-dismiss="modal">بستن</button>
+                        <a ng-show="document.IsManual &amp;&amp; showEditDocBtn" role="button" class="btn btn-info pull-right ng-hide" href="#editDocument\1">ویرایش</a>
+                        <button ng-show="document.IsManual &amp;&amp; showDeleteDocBtn" type="button" class="btn btn-danger pull-right ng-hide" ng-click="deleteDocument(document)" style="margin-right: 5px;">حذف</button>
+                        <!--<button ng-show="showPrintDocBtn" class="btn btn-default btn-smoke pull-right" ng-click="printDocument()" style="margin-right: 5px;">
+                            <span class="fa fa-print" aria-hidden="true"></span>&nbsp;
+                            چاپ
+                        </button>
+                        <button ng-show="showPrintDocBtn" class="btn btn-default btn-smoke pull-right" ng-click="pdfDocument()" style="margin-right: 5px;">
+                            <span class="fa fa-file-pdf-o" aria-hidden="true"></span>&nbsp;
+                            PDF
+                        </button>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

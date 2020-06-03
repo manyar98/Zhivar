@@ -1,0 +1,263 @@
+﻿<div class="container ng-scope" ng-controller="editContactController" style="width:100%">
+    <!-- ngInclude: '/dashboard/widgets/alertBox.html?ver=1.2.9.1' -->
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+    <div class="panel panel-info center-block hesabfa-panel" id="panelContactInfo">
+        <div id="test" class="panel-heading">
+            <span class="panel-title"><strong>اطلاعات شخص</strong></span>
+
+        </div>
+
+        <div class="panel-body hesabfa-panel-body">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputName" class="title1">نـام <span class="red">*</span></label>
+                        <input display-numbers="" type="text" class="form-control input-sm" id="inputName" ng-model="contact.Name" maxlength="100" aria-describedby="inputNamehelp" required>
+                        <span id="inputNamehelp" class="help-block small">نام شخص، شرکت، ...</span>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <label for="inputName" class="title1">نوع شخص</label>
+                    <div class="dropdown">
+                        <button class="btn btn-default btn-sm dropdown-toggle ng-binding" type="button" id="dropdownMenu1" style="width: 100%;text-align: right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{ Hesabfa.contactTypes[contact.ContactType] }}
+                            <span class="fa fa-caret-down pull-left"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="" ng-click="contact.ContactType = 0">نامشخص</a></li>
+                            <li><a href="" ng-click="contact.ContactType = 1">حقیقی</a></li>
+                            <li><a href="" ng-click="contact.ContactType = 2">حقوقی</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="inputCode" class="title1">کــد <span class="red">*</span></label>
+                        <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="inputCode" ng-model="contact.Code" maxlength="6" aria-describedby="inputCodehelp" disabled="disabled">
+                        <span id="inputCodehelp" class="help-block small">کد تفصیلی (6 رقمی)</span>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="inputNationalCode" class="title1">کد / شناسه ملی</label>
+                        <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="inputNationalCode" ng-model="contact.NationalCode" maxlength="11">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!--<div class="col-xs-8">
+            <div class="form-group">
+                <label class="title1">گروهبندی شخص</label>
+                <node-select filter="contact" text="contact.DetailAccount.Node.FamilyTree" bind="contact.DetailAccount.Node" start="startNodeSelect" eid="contactNode"></node-select>
+            </div>
+        </div>-->
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label for="inputName" class="title1">به نمایندگی </label>
+                        <input display-numbers="" type="text" class="form-control input-sm" id="inputName" ng-model="contact.Company" maxlength="100" aria-describedby="inputNamehelp" required>
+                        <span id="inputNamehelp" class="help-block small">نام شخص، شرکت، ...</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 ">
+                    <label class="title1">جنسیت </label>
+                    <div class="dropdown">
+                        <button class="btn btn-default btn-sm dropdown-toggle ng-binding" type="button" style="width: 100%;text-align: right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                            <span ng-if="contact.Jensiat == null">نامشخص</span>
+                            <span ng-if="contact.Jensiat == 2">زن</span>
+                            <span ng-if="contact.Jensiat == 1">مرد</span>
+                            <span class="fa fa-caret-down pull-left"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="" ng-click="contact.Jensiat =null">نامشخص</a></li>
+                            <li><a href="" ng-click="contact.Jensiat = 2">زن</a></li>
+                            <li><a href="" ng-click="contact.Jensiat = 1">مرد</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="inputNationalCode" class="title1">شناسه اقتصادی</label>
+                        <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="inputEconomicCode" ng-model="contact.EconomicCode" maxlength="12">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="inputNationalCode" class="title1">شماره ثبت</label>
+                        <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="inputRegistrationNumber" ng-model="contact.RegistrationNumber" maxlength="10">
+                    </div>
+                </div>
+            </div>
+
+            <div class="separator1"></div>
+
+            <div class="text-muted iransans">لوگوی شرکت </div>
+
+            <div class="row">
+                <div class="col-md-12  ">
+                    <div class="form-group">
+
+                        <div class="col-md-8">
+
+                            <img style="width:150px;height:150px;border:solid 1px blue;margin-bottom:20px" id="fileShow2" class="file-icon">
+                        </div>
+
+
+                        <div class="col-md-2 ">
+                            <div class="k-rtl">
+                                <input name="fileShow" type="file" kendo-upload k-select="onSelect"
+                                       k-multiple="false" k-show-file-list="false" k-localization="{select: 'بارگزاری لوگو '}"
+                                       tabindex="36" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+
+                            <img style="width:150px;height:150px;border:solid 1px blue;margin-bottom:20px" id="fileShow" class="file-icon">
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+
+                <div class="separator1"></div>
+
+                <div class="text-muted iransans">مشخصات فرد </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="inputFirstName" class="title1">نـام</label>
+                            <input display-numbers="" type="text" class="form-control input-sm" id="inputFirstName" ng-model="contact.FirstName" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="inputLastName" class="title1">نام خانوادگی</label>
+                            <input display-numbers="" type="text" class="form-control input-sm" id="inputLastName" ng-model="contact.LastName" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="inputMobile" class="title1">تلفن همراه</label>
+                            <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="inputMobile" ng-model="contact.Mobile" maxlength="11">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="inputEmail" class="title1">ایمیل</label>
+                            <input class="form-control input-sm ltr ng-pristine ng-untouched ng-valid" id="inputEmail" ng-model="contact.Email" maxlength="100">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="separator1"></div>
+
+                <div class="text-muted iransans">آدرس</div>
+                <div class="row form-horizontal">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputState" class="title1 col-sm-3 control-label">استان</label>
+                            <div class="col-sm-9">
+                                <input display-numbers="" type="text" class="form-control input-sm" id="inputState" ng-model="contact.State" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputCity" class="title1 col-sm-3 control-label">شهر</label>
+                            <div class="col-sm-9">
+                                <input display-numbers="" type="text" class="form-control input-sm" id="inputCity" ng-model="contact.City" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPostalCode" class="title1 col-sm-3 control-label">کد پستی</label>
+                            <div class="col-sm-9">
+                                <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="inputPostalCode" ng-model="contact.PostalCode" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress" class="title1 col-sm-3 control-label">آدرس</label>
+                            <div class="col-sm-9">
+                                <textarea display-numbers="" class="form-control input-sm ng-pristine ng-untouched ng-valid" rows="2" id="inputAddress" ng-model="contact.Address" maxlength="200"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputPhone" class="title1 col-sm-3 control-label">تلفن</label>
+                            <div class="col-sm-9">
+                                <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="inputPhone" ng-model="contact.Phone" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputFax" class="title1 col-sm-3 control-label">فکس</label>
+                            <div class="col-sm-9">
+                                <input display-numbers="" keyboard-filter="code" type="text" class="form-control input-sm" id="inputFax" ng-model="contact.Fax" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputContactEmail" class="title1 col-sm-3 control-label">ایمیل</label>
+                            <div class="col-sm-9">
+                                <input class="form-control input-sm ltr ng-pristine ng-untouched ng-valid" id="inputContactEmail" ng-model="contact.ContactEmail" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputWebsite" class="title1 col-sm-3 control-label">وب سایت</label>
+                            <div class="col-sm-9">
+                                <input class="form-control input-sm ltr ng-pristine ng-untouched ng-valid" id="inputWebsite" ng-model="contact.Website" maxlength="100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="separator1"></div>
+
+                <!--<div class="row">
+            <div class="col-sm-12">
+                <label class="title1">نقش ها: &nbsp;&nbsp;</label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" ng-model="contact.IsCustomer" disabled="disabled" class="ng-pristine ng-untouched ng-valid"> مشتری
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" ng-model="contact.IsVendor" disabled="disabled" class="ng-pristine ng-untouched ng-valid"> فروشنده
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" ng-model="contact.IsEmployee" disabled="disabled" class="ng-pristine ng-untouched ng-valid"> کارمند
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" ng-model="contact.IsShareHolder" disabled="disabled" class="ng-pristine ng-untouched ng-valid"> سهامدار
+                </label>
+                <label style="display: inline-block">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="fa fa-info-circle" style="color: #2ab27b;"></span>&nbsp;
+                    <span class="hesabfa-txt-9 txt-gray">نقش یا نقش های شخص بصورت خودکار توسط سیستم شناسایی میگردد.</span>
+                </label>
+            </div>
+
+        </div>-->
+
+                <div class="separator1"></div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="inputNote" class="title1">یادداشت</label>
+                            <textarea display-numbers="" class="form-control input-sm ng-pristine ng-untouched ng-valid" rows="3" id="inputNote" ng-model="contact.Note" maxlength="500"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="panel-footer">
+                <button type="submit" ng-click="saveContact()" ng-show="!calling" onclick="return false;" class="btn btn-success">ثبت و ذخیره</button>
+                <button type="submit" ng-click="saveContact(true)" ng-show="!calling" onclick="return false;" class="btn btn-info">ثبت و بعدی</button>
+                <button ng-click="cancel()" ng-show="!calling" onclick="return false;" class="btn btn-default btn-smoke pull-left" style="width: 80px;">انصراف</button>
+                <span ng-show="calling"><img src="../../../../Content/img/ajax-loader4.gif"></span>
+            </div>
+        </div>
+
+</div>

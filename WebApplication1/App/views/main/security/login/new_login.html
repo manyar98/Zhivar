@@ -1,0 +1,59 @@
+﻿<div ng-controller="loginController" ng-init="logoff()" class="overflow-hidden">
+    <div class="backgroundlogin p-3 m-0 p-0" style="overflow-y:scroll !important">
+        <div style="height:99vh !important">
+            <div class="col-lg-5 col-md-7 col-sm-8 col-12 mx-auto m-0 p-0 login mt-lg-3">
+                <div class="col-12 m-0 p-0">
+                    <div class="col-12  m-0 px-5">
+                        <div class="mx-auto overflow-hidden rounded-circle overflow-hidden d-flex justify-content-center p-3" style="width:180px ; height:150px">
+                            <img src="../../../../../Content/style login/img-icon/zhivar.png" style="width:100%" />
+                        </div>
+                        <form role="form" class="pt-2 pb-3 mb-5">
+                            <h4 class="text-center m-0 p-0">ورود به سامانه</h4>
+                            <div class="form-group mt-4">
+                                <!--   <input text-required='نام کاربری را وارد کنید ' ng-model="model.userName" display-numbers="" type="text" placeholder="نام کاربری" name="username" class="form-control rounded-pill text-center border-primary" tabindex="1">-->
+                                <!--<input text-required='کلمه ی عبور را وارد کنید ' ng-model="model.password" type="password" placeholder="کلمه عبور" name="password" class="form-control mt-3 rounded-pill text-center border-primary" tabindex="2">-->
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control text-center border-primary" text-required='نام کاربری را وارد کنید ' name="username" ng-model="model.userName" display-numbers="" placeholder="نام کاربری" tabindex="1">
+                                    <div class="input-group-append bg-light ">
+                                        <span class="bg-light input-group-text fa fa-user-circle-o border-primary"></span>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="password" class="form-control text-center border-primary" text-required='  رمز عبور را وارد کنید ' ng-model="model.password" placeholder=" رمز عبور را وارد کنید" tabindex="2">
+                                    <div class="input-group-append bg-light ">
+                                        <span class=" bg-light input-group-text fa fa-key border-primary"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row m-0 p-0">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mx-auto p-0 m-0 my-3 d-flex justify-content-around">
+                                    <button class="btn btn-light border-dark mt-2" ng-click="ref()"> <i class="fa fa-refresh"></i></button>
+                                    <captcha-image captchaoption="captchaOption" class="" />
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mx-auto my-3 m-0 p-0">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control border-primary text-center" ng-model="model.captcha" display-numbers="" text-required='کد امنیتی را وارد کنید' placeholder="کد امنیتی" tabindex="3" maxlength="5">
+                                        <div class="input-group-append bg-light ">
+                                            <span class="bg-light input-group-text fa fa-eye border-primary" style="width:42px"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center m-0 p-0 mt-2">
+                                <button-validation mode="normal" class-style="btn btn-block rounded-pill btn-login p-0 m-0 text-light border-0 " click="login(model)" tabindex="3">ورود</button-validation>
+                            </div>
+                            <div class="d-flex justify-content-center m-0 p-0 mt-3">
+                                <button class="btn btn-block btn-success rounded-pill btn-regester border-0" ng-click="redirect2('register')" tabindex="4">
+                                    <span>ثبت نام در اینجا </span>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-center mt-3 mb-2">
+                                <a href="#" class="text-center text-danger ">!!! رمز عبور را فراموش كرده ام </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

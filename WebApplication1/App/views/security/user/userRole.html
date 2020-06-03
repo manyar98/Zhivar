@@ -1,0 +1,32 @@
+<div ng-controller="userRoleController" ng-init="init()" id="userRoleWrapper">
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i uib-popover="{{applicationDescription}}" popover-trigger="'mouseenter'" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+    <form name="userRole" class="form-horizontal" action="#">
+        <div class="row" ng-show="userRoleOperationAccess.canInsert">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-1 control-label"><i class="fa fa-user"></i>مشخصات کاربر :</label>
+                    <label class="col-xs-3 label-readonly" ng-bind="FullName"></label>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="abs anim k-rtl">
+                    <div class="abs anim k-rtl" check-tree-list="treeList" k-options="mainTreeOptions" k-ng-delay="mainTreeOptions" html-options="treeHtmlOptions"></div>
+                </div>
+            </div>
+        </div>
+        <div class="button-wrapper" ng-show="userRoleOperationAccess.canInsert">
+            <input type="hidden" ng-model="model.ID" />
+            <button class="btn btn-success" ng-click='action()' type="button" tabindex="2">ثبت</button>
+            <button class="btn btn-danger" ng-click="redirect()" type="button" tabindex="3">انصراف</button>
+        </div>
+        <input type="hidden" ng-model="UserId">
+    </form>
+</div>
+<style>
+    .treeHtmlOptions {
+        height: 500px !important;
+    }
+</style>

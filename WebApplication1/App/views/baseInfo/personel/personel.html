@@ -1,0 +1,188 @@
+﻿﻿<div class="container ng-scope" ng-controller="personelController">
+
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+
+
+    <edit-personel open="editItemModal" item="item" type="type" onsuccess="getEditedPerson" positions="positions" iscreated="iscreated"></edit-personel>
+
+    <div class="center-block" ng-show="!loading">
+
+      
+
+        <div class="row mr-10">
+            <div class="col-md-12">
+                <button class="btn btn-info btn-sm mr-b-10" ng-click="addItem()">
+                    <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                    افزودن پرسنل
+                </button>
+                <button class="btn btn-default btn-smoke btn-sm mr-b-10" ng-click="deleteItems()" ng-disabled="grid.getSelectedItems().length == 0">
+                    <span class="fa fa-trash" aria-hidden="true"></span>&nbsp;
+                    حذف
+                </button>
+                <!--<button class="btn btn-default btn-smoke btn-sm mr-b-10" data-toggle="modal" data-target="#importExcelModal" ng-show="havePermission('excelImport')">
+                    <span class="fa fa-file-excel-o" aria-hidden="true"></span>&nbsp;
+                    ورود از اکسل
+                </button>-->
+                <!--<button class="btn btn-default btn-smoke btn-sm mr-b-10" data-toggle="modal" ng-click="exportItemsToExcel()" ng-show="havePermission('excelExport')">
+                    <span class="fa fa-file-excel-o" aria-hidden="true"></span>&nbsp;
+                    خروج به اکسل
+                </button>
+                <div class="btn-group form-inline mr-b-10" id="printBtns" style="margin-top:10px">
+                    <button type="button" class="btn btn-default btn-smoke btn-sm dropdown-toggle mr-b-10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-print" aria-hidden="true"></span>
+                        چاپ <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="" ng-click="print()">چاپ لیست کالاها و خدمات</a></li>
+                        <li><a href="" ng-click="printBarcodeLabelDialog()">چاپ برچسب بارکد (PDF)</a></li>
+                    </ul>
+                </div>-->
+                <button type="button" class="btn btn-default btn-smoke btn-sm dropdown-toggle mr-b-10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="print()">
+                    <span class="fa fa-print" aria-hidden="true"></span>
+                    چاپ <span class="caret"></span>
+                </button>
+                <button class="btn btn-default btn-smoke mr-b-10" ng-click="pdf()">
+                    <span class="fa fa-file-pdf-o" aria-hidden="true"></span>
+                    PDF
+                </button>
+                <!--<a class="btn btn-success mr-b-10 pull-left" href="#/updateItemPrice" ng-show="havePermission('newItem')">
+                    <span class="fa fa-refresh" aria-hidden="true"></span>
+                    به روز رسانی لیست قیمت
+                </a>-->
+                <!--<button type="button" class="btn btn-success mr-b-10 pull-left"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="goToUpdateItemPrice()">
+                    <span class="fa fa-refresh" aria-hidden="true"></span>
+                    به روز رسانی لیست قیمت
+                </button>-->
+            </div>
+        </div>
+
+        <div id="gridContainer"></div>
+    </div>
+
+    <div id="printLabelPopupContent" class="hidden">
+        <div class="gridLabelCount"></div>
+        <div class="m-t-20">
+            <h4>تنظیمات چاپ</h4>
+        </div>
+        <div class="m-t-20">
+            <div style="display: inline-block; margin-right: 30px">
+                <label>تیتر لیبل</label>
+                <input display-numbers="" type="text" ng-model="label.title" class="form-control input-sm m-l-20" style="width: 150px; display: inline-block;">
+            </div>
+            <div style="display: inline-block; margin-right: 30px">
+                <label>عرض لیبل</label>
+                <input display-numbers="" keyboard-filter="integer" type="text" ng-model="label.width" class="form-control input-sm m-l-20" style="width: 50px; display: inline-block;" maxlength="3"> mm
+            </div>
+
+            <div style="display: inline-block; margin-right: 30px">
+                <label class="m-r-20">طول لیبل</label>
+                <input display-numbers="" keyboard-filter="integer" type="text" ng-model="label.height" class="form-control input-sm m-l-20" style="width: 50px; display: inline-block;" maxlength="3"> mm
+            </div>
+        </div>
+
+        <div class="m-t-20">
+            <div class="chkItemName m-l-20 m-r-20"></div>
+            <div class="chkItemCode m-l-20 m-r-20"></div>
+            <div class="chkBarcode m-l-20 m-r-20"></div>
+            <div class="chkPrice m-l-20 m-r-20"></div>
+            <div class="chkBorder m-l-20 m-r-20"></div>
+        </div>
+
+        <div class="row m-t-20">
+            <div class="col-xs-10">
+                <div class="radPrintType m-r-15"></div>
+            </div>
+            <div class="col-xs-2">
+                <button type="button" class="btn btn-info pull-left" ng-click="printLabels()">چاپ</button>
+            </div>
+        </div>
+
+
+    </div>
+    <div id="printLabelPopup">
+    </div>
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری لیست پرسنل...</div>
+    </div>
+
+    <div class="modal fade" id="importExcelModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">ورود کالاها از اکسل</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="hesabfa-txt-9">
+                        <strong>۱- قدم اول: فایل قالب کالا ها و خدمات را دانلود کنید</strong>
+                        <br>
+                        ابتدا فایل قالب را دانلود کنید، در این فایل ستون های لازم برای درج اطلاعات کالا ها
+                        به ترتیبی که ژیور برای شناسایی آنها نیاز دارد ثبت شده است.
+                        <br>
+                        <a href="/View/excelTemplates/Hesabfa_Items.xlsx">
+                            <span class="fa fa-file-excel-o" aria-hidden="true"></span>&nbsp;
+                            دانلود فایل قالب
+                        </a>
+                    </p>
+                    <hr>
+                    <p class="hesabfa-txt-9">
+                        <strong>۲- قدم دوم: اطلاعات کالاهای خود را در فایل قالب کپی کنید</strong>
+                        <br>
+                        با استفاده از نرم افزار اکسل، فایل قالب را باز کرده و اطلاعات کالاها و خدمات خود را
+                        مطابق با ستون های در نظر گرفته شده وارد کنید.
+                        <br>
+                        <strong>نکته مهم:</strong> عنوان ستون ها و ترتیب آنها را تغییر ندهید.
+                        <br>
+                        شما همچنین می توانید از فایل قالب قبلی خود جهت ویرایش اطلاعات کالاها بصورت دسته جمعی
+                        به جای ویرایش تک تک آنها از طریق مرورگر استفاده کنید
+                        ، ژیور از طریق کد هر آیتم، متوجه می شود که آیا آیتم از قبل وجود دارد که در این حالت آن را ویرایش
+                        و یا آیتم وجود ندارد که در این حالت آیتم جدیدی ثبت و ذخیره می کند.<br>
+                        شما همچنین می توانید موجودی اول دوره کالاهای خود را نیز از همین طریق بصورت دسته جمعی وارد کنید.
+                        <br>
+                        در هر بار ورود اطلاعات از اکسل، حداکثر تا 500 آیتم را می توانید وارد کنید.
+                    </p>
+                    <hr>
+                    <p class="hesabfa-txt-9">
+                        <strong>۳- قدم سوم: فایل قالب خود را انتخاب کرده و ثبت کنید</strong>
+                        <br>
+                        پس از ورود اطلاعات در فایل قالب، آن را ذخیره کرده و از این جا وارد کنید.
+                        <br>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-xs-12 text-center" ng-show="callingImport">
+                        <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+                        <div>در حال آپلود فایل و ورود اطلاعات از اکسل...</div>
+                    </div>
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-show="!callingImport">انصراف</button>
+                    <div class="btn btn-default btn-smoke" style="position: relative; overflow: hidden; direction: ltr;" ng-show="!callingImport">
+                        <input type="file" id="inputFileFromExcel" class="hand" style="position: absolute; font-size: 30px; z-index: 1; right: 0px; top: 0px; opacity: 0;">
+                        <span style="direction: rtl">
+                            ...انتخاب فایل&nbsp;<span class="fa fa-file-excel-o" aria-hidden="true"></span>
+                        </span>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <span><img src="../../../Content/img/ajax-loader4.gif"></span>
+                    <div>در حال گرفتن خروجی اکسل از اطلاعات کالاها و خدمات...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="textHeightMeasurement" style="position: fixed; left: -1000px; top: -1000px;"></div>
+    <img id="imgLogo" style="position: fixed; top: -1500px; left: -1500px; z-index: -1; max-width: 140px; max-height: 70px;" src="">
+
+</div>

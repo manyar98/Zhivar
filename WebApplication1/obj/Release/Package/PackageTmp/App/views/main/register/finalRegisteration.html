@@ -1,0 +1,48 @@
+﻿<div ng-controller="finalRegisterationController" class="container-fluid">
+    <div class="container" ng-show="loginControlVisible">
+        <div id="finalRegistrationWrapper" class="col-md-12 col-sm-12 col-xs-12" style="margin-top:8px;">
+            <div class="registration-panel">
+                <div class="left-section">
+                    <ul>
+                        <li>در این بخش، می بایست با وارد نمودن کد تایید ثبت نام خود را تکمیل نمایید.</li>
+                        <li>با وارد نمودن کد تایید  و سپس کلیک بر روی دکمه ورود به سامانه به صفحه ثبت اطلاعات کسب و کار هدایت خواهید شد.</li>
+                        <li>در حفظ و نگهداری نام کاربری (شماره تلفن همراه) و رمز عبور کوشا باشید.</li>
+                    </ul>
+                </div>
+                <div class="right-section">
+                    <fieldset>
+                        <form id="mobileCaptchaCodeForm" class="form-horizontal" role="form">
+                            <div class="input-group col-md-7 col-md-offset-2 col-sm-7 col-xs-8 text-pulse">
+                                لطفاً تلفن همراه خود را در دسترس قرار دهید.
+                            </div>
+                            <div class="input-group col-md-7 col-md-offset-2 col-sm-7 col-xs-8" style="margin-bottom: 15px;">
+                                <p>
+                                    لطفاً کد تایید پیامک شده را در کادر پایین وارد نمایید.
+                                </p>
+                            </div>
+                            <div class="input-group col-md-7 col-md-offset-2 col-sm-7 col-xs-8" style="margin-bottom: 15px;">
+                                <span class="input-group-addon" title="کد تایید"><i class="glyphicon glyphicon-earphone"></i></span>
+                                <input text-required='کد ارسال شده توسط اپراتور  را وارد نمایید' ng-model="model.MobileCaptcha" type="text" placeholder="کد تایید" name="mobileCaptcha" class="form-control" id="login-mobileCaptcha" tabindex="5">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0!important;">
+                                <div class="col-md-7 col-md-offset-3 col-sm-9 col-xs-10 register-btn">
+                                    <button-validation class-style="btn btn-success" click="finalRegisteration(model)" value="ورود به سامانه" tabindex="7"><i class="fa fa-check"></i></button-validation>
+                                    &nbsp;&nbsp;
+                                    <button type="button" class="btn btn-warning" ng-click="redirect()" tabindex="8"><i class="fa fa-arrow-left"></i>بازگشت</button>
+                                </div>
+                            </div>
+                        </form>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    @media (max-width: 1365px) and (min-height:610px) {
+        footer {
+            position: absolute !important;
+        }
+    }
+</style>
+

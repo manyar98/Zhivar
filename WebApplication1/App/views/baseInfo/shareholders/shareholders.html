@@ -1,0 +1,151 @@
+﻿<div class="container ng-scope" ng-controller="shareholdersController" >
+    <div class="well">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <i popover="{{applicationDescription}}" popover-placement="right" class="fa fa-question-circle help"></i>
+    </div>
+  
+    <div ng-show="alert" class="ng-isolate-scope">
+        <div class="alert alert-success center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'success'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-check-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong ng-show="message">{{ alertMessage }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-info center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'info'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-info-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong ng-show="message">{{ alertMessage }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-warning center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'warning'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-info-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong ng-show="message">{{ alertMessage }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-danger center-block text-right hesabfa-txt-10" role="alert" style="max-width: 600px;"
+             id="error" ng-if="alertType == 'danger'">
+            <div class="row">
+                <div class="col-xs-1" style="margin-top: -2px;">
+                    <span class="fa fa-exclamation-circle fa-2x" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                </div>
+                <div class="col-xs-11" style="margin-top: 1px;">
+                    <strong>{{ alertMessage }}</strong>
+                    <ul ng-show="messages" style="margin-bottom: -3px;">
+                        <li ng-repeat="msg in messages">{{ msg }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <edit-contact open="editContactModal" contact="contact" onsuccess="getEditedContact"></edit-contact>
+
+    <div ng-show="!loading &amp;&amp; !done">
+        <div class="panel panel-info center-block hesabfa-panel" id="panelAccounts">
+            <div class="panel-heading">
+                <span class="panel-title"><strong>لیست سهامداران</strong></span>
+            </div>
+            <div class="panel-body hesabfa-panel-body">
+                <p><strong>لیست سهامداران (شرکا) كسب و كار شما</strong></p>
+                <p>
+                    سهامداران (شرکای) کسب و کار خود را تعریف، و در صد سهام (شراکت) هر یک را مشخص کنید.
+                </p>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="active" style="font-size: 9pt;font-weight: bold;">
+                            <td>#</td>
+                            <td>نام سهامدار</td>
+                            <td>درصد سهم (شراکت)</td>
+                            <td>حذف</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="shareholder in shareholders" class="ng-scope">
+                            <td style="width: 30px;padding: 0px; vertical-align: middle; text-align: center;"><span class="ng-binding">{{($index + 1) |number}}</span></td>
+                            <td style="padding-top: 6px; padding-right: 10px; text-align:center;" class="ng-binding">{{shareholder.Name}}</td>
+                            <td style="padding: 0px; width: 150px">
+                                <div class="input-group">
+                                    <input display-numbers="" keyboard-filter="float" type="text" class="input-grid-factor input-sm form-control ng-valid" ng-model="shareholder.SharePercent" ng-blur="calTotal()">
+                                </div>
+                            </td>
+                            <td style="width: 50px; padding: 0px; vertical-align: middle; text-align: center;">
+                                <span class="fa fa-remove fa-fw close-grid-row" aria-hidden="true" ng-click="deleteRow($index)"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row" style="padding-left: 15px;">
+                    <div class="col-md-8">
+                        <button type="button" ng-click="newContact()" onclick="return false;" class="btn btn-default btn-sm">
+                            <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                            تعریف شخص جدید
+                        </button>
+                        <button type="button" ng-click="showAddFromList = true" onclick="return false;" class="btn btn-default btn-sm">
+                            <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;
+                            انتخاب از لیست اشخاص
+                        </button>
+                        <button ng-show="!setupMode" type="submit" ng-click="submitShareholders()" onclick="return false;" class="btn btn-primary btn-sm" style="width: 80px;">ثبت</button>
+                        <button ng-show="!setupMode" ng-click="cancel()" onclick="return false;" class="btn btn-default btn-smoke btn-sm" style="width: 80px;">انصراف</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row text-left" ng-class="total == 100 ? 'bg-success' : 'bg-warning'" style="border-bottom: 1px solid rgb(69, 69, 69)">
+                            <div class="col-xs-2 h5 txt-bold">جمع</div>
+                            <div class="col-xs-5 h5 txt-bold ng-binding">{{ total|number }} %</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="showAddFromList">
+                    <div class="col-lg-4">
+                        سهامدار جدید را از لیست انتخاب کنید:
+                        <div id="comboShareholderSelect"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ngIf: setupMode -->
+    </div>
+
+    <div class="col-xs-12 text-center" ng-show="loading">
+        <span><img src="../../../../Content/img/ajax-loader4.gif"></span>
+        <div>بارگیری لیست سهامداران...</div>
+    </div>
+
+    <div class="center-block text-center" style="display: none; margin-top: 50px;" id="done">
+        <h2 class="txt-gray mr-t-25">نصب و راه اندازی کامل شد</h2>
+        <h4 class="text-muted mr-t-25">با کلیک بر روی دکمه شروع به داشبورد کسب و کار خود هدایت می شوید</h4>
+        <button type="submit" class="btn btn-success btn-lg mr-t-5" ng-click="start()">شروع</button>
+    </div>
+
+</div>
