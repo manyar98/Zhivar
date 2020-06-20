@@ -44,6 +44,8 @@ namespace Zhivar.Business.Workflows
                 InvoiceRule invoiceRule = new InvoiceRule(UnitOfWork);
                 invoiceRule.ConvertContractToInvoice(contract.ID, NoeFactor.RentFrom);
 
+                UnitOfWork.SaveChanges();
+
             }
             return ex;
 

@@ -1,4 +1,5 @@
-﻿<style>
+﻿
+<style>
     .ui-state-highlight {
         height: 100px;
         background-color: #ccc !important;
@@ -36,7 +37,7 @@
     </div>
 
 
-    <edit-chap open="editChapModal" chapkhanes="chapkhanes" bazareabs="bazareabs" tarahs="tarahs" nasabs="nasabs" item="item" onsuccess="getEditedItem" listnasabs="listnasabs" listtarahs="listtarahs" listbazareabs="listbazareabs" listchapkhanes="listchapkhanes" listnoechaps="listnoeChaps" semat="semat" metrazh="metrazh"></edit-chap>
+    <edit-chap open="editChapModal"  chapkhanes="chapkhanes" bazareabs="bazareabs" tarahs="tarahs" nasabs="nasabs" item="item" onsuccess="getEditedItem" listnasabs="listnasabs" listtarahs="listtarahs" listbazareabs="listbazareabs" listchapkhanes="listchapkhanes" listnoechaps="listnoeChaps" semat="semat" metrazh ="metrazh"></edit-chap>
     <edit-saze open="editItemModal" item="item" onsuccess="getEditedSaze"></edit-saze>
     <!--<edit-item open="editItemModal" item="item" onsuccess="getEditedItem"></edit-item>-->
     <edit-contact open="editContactModal" contact="contact" onsuccess="getEditedContact" class="ng-isolate-scope"></edit-contact>
@@ -66,7 +67,7 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label for="invoiceDate" class="title1 ng-binding">تاریخ قرارداد</label>
-                                <input date-picker="" display-numbers="" type="text" id="invoiceDate" ng-model="contract.DisplayDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ قرارداد " data-original-title="" title="" aria-describedby="popover216080">
+                                <input date-picker="" display-numbers="" type="text" id="invoiceDate" ng-model="contract.DisplayDate" class="pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="تاریخ قرارداد " data-original-title="" title="" aria-describedby="popover216080" >
                             </div>
                         </div>
                         <!--<div class="col-sm-3" ng-hide="invoice.InvoiceType == 4">
@@ -107,7 +108,7 @@
                                     <small ng-show="invoice.InvoiceType == 1 || invoice.InvoiceType == 3" class="hidden-md hidden-sm ng-hide">(شماره قرارداد خرید)</small>
                                     <small ng-show="invoice.InvoiceType == 2" class="hidden-md hidden-sm ng-hide">(شماره قرارداد فروش)</small>
                                 </label>
-                                <input display-numbers="" type="text" class="form-control input-sm ng-valid" id="invoiceReference" ng-model="invoice.Reference" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="شماره ارجاع" data-original-title="" title="">
+                                <input display-numbers="" type="text" class="form-control input-sm ng-valid" id="invoiceReference" ng-model="invoice.Reference" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="شماره ارجاع" data-original-title="" title="" >
                             </div>
                         </div>
 
@@ -228,7 +229,7 @@
                     <input display-numbers="" keyboard-filter="float" type="text" id="inputQuantity" class="input-grid-factor input-sm" ng-model="actRow.Quantity" ng-change="changeQuantity() " ng-blur="calculateInvoice()" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="مدت اجاره ...">
                 </div>
                 <div>
-                    <!--@<input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputUnitPrice" class="input-grid-factor input-sm" ng-model="actRow.UnitPrice" ng-change="actRow.calcTax=true" ng-blur="calculateInvoice()" ng-disabled="!havePermission('changePriceInvoice')" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="قیمت خرید: {{ (havePermission('viewItems')?actRow.Item.BuyPrice:0)|digitGroup }} {{ getCurrency() }}">@-->
+                    <!--@*<input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputUnitPrice" class="input-grid-factor input-sm" ng-model="actRow.UnitPrice" ng-change="actRow.calcTax=true" ng-blur="calculateInvoice()" ng-disabled="!havePermission('changePriceInvoice')" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="قیمت خرید: {{ (havePermission('viewItems')?actRow.Item.BuyPrice:0)|digitGroup }} {{ getCurrency() }}">*@-->
                     <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" id="inputUnitPrice" class="input-grid-factor input-sm" ng-model="actRow.UnitPrice" ng-change="actRow.calcTax=true" ng-blur="calculateInvoice()" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="مبلغ اجاره: ">
                 </div>
                 <div id="comboNoeEjare">
@@ -327,7 +328,7 @@
                                             </form>
                                         </td>
                                         <td class="ltr">
-
+                       
                                             <div class="radio radio-info radio-inline">
 
                                                 <input type="radio" id="tax_true" ng-model="autoCalTax" value="1" name="radioInline" tabindex="13" ng-click="taxSwitchChecked(true)">
@@ -340,7 +341,7 @@
 
 
                                         </td>
-
+                               
                                     </tr>
                                 </tbody>
                             </table>
@@ -459,7 +460,7 @@
                             <div class="row m-b-5" style="margin-left: 5px;">
                                 <label class="col-sm-1 text-left">مبلغ:</label>
 
-                                <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount" ng-blur="calTotal()">
+                                <input display-numbers="" decimal-point-zero="" keyboard-filter="integer" digit-group="" type="text" class="col-sm-3 form-control input-sm ng-valid" ng-model="transaction.Amount"  ng-blur="calTotal()" >
 
                                 <label class="col-sm-2 text-left">شماره چک:</label>
 

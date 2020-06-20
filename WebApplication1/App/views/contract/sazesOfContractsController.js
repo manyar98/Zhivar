@@ -154,12 +154,12 @@
                         //{ caption: 'ارجاع', dataField: 'Reference', width: 100, printWidth: 3, hidingPriority: 5 },
                         {
                             caption: 'نام رسانه',
-                            dataField: 'Saze.Title',
+                            dataField: 'Description',
                             width: 200,
-                            printWidth: 7,
-                            cellTemplate: function (cellElement, cellInfo) {
-                                cellElement.html("<a class='text-info txt-bold' href='#contactCard/" + (cellInfo.data.Contact ? cellInfo.data.Contact.Id : "") + "'>" + Hesabfa.farsiDigit(cellInfo.displayValue) + "</a>");
-                            }
+                            printWidth: 7
+                         //   cellTemplate: function (cellElement, cellInfo) {
+                           //     cellElement.html("<a class='text-info txt-bold' href='#contactCard/" + (cellInfo.data.Contact ? cellInfo.data.Contact.Id : "") + "'>" + Hesabfa.farsiDigit(cellInfo.displayValue) + "</a>");
+                          //  }
                         },
                         { caption: ' تاریخ شروع اکران/عملیات', dataField: 'DisplayTarikhShorou', width: 80 },
                         { caption: 'فی اجاره', dataField: 'UnitPrice', width: 80, printFormat: "#" },

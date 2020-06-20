@@ -284,15 +284,70 @@ namespace Zhivar.Business.Contract
         {
             try
             {
-                var contract_Sazes = await this.unitOfWork.RepositoryAsync<Contract_Saze>().Queryable().Where(x => x.ContractID == contractId).ToListAsync2();
+                var contract_SazesQuery = this.unitOfWork.RepositoryAsync<Contract_Saze>().Queryable().Where(x => x.ContractID == contractId);//.ToListAsync2();
+                var sazeQuery = this.unitOfWork.RepositoryAsync<Saze>().Queryable();
+                var goroheSazeQuery = this.unitOfWork.RepositoryAsync<GoroheSaze>().Queryable();
+                var noeSazeQuery = this.unitOfWork.RepositoryAsync<NoeSaze>().Queryable();
+                var noeejareQuery = this.unitOfWork.RepositoryAsync<NoeEjare>().Queryable();
 
+                var joinQuery = from contract_saze in contract_SazesQuery
+                                join saze in sazeQuery
+                                on contract_saze.SazeId equals saze.ID
+                                join goroheSaze in goroheSazeQuery
+                                on saze.GoroheSazeID equals goroheSaze.ID
+                                join noeSaze in noeSazeQuery
+                                on saze.NoeSazeId equals noeSaze.ID
+                                join noeEjare in noeejareQuery
+                                on saze.NoeEjareID equals noeEjare.ID
+                                select new Contract_SazeVM
+                                {
+                                    CalcTax = contract_saze.CalcTax,
+                                   // Contarct_Saze_Bazareabs = Mapper.Map<List<Contract_Saze_Bazareab>, List<Contract_Saze_BazareabVM>>(contract_saze.Contarct_Saze_Bazareabs),
+                                    ContractID = contract_saze.ContractID,
+                                   // ContractSazeImages = Mapper.Map<List<ContractSazeImages>, List<ContractSazeImagesVM>>(contract_saze.ContractSazeImages),
+                                  //  Contract_Saze_Chapkhanes = Mapper.Map<List<Contract_Saze_Chapkhane>, List<Contract_Saze_ChapkhaneVM>>(contract_saze.Contract_Saze_Chapkhanes),
+                                  //  Contract_Saze_Nasabs = Mapper.Map<List<Contract_Saze_Nasab>, List<Contract_Saze_NasabVM>>(contract_saze.Contract_Saze_Nasabs),
+                                  //  Contract_Saze_Tarahs = Mapper.Map<List<Contract_Saze_Tarah>, List<Contract_Saze_TarahVM>>(contract_saze.Contract_Saze_Tarahs),
+                                Description = noeSaze.Title + " " + goroheSaze.Title + " " + saze.Title,
+                                Discount = contract_saze.Discount,
+                                DisplayTarikhPayan = contract_saze.DisplayTarikhPayan,
+                                DisplayTarikhShorou = contract_saze.DisplayTarikhShorou,
+                               HasBazareab = contract_saze.HasBazareab,
+                               HasChap = contract_saze.HasChap,
+                               HasNasab = contract_saze.HasChap,
+                               HasTarah = contract_saze.HasTarah,
+                               ID = contract_saze.ID,
+                               ItemInput = contract_saze.ItemInput,
+                               Mah = contract_saze.Mah,
+                               //NoeChap = contract_saze.no
+                               NoeEjareId = contract_saze.NoeEjareId,
+                               PriceBazareab = contract_saze.PriceBazareab,
+                               PriceChap= contract_saze.PriceChap,
+                               PriceNasab = contract_saze.PriceNasab,
+                               PriceTarah = contract_saze.PriceTarah,
+                               Quantity = contract_saze.Quantity,
+                               Roz = contract_saze.Roz,
+                               Saal = contract_saze.Saal,
+                              // Saze = Mapper.Map<SazeVM>(saze),
+                               SazeId = saze.ID,
+                               Status = contract_saze.Status,
+                               Sum = contract_saze.Sum,
+                               TarikhPayan = contract_saze.TarikhPayan,
+                               TarikhShorou = contract_saze.TarikhShorou,
+                               Tax = contract_saze.Tax,
+                               TotalAmount = contract_saze.TotalAmount,
+                               UnitItem = contract_saze.UnitItem,
+                               UnitPrice = contract_saze.UnitPrice,
+                              // NoeEjare = Mapper.Map<NoeEjareVM>(noeEjare),
+                                };
 
-                List<Contract_SazeVM> contract_SazeVMs = new List<Contract_SazeVM>();
+                  List<Contract_SazeVM> contract_SazeVMs = new List<Contract_SazeVM>();
 
-                Mapper.Map(contract_Sazes, contract_SazeVMs);
+                contract_SazeVMs = await joinQuery.ToListAsync();
+                //    Mapper.Map(contract_Sazes, contract_SazeVMs);
 
-                SazeRule sazeRule = new SazeRule();
-                NoeEjareRule noeEjareRule = new NoeEjareRule();
+                  SazeRule sazeRule = new SazeRule();
+                 NoeEjareRule noeEjareRule = new NoeEjareRule();
 
                 foreach (var contract_SazeVM in contract_SazeVMs)
                 {
@@ -318,11 +373,14 @@ namespace Zhivar.Business.Contract
                 var contactQuery = this.unitOfWork.RepositoryAsync<Contact>().Queryable();
 
                 var contractsQuery =  this.Queryable().Where(x => x.OrganId == organId);
+                var userInfoQuery = this.unitOfWork.RepositoryAsync<UserInfo>().Queryable();
                 //var contractSazeQuery = this.unitOfWork.RepositoryAsync<Contract_Saze>().Queryable();
 
                 var joinQuery = from contract in contractsQuery
                                 join contact in contactQuery
                                 on contract.ContactId equals contact.ID
+                                join userInfo in userInfoQuery
+                                on contract.LogData.InsertUserID equals userInfo.ID
                                 select new ContractVM
                                 {
                                     ContactTitle = contact.Name,
@@ -349,8 +407,8 @@ namespace Zhivar.Business.Contract
                                     Status = contract.Status,
                                     Sum = contract.Sum,
                                     Tag = contract.Tag,
-                                    
-                                   
+                                    CreateBy = userInfo.FirstName+" "+userInfo.LastName
+
 
                                 };
 
@@ -946,7 +1004,11 @@ namespace Zhivar.Business.Contract
 
                         DocumentRule documentRule = new DocumentRule();
                         await documentRule.InsertAsync(document, invoice.OrganId);
-                        documentRule.SaveChanges();
+                        await documentRule.SaveChangesAsync();
+
+                        invoice.DocumentID = document.ID;
+                        invoiceRule.Update(invoice);
+                        await invoiceRule.SaveChangesAsync();
                     }
                     else if (SecurityManager.CurrentUserContext.Roles.Any(x => x.RoleCode == "Manager") &&
                         contractVM.ContractType == ContractType.RentTo)

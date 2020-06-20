@@ -592,9 +592,7 @@ namespace Zhivar.Business.Accounting
                     invoice.Tag = contract.Tag;
                     invoice.IsContract = true;
                     uow.Repository<Invoice>().Insert(invoice);
-                    //  this.UnitOfWork.RepositoryAsync<Invoice>().Insert(invoice);
-
-                    //this.UnitOfWork.SaveChanges();
+       
                     uow.SaveChanges();
 
                     invoice.InvoiceItems = new List<InvoiceItem>();
@@ -619,20 +617,15 @@ namespace Zhivar.Business.Accounting
                         invoiceItem.PriceNasab = contract_Sazes.PriceNasab;
 
                         invoiceItem.ObjectState = Enums.ObjectState.Added;
-                        //invoice.InvoiceItems.Add(invoiceItem);
-                       // this.UnitOfWork.RepositoryAsync<InvoiceItem>().InsertOrUpdateGraph(invoiceItem);
+
                         uow.Repository<InvoiceItem>().InsertOrUpdateGraph(invoiceItem);
 
-                        //this.UnitOfWork.SaveChanges();
+
                         uow.SaveChanges();
                     }
 
 
 
-
-                    //this.UnitOfWork.RepositoryAsync<Invoice>().InsertOrUpdateGraph(invoice);
-
-                    //this.UnitOfWork.SaveChangesAsync();
 
                     #region Pardakh
                     foreach (var Contract_PayRecevie in contract.Contract_PayRecevies ?? new List<Contract_PayRecevies>())
@@ -711,7 +704,7 @@ namespace Zhivar.Business.Accounting
                         uow.Repository<PayRecevie>().Update(payRecevie);
                         //unitOfWork.RepositoryAsync<PayRecevie>().InsertOrUpdateGraph(payRecevie);
 
-                        //unitOfWork.SaveChangesAsync();
+                       // //unitOfWork.SaveChangesAsync();
                         uow.SaveChanges();
                     }
 
@@ -721,8 +714,7 @@ namespace Zhivar.Business.Accounting
                     contract.InvoiceId = invoice.ID;
                     uow.Repository<DomainClasses.Contract.Contract>().Update(contract);
                     uow.SaveChanges();
-                    // this.UnitOfWork.RepositoryAsync<DomainClasses.Contract.Contract>().Update(contract);
-                    //this.UnitOfWork.SaveChangesAsync();
+          
 
                     return invoice;
                 }
@@ -1244,6 +1236,30 @@ namespace Zhivar.Business.Accounting
             string contactCode = "1104" + invoice.Contact.Code;
             var accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
 
+            if (accountHesabDreaftani == null)
+            {
+                using (var uow = new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "1104").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "1104" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = await accountRule.GetAllByOrganIdAsync(organId);
+                }
+
+                accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
+
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()
             {
@@ -1278,9 +1294,39 @@ namespace Zhivar.Business.Accounting
                 var accoubtItem = new DomainClasses.Accounting.Account();
 
                 if (item.Item.ItemType == ZhivarEnums.NoeItem.Item)
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "6101" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateGoodAccounts(itemCommon, organId);
+                        accounts = await accountRule.GetAllByOrganIdAsync(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "6101" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                   
                 else
+                {
+
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "7101" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateServiceAccount(itemCommon, organId);
+                        accounts = await accountRule.GetAllByOrganIdAsync(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "7101" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                    
+
 
                 transactions.Add(new Transaction()
                 {
@@ -1371,6 +1417,30 @@ namespace Zhivar.Business.Accounting
             string contactCode = "2101" + invoice.Contact.Code;
             var accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
 
+            if (accountHesabPardakhtani == null)
+            {
+                using (var uow = new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "2101").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "2101" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = await accountRule.GetAllByOrganIdAsync(organId);
+                }
+
+                accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
+
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()
             {
@@ -1405,9 +1475,37 @@ namespace Zhivar.Business.Accounting
                 var accoubtItem = new DomainClasses.Accounting.Account();
 
                 if (item.Item.ItemType == ZhivarEnums.NoeItem.Item)
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "5101" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateGoodAccounts(itemCommon, organId);
+                        accounts = await accountRule.GetAllByOrganIdAsync(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "5101" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                 
                 else
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "8204" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateServiceAccount(itemCommon, organId);
+                        accounts = await accountRule.GetAllByOrganIdAsync(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "7101" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                  
 
                 transactions.Add(new Transaction()
                 {
@@ -1496,6 +1594,30 @@ namespace Zhivar.Business.Accounting
             string contactCode = "1104" + invoice.Contact.Code;
             var accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
 
+            if (accountHesabDreaftani == null)
+            {
+                using (var uow = new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "1104").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "1104" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = await accountRule.GetAllByOrganIdAsync(organId);
+                }
+
+                accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
+
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()
             {
@@ -1528,7 +1650,21 @@ namespace Zhivar.Business.Accounting
                 var accoubtItem = new DomainClasses.Accounting.Account();
 
                 if (item.Item.ItemType == ZhivarEnums.NoeItem.Item)
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "6102" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateGoodAccounts(itemCommon, organId);
+                        accounts = await accountRule.GetAllByOrganIdAsync(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "6102" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                  
 
 
                 transactions.Add(new Transaction()
@@ -1612,6 +1748,30 @@ namespace Zhivar.Business.Accounting
             string contactCode = "2101" + invoice.Contact.Code;
             var accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
 
+            if (accountHesabPardakhtani == null)
+            {
+                using (var uow = new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "2101").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "2101" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = await accountRule.GetAllByOrganIdAsync(organId);
+                }
+
+                accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
+
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()
             {
@@ -1644,7 +1804,21 @@ namespace Zhivar.Business.Accounting
                 var accoubtItem = new DomainClasses.Accounting.Account();
 
                 if (item.Item.ItemType == ZhivarEnums.NoeItem.Item)
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "5102" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateGoodAccounts(itemCommon, organId);
+                        accounts = await accountRule.GetAllByOrganIdAsync(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "6102" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+
 
 
                 transactions.Add(new Transaction()
@@ -1727,6 +1901,30 @@ namespace Zhivar.Business.Accounting
             string contactCode = "1104" + invoice.Contact.Code;
             var accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
 
+            if (accountHesabDreaftani == null)
+            {
+                using (var uow = new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "1104").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "1104" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = await accountRule.GetAllByOrganIdAsync(organId);
+                }
+
+                accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
+
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()
             {
@@ -1761,9 +1959,37 @@ namespace Zhivar.Business.Accounting
                 var accoubtItem = new DomainClasses.Accounting.Account();
 
                 if (item.Item.ItemType == ZhivarEnums.NoeItem.Item)
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "6101" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateGoodAccounts(itemCommon, organId);
+                        accounts = await accountRule.GetAllByOrganIdAsync(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "6101" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                   
                 else
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "7101" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateServiceAccount(itemCommon, organId);
+                        accounts = await accountRule.GetAllByOrganIdAsync(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "7101" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                    
 
                 transactions.Add(new Transaction()
                 {
@@ -1853,6 +2079,30 @@ namespace Zhivar.Business.Accounting
             string contactCode = "2101" + invoice.Contact.Code;
             var accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
 
+            if (accountHesabPardakhtani == null)
+            {
+                using (var uow = new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "2101").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "2101" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = await accountRule.GetAllByOrganIdAsync(organId);
+                }
+
+                accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
+
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()
             {
@@ -1910,7 +2160,7 @@ namespace Zhivar.Business.Accounting
                         ItemRule itemRule = new ItemRule();
                         Item itemCommon = new Item();
                         Mapper.Map(item.Item, itemCommon);
-                        itemRule.CreateGoodAccounts(itemCommon, organId);
+                        itemRule.CreateServiceAccount(itemCommon, organId);
                         accounts = await accountRule.GetAllByOrganIdAsync(organId);
 
                         accoubtItem = accounts.Where(x => x.ComplteCoding == "8204" + item.Item.Code).SingleOrDefault();
@@ -2104,6 +2354,30 @@ namespace Zhivar.Business.Accounting
             string contactCode = "1104" + invoice.Contact.Code;
             var accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
 
+            if (accountHesabDreaftani == null)
+            {
+                using (var uow = new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "1104").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "1104" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = accountRule.GetAllByOrganId(organId);
+                }
+
+                accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
+
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()
             {
@@ -2138,9 +2412,37 @@ namespace Zhivar.Business.Accounting
                 var accoubtItem = new DomainClasses.Accounting.Account();
 
                 if (item.Item.ItemType == ZhivarEnums.NoeItem.Item)
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "6101" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateGoodAccounts(itemCommon, organId);
+                        accounts =  accountRule.GetAllByOrganId(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "6101" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                    
                 else
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "7101" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateServiceAccount(itemCommon, organId);
+                        accounts = accountRule.GetAllByOrganId(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "7101" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                    
 
                 transactions.Add(new Transaction()
                 {
@@ -2231,6 +2533,30 @@ namespace Zhivar.Business.Accounting
             string contactCode = "2101" + invoice.Contact.Code;
             var accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
 
+            if (accountHesabPardakhtani == null)
+            {
+                using (var uow = new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "2101").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "2101" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = accountRule.GetAllByOrganId(organId);
+                }
+
+                accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
+
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()
             {
@@ -2265,9 +2591,37 @@ namespace Zhivar.Business.Accounting
                 var accoubtItem = new DomainClasses.Accounting.Account();
 
                 if (item.Item.ItemType == ZhivarEnums.NoeItem.Item)
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "5101" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateGoodAccounts(itemCommon, organId);
+                        accounts = accountRule.GetAllByOrganId(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "5101" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                   
                 else
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "8204" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateServiceAccount(itemCommon, organId);
+                        accounts = accountRule.GetAllByOrganId(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "8204" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                   
 
                 transactions.Add(new Transaction()
                 {
@@ -2356,6 +2710,30 @@ namespace Zhivar.Business.Accounting
             string contactCode = "1104" + invoice.Contact.Code;
             var accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
 
+            if (accountHesabDreaftani == null)
+            {
+                using (var uow =new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "1104").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "1104" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = accountRule.GetAllByOrganId(organId);
+                }
+
+                accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
+
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()
             {
@@ -2385,11 +2763,27 @@ namespace Zhivar.Business.Accounting
                 tax += item.Tax;
                 discount += item.Discount;
 
-                var accoubtItem = new DomainClasses.Accounting.Account();
+                var accoubtItem = new Account();
 
                 if (item.Item.ItemType == ZhivarEnums.NoeItem.Item)
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "6102" + item.Item.Code).SingleOrDefault();
 
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateGoodAccounts(itemCommon, organId);
+                        accounts = accountRule.GetAllByOrganId(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "6102" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                  
+
+        
+             
 
                 transactions.Add(new Transaction()
                 {
@@ -2416,6 +2810,8 @@ namespace Zhivar.Business.Accounting
             if (tax > 0)
             {
                 var accoubtTax = accounts.Where(x => x.ComplteCoding == "2106").SingleOrDefault();
+
+    
 
                 transactions.Add(new Transaction()
                 {
@@ -2472,6 +2868,30 @@ namespace Zhivar.Business.Accounting
             string contactCode = "2101" + invoice.Contact.Code;
             var accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
 
+            if (accountHesabPardakhtani == null)
+            {
+                using (var uow = new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "2101").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "2101" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = accountRule.GetAllByOrganId(organId);
+                }
+
+                accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
+
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()
             {
@@ -2504,7 +2924,21 @@ namespace Zhivar.Business.Accounting
                 var accoubtItem = new DomainClasses.Accounting.Account();
 
                 if (item.Item.ItemType == ZhivarEnums.NoeItem.Item)
+                {
                     accoubtItem = accounts.Where(x => x.ComplteCoding == "5102" + item.Item.Code).SingleOrDefault();
+
+                    if (accoubtItem == null)
+                    {
+                        ItemRule itemRule = new ItemRule();
+                        Item itemCommon = new Item();
+                        Mapper.Map(item.Item, itemCommon);
+                        itemRule.CreateGoodAccounts(itemCommon, organId);
+                        accounts = accountRule.GetAllByOrganId(organId);
+
+                        accoubtItem = accounts.Where(x => x.ComplteCoding == "5102" + item.Item.Code).SingleOrDefault();
+                    }
+                }
+                  
 
 
                 transactions.Add(new Transaction()
@@ -2587,6 +3021,30 @@ namespace Zhivar.Business.Accounting
             var accounts = accountRule.GetAllByOrganId(organId);
             string contactCode = "1104" + invoice.Contact.Code;
             var accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+
+            if (accountHesabDreaftani == null)
+            {
+                using (var uow = new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "1104").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "1104" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = accountRule.GetAllByOrganId(organId);
+                }
+
+                accountHesabDreaftani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
 
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()
@@ -2742,6 +3200,30 @@ namespace Zhivar.Business.Accounting
             var accounts = accountRule.GetAllByOrganId(organId);
             string contactCode = "2101" + invoice.Contact.Code;
             var accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+
+            if (accountHesabPardakhtani == null)
+            {
+                using (var uow = new UnitOfWork())
+                {
+
+                    var accountParent = accounts.Where(x => x.ComplteCoding == "2101").SingleOrDefault();
+
+                    var tempAccount = new Account();
+                    tempAccount.Coding = invoice.Contact.Code;
+                    tempAccount.ComplteCoding = "2101" + invoice.Contact.Code;
+                    tempAccount.Level = ZhivarEnums.AccountType.Tafzeli;
+                    tempAccount.Name = invoice.Contact.Name;
+                    tempAccount.OrganId = invoice.OrganId;
+                    tempAccount.ParentId = accountParent.ID;
+
+                    this.UnitOfWork.RepositoryAsync<Account>().Insert(tempAccount);
+                    this.UnitOfWork.SaveChanges();
+
+                    accounts = accountRule.GetAllByOrganId(organId);
+                }
+
+                accountHesabPardakhtani = accounts.Where(x => x.ComplteCoding == contactCode).SingleOrDefault();
+            }
 
             List<Transaction> transactions = new List<Transaction>();
             transactions.Add(new Transaction()

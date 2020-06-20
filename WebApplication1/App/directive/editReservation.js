@@ -530,7 +530,7 @@
                     var items = scope.reservation.ReservationDetails;
                     findAndRemoveByPropertyValue(items, 'RowNumber', invoiceItem.RowNumber);
                     for (var i = 0; i < items.length; i++)  // add row numbers again
-                        items[i].RowNumber = i + 1;
+                        items[i].RowNumber = i;//+ 1;
 
                     //scope.$apply();
                 };

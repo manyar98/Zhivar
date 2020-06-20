@@ -260,7 +260,8 @@
 				    }, printWidth: 10
 				},
 
-				{ caption: 'تعداد', dataField: 'Count', dataType: "number", format: "#", width: 60, printWidth: 1, printFormat: "#" },
+                { caption: 'تعداد', dataField: 'Count', dataType: "number", format: "#", width: 60, printWidth: 1, printFormat: "#" },
+                { caption: 'واحد', dataField: 'Unit', width: 60 },
 				{ caption: 'قیمت واحد', dataField: 'UnitPrice', dataType: "number", format: "#", width: 110, printWidth: 2, printFormat: "#" },
 				{ caption: 'بدهکار', dataField: 'Debit', dataType: "number", format: "<span class='text-danger txt-bold'>#</span>", width: 120, printWidth: 2, printFormat: "#" },
 				{ caption: 'بستانکار', dataField: 'Credit', dataType: "number", format: "<span class='text-success txt-bold'>#</span>", width: 120, printWidth: 2, printFormat: "#" },

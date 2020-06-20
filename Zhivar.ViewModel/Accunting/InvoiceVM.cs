@@ -50,6 +50,7 @@ namespace Zhivar.ViewModel.Accunting
         public string Refrence { get; set; }
         public bool? IsContract { get; set; }
 
+        public int? DocumentID { get; set; }
         //public void CreateMappings(IConfiguration configuration)
         //{
         //    configuration.CreateMap<InvoiceVM, Invoice>().ForMember(x => x.Contact,opt => opt.MapFrom(src => src.Contact)) ;

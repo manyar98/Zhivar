@@ -727,6 +727,10 @@ namespace Zhivar.Web.Controllers.Accounting
         [HttpPost]
         public async Task<HttpResponseMessage> GetContactCard([FromBody] RequestContactCard requestContactCard)
         {
+            try
+            {
+
+         
             var organId = Convert.ToInt32(SecurityManager.CurrentUserContext.OrganizationId);
 
             AccountRule accountRule = new AccountRule();
@@ -808,6 +812,9 @@ namespace Zhivar.Web.Controllers.Accounting
             foreach (var document in documents)
             {
 
+                    var docNumber = 0;
+
+
                 row = new Row();
                 row.IsMain = true;
                 // row.Code = document..Account.Coding;
@@ -815,8 +822,8 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Date = document.DisplayDate;// PersianDateUtils.ToPersianDate(document.);
                 row.Debit = document.Transactions.Where(x => contactAccounts.Contains(x.AccountId)).Sum(x => x.Debit);
                 row.Description = document.Description;
-                row.DocId = document.ID;
-                row.DocNum = document.ID;
+                //row.DocId = document.ID;
+                //row.DocNum = document.ID;
                 row.Status = document.Type;
                 //row.DtName = transaction.Account.Name;
                 //row.Reference = transaction.Reference;
@@ -832,80 +839,84 @@ namespace Zhivar.Web.Controllers.Accounting
 
 
                 row.Remain = Math.Abs(totalRemain);
-                responseContactCard.ledger.Rows.Add(row);
+      
 
                 
 
-                var invoiceID = document.Transactions.Where(x => contactAccounts.Contains(x.AccountId) && x.InvoiceId != 0).Select(x => x.InvoiceId).Distinct().ToList();
-                if (invoiceID.Any())
+                List<int> invoiceIDs = document.Transactions.Where(x => contactAccounts.Contains(x.AccountId) && x.InvoiceId != 0).Select(x => x.InvoiceId).Distinct().ToList();
+                if (invoiceIDs.Any())
                 {
-                   
-
-                    var invoice = await invoiceRule.FindAsync(invoiceID[0]);
-
-                   // responseContactCard.saleApprovedSum += invoice.Sum;
-                  //  responseContactCard.saleApprovedCount += 1;
-
-                    switch (invoice.InvoiceType)
+                        var myInt = invoiceIDs[0];
+                        var invoice = invoiceRule.Queryable().Where(x => x.ID == myInt).FirstOrDefault();
+                    if (invoice != null)
                     {
-                        case NoeFactor.Sell:
-                            responseContactCard.sumInvoiceSell += invoice.Payable;
-                            responseContactCard.countInvoiceSell++;
-                            break;
-                        case NoeFactor.Buy:
-                            responseContactCard.sumInvoiceBuy += invoice.Payable;
-                            responseContactCard.countInvoiceBuy++;
-                            break;
-                        case NoeFactor.ReturnSell:
-                            break;
-                        case NoeFactor.ReturnBuy:
-                            break;
-                        case NoeFactor.RentTo:
-                            responseContactCard.sumInvoiceRentTo += invoice.Payable;
-                            responseContactCard.countInvoiceRentTo++;
-                            break;
-                        case NoeFactor.RentFrom:
-                            responseContactCard.sumInvoiceRentFrom += invoice.Payable;
-                            responseContactCard.countInvoiceRentFrom++;
-                            break;
-                        default:
-                            break;
-                    }
-                    
+                        invoice = await invoiceRule.FindAsync(invoiceIDs[0]);
 
-                    foreach (var invoiceItem in invoice.InvoiceItems)
-                    {
+                            docNumber = Convert.ToInt32(invoice.Number);
+                            // responseContactCard.saleApprovedSum += invoice.Sum;
+                            //  responseContactCard.saleApprovedCount += 1;
 
-                        List<Row> rows = new List<Row>();
-                        rows = ConvertInvoiceItemToRows(invoiceItem, invoice);
-
-
-                        foreach (var rowItem in rows ?? new List<Row>())
+                            switch (invoice.InvoiceType)
                         {
-                            rowItem.IsMain = false;
-                            rowItem.Status = document.Type;
-                            rowItem.DocId = document.ID;
-                            rowItem.DocNum = document.ID;
-             
-
-                            var localRemain = rowItem.Debit - rowItem.Credit;
-                            subRemain += localRemain;
-
-                            rowItem.Remain = Math.Abs(subRemain);
-
-                            if (subRemain > 0)
-                                rowItem.RemainType = "بد";
-
-                            else
-                                rowItem.RemainType = "بس";
+                            case NoeFactor.Sell:
+                                responseContactCard.sumInvoiceSell += invoice.Payable;
+                                responseContactCard.countInvoiceSell++;
+                                break;
+                            case NoeFactor.Buy:
+                                responseContactCard.sumInvoiceBuy += invoice.Payable;
+                                responseContactCard.countInvoiceBuy++;
+                                break;
+                            case NoeFactor.ReturnSell:
+                                break;
+                            case NoeFactor.ReturnBuy:
+                                break;
+                            case NoeFactor.RentTo:
+                                responseContactCard.sumInvoiceRentTo += invoice.Payable;
+                                responseContactCard.countInvoiceRentTo++;
+                                break;
+                            case NoeFactor.RentFrom:
+                                responseContactCard.sumInvoiceRentFrom += invoice.Payable;
+                                responseContactCard.countInvoiceRentFrom++;
+                                break;
+                            default:
+                                break;
                         }
 
-                        responseContactCard.ledger.Rows.AddRange(rows);
 
+                        foreach (var invoiceItem in invoice.InvoiceItems)
+                        {
+
+                            List<Row> rows = new List<Row>();
+                            rows = ConvertInvoiceItemToRows(invoiceItem, invoice);
+
+
+                            foreach (var rowItem in rows ?? new List<Row>())
+                            {
+                                rowItem.IsMain = false;
+                                rowItem.Status = document.Type;
+                                rowItem.DocId = Convert.ToInt32(invoice.Number); //document.ID;
+                                rowItem.DocNum = Convert.ToInt32(invoice.Number); //document.ID;
+
+
+                                var localRemain = rowItem.Debit - rowItem.Credit;
+                                subRemain += localRemain;
+
+                                rowItem.Remain = Math.Abs(subRemain);
+
+                                if (subRemain > 0)
+                                    rowItem.RemainType = "بد";
+
+                                else
+                                    rowItem.RemainType = "بس";
+                            }
+
+                            responseContactCard.ledger.Rows.AddRange(rows);
+
+                        }
                     }
                 }
 
-                else if(document.Type == NoeDoc.Pay || document.Type == NoeDoc.Recive)
+                else if (document.Type == NoeDoc.Pay || document.Type == NoeDoc.Recive)
                 {
                     using (var uow = new UnitOfWork())
                     {
@@ -915,7 +926,7 @@ namespace Zhivar.Web.Controllers.Accounting
                         {
                             var detailPayRecevies = uow.RepositoryAsync<DetailPayRecevie>().Queryable().Where(x => x.PayRecevieId == payRecive.ID).ToList();
 
-                            //decimal subRemain = 0;
+                            docNumber = Convert.ToInt32(payRecive.Number);
 
                             foreach (var detailPayRecevie in detailPayRecevies)
                             {
@@ -928,11 +939,11 @@ namespace Zhivar.Web.Controllers.Accounting
                                 {
                                     rowItem.IsMain = false;
                                     rowItem.Status = document.Type;
-                                    rowItem.DocId = document.ID;
-                                    rowItem.DocNum = document.ID;
-                                
+                                    rowItem.DocId = Convert.ToInt32(payRecive.Number); //document.ID;
+                                    rowItem.DocNum = Convert.ToInt32(payRecive.Number);//document.ID;
 
-                                    var localRemain = rowItem.Debit - rowItem.Credit;
+
+                                        var localRemain = rowItem.Debit - rowItem.Credit;
                                     subRemain += localRemain;
 
                                     rowItem.Remain = Math.Abs(subRemain);
@@ -948,19 +959,20 @@ namespace Zhivar.Web.Controllers.Accounting
 
                             }
                         }
-                        
+
                     }
                 }
 
                 else if (document.Type == NoeDoc.FirstDoc)
                 {
-                    using (var uow = new UnitOfWork())
+                        docNumber = Convert.ToInt32(document.Number);
+                        using (var uow = new UnitOfWork())
                     {
                         var transactionList = uow.RepositoryAsync<Transaction>().Queryable().Where(x => x.DocumentId == document.ID && contactAccounts.Contains(x.AccountId)).ToList();
-                      
+
                         if (transactionList != null)
                         {
-                 
+
                             foreach (var transaction in transactionList)
                             {
 
@@ -995,8 +1007,8 @@ namespace Zhivar.Web.Controllers.Accounting
                                 row.Status = document.Type;
                                 row.DocId = document.ID;
                                 row.DocNum = document.ID;
-
-                                var localRemain = row.Debit - row.Credit;
+                                    row.Unit = "فقره";
+                                    var localRemain = row.Debit - row.Credit;
 
                                 subRemain += localRemain;
 
@@ -1006,7 +1018,7 @@ namespace Zhivar.Web.Controllers.Accounting
                                     row.RemainType = "بد";
                                 else
                                     row.RemainType = "بس";
-                                
+
 
                                 responseContactCard.ledger.Rows.Add(row);
 
@@ -1025,9 +1037,10 @@ namespace Zhivar.Web.Controllers.Accounting
                         {
                             var costItems = uow.RepositoryAsync<CostItem>().Queryable().Where(x => x.CostId == cost.ID).ToList();
 
-                            //decimal subRemain = 0;
+                                docNumber = Convert.ToInt32(cost.Number);
+                                //decimal subRemain = 0;
 
-                            foreach (var costItem in costItems)
+                                foreach (var costItem in costItems)
                             {
 
                                 List<Row> rows = new List<Row>();
@@ -1038,11 +1051,11 @@ namespace Zhivar.Web.Controllers.Accounting
                                 {
                                     rowItem.IsMain = false;
                                     rowItem.Status = document.Type;
-                                    rowItem.DocId = document.ID;
-                                    rowItem.DocNum = document.ID;
+                                    rowItem.DocId = Convert.ToInt32(cost.Number); //document.ID;
+                                    rowItem.DocNum = Convert.ToInt32(cost.Number); //document.ID;
 
 
-                                    var localRemain = rowItem.Debit - rowItem.Credit;
+                                        var localRemain = rowItem.Debit - rowItem.Credit;
                                     subRemain += localRemain;
 
                                     rowItem.Remain = Math.Abs(subRemain);
@@ -1061,57 +1074,67 @@ namespace Zhivar.Web.Controllers.Accounting
 
                     }
                 }
-                //else if (document.Type == NoeDoc.Transfer)
-                //{
-                //    using (var uow = new UnitOfWork())
-                //    {
-                //        var transferMoney = uow.RepositoryAsync<TransferMoney>().Queryable().Where(x => x.DocumentId == document.ID).FirstOrDefault();
+                    //else if (document.Type == NoeDoc.Transfer)
+                    //{
+                    //    using (var uow = new UnitOfWork())
+                    //    {
+                    //        var transferMoney = uow.RepositoryAsync<TransferMoney>().Queryable().Where(x => x.DocumentId == document.ID).FirstOrDefault();
 
-                //        if (transferMoney != null)
-                //        {
-                //            var detailPayRecevies = uow.RepositoryAsync<DetailPayRecevie>().Queryable().Where(x => x.PayRecevieId == payRecive.ID).ToList();
+                    //        if (transferMoney != null)
+                    //        {
+                    //            var detailPayRecevies = uow.RepositoryAsync<DetailPayRecevie>().Queryable().Where(x => x.PayRecevieId == payRecive.ID).ToList();
 
-                //            //decimal subRemain = 0;
+                    //            //decimal subRemain = 0;
 
-                //            foreach (var detailPayRecevie in detailPayRecevies)
-                //            {
+                    //            foreach (var detailPayRecevie in detailPayRecevies)
+                    //            {
 
-                //                List<Row> rows = new List<Row>();
-                //                rows = ConvertDetailPayRecevieToRows(detailPayRecevie, payRecive);
-
-
-                //                foreach (var rowItem in rows ?? new List<Row>())
-                //                {
-                //                    rowItem.IsMain = false;
-                //                    rowItem.Status = document.Type;
-                //                    rowItem.DocId = document.ID;
-                //                    rowItem.DocNum = document.ID;
+                    //                List<Row> rows = new List<Row>();
+                    //                rows = ConvertDetailPayRecevieToRows(detailPayRecevie, payRecive);
 
 
-                //                    var localRemain = rowItem.Debit - rowItem.Credit;
-                //                    subRemain += localRemain;
+                    //                foreach (var rowItem in rows ?? new List<Row>())
+                    //                {
+                    //                    rowItem.IsMain = false;
+                    //                    rowItem.Status = document.Type;
+                    //                    rowItem.DocId = document.ID;
+                    //                    rowItem.DocNum = document.ID;
 
-                //                    rowItem.Remain = Math.Abs(subRemain);
 
-                //                    if (subRemain > 0)
-                //                        rowItem.RemainType = "بد";
+                    //                    var localRemain = rowItem.Debit - rowItem.Credit;
+                    //                    subRemain += localRemain;
 
-                //                    else
-                //                        rowItem.RemainType = "بس";
-                //                }
+                    //                    rowItem.Remain = Math.Abs(subRemain);
 
-                //                responseContactCard.ledger.Rows.AddRange(rows);
+                    //                    if (subRemain > 0)
+                    //                        rowItem.RemainType = "بد";
 
-                //            }
-                //        }
+                    //                    else
+                    //                        rowItem.RemainType = "بس";
+                    //                }
 
-                //    }
-                //}
-            }
+                    //                responseContactCard.ledger.Rows.AddRange(rows);
+
+                    //            }
+                    //        }
+
+                    //    }
+                    //}
+
+                    row.DocId = docNumber;// document.ID;
+                    row.DocNum = docNumber; //;document.ID;
+
+                    responseContactCard.ledger.Rows.Add(row);
+                }
 
             return Request.CreateResponse(HttpStatusCode.OK, new { resultCode = (int)ZhivarEnums.ResultCode.Successful, data = responseContactCard });
-        }
+            }   
+            catch (Exception ex)
+            {
 
+                throw;
+            }
+        }
         private List<Row> ConvertInvoiceItemToRows(InvoiceItem invoiceItem, Invoice invoice)
         {
             ZhivarEnums.NoeDoc status = NoeDoc.Sell;
@@ -1144,17 +1167,70 @@ namespace Zhivar.Web.Controllers.Accounting
 
             Row row = new Row();
 
+            string itemDesc = string.Empty;
+
             if (invoiceItem.SumInvoiceItem != 0)
             {
                 string desc = string.Empty;
 
+                string unit = "فقره";
+
                 using (var uow = new UnitOfWork())
                 {
-                    var item = uow.Repository<Item>().Queryable().Where(x => x.ID == invoiceItem.ItemId).SingleOrDefault();
+                    var itemQuery = uow.Repository<Item>().Queryable().Where(x => x.ID == invoiceItem.ItemId);
+                    var mapItemSazeQuery = uow.Repository<MapItemSaze>().Queryable();
+                    var sazeQuery = uow.Repository<Saze>().Queryable();
+                    var noeSazeQuery = uow.Repository<NoeSaze>().Queryable();
+                    var goroheSazeQuery = uow.Repository<GoroheSaze>().Queryable();
 
-                    if (item != null)
+                    var joinQuery = (from item in itemQuery
+                                     join mapItemSaze in mapItemSazeQuery
+                                     on item.ID equals mapItemSaze.ItemID
+                                     join saze in sazeQuery
+                                     on mapItemSaze.SazeID equals saze.ID
+                                     join noeSaze in noeSazeQuery
+                                     on saze.NoeSazeId equals noeSaze.ID
+                                     join goroheSaze in goroheSazeQuery
+                                     on saze.GoroheSazeID equals goroheSaze.ID
+                                     select new
+                                     {
+                                         saze,
+                                         SazeTitle = saze.Title,
+                                         GoroheSazeTitle = goroheSaze.Title,
+                                         NoeSazeTitle = noeSaze.Title
+                                     }).FirstOrDefault();
+
+                   
+                    if (joinQuery != null)
                     {
-                        desc = item.Name;
+                       
+
+                        desc = " اجاره " + joinQuery.NoeSazeTitle + " " + joinQuery.GoroheSazeTitle + " " + joinQuery.SazeTitle;
+
+                        var contract = uow.RepositoryAsync<DomainClasses.Contract.Contract>().Queryable().Where(x => x.InvoiceId == invoice.ID).FirstOrDefault();
+
+                        if (contract != null)
+                        {
+                            var contract_Saze = uow.RepositoryAsync<Contract_Saze>().Queryable().Where(x => x.ContractID == contract.ID && x.SazeId == joinQuery.saze.ID).FirstOrDefault();
+
+                            if (contract_Saze != null)
+                            {
+                                desc += " تاریخ شروع اکران " + contract_Saze.DisplayTarikhShorou;
+
+                            }
+
+                        }
+                      
+                        itemDesc = desc;
+
+                        if (joinQuery.saze.NoeEjareID == 1)
+                        {
+                            unit = "روز";
+                        }
+                        else
+                        {
+                            unit = "ماه";
+                        }
                     }
                 }
 
@@ -1178,19 +1254,20 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = invoiceItem.UnitPrice;
                 row.Status = status;
-
+                row.Unit = unit;
                 rows.Add(row);
             }
 
             if (invoiceItem.Tax != 0)
             {
+                
                 row = new Row();
 
                 row.Code = string.Empty;
                 row.Credit = 0;
                 row.Date = invoice.DisplayDate;
                 row.Debit = invoiceItem.Tax;
-                row.Description = "مالیات";
+                row.Description = " مالیات "+itemDesc;
                 row.DocId = -1;
                 row.DocNum = 0;
                 row.DtName = string.Empty;
@@ -1204,6 +1281,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = invoiceItem.Tax;
                 row.Status = status;
+                row.Unit = "عدد";
 
                 rows.Add(row);
             }
@@ -1216,7 +1294,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Credit = 0;
                 row.Date = invoice.DisplayDate;
                 row.Debit = Convert.ToDecimal( invoiceItem.PriceBazareab);
-                row.Description = "هزینه بازاریاب";
+                row.Description = " هزینه بازاریاب " + itemDesc;
                 row.DocId = -1;
                 row.DocNum = 0;
                 row.DtName = string.Empty;
@@ -1230,7 +1308,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = Convert.ToDecimal(invoiceItem.PriceBazareab);
                 row.Status = status;
-
+                row.Unit = "فقره";
                 rows.Add(row);
             }
 
@@ -1242,7 +1320,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Credit = 0;
                 row.Date = invoice.DisplayDate;
                 row.Debit = Convert.ToDecimal(invoiceItem.PriceTarah);
-                row.Description = "هزینه طراحی";
+                row.Description = " هزینه طراحی " + itemDesc;
                 row.DocId = -1;
                 row.DocNum = 0;
                 row.DtName = string.Empty;
@@ -1256,7 +1334,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = Convert.ToDecimal(invoiceItem.PriceTarah);
                 row.Status = status;
-
+                row.Unit = "فقره";
                 rows.Add(row);
             }
 
@@ -1264,6 +1342,8 @@ namespace Zhivar.Web.Controllers.Accounting
             {
                 decimal count = 0;
                 decimal total = 0;
+
+                string noeChapTitle = string.Empty;
 
                 using (var uow = new UnitOfWork())
                 {
@@ -1282,6 +1362,13 @@ namespace Zhivar.Web.Controllers.Accounting
 
                             foreach (var contract_Saze_Chapkhane in contract_Saze_Chapkhanes)
                             {
+                                var noeChap = uow.RepositoryAsync<NoeChap>().Queryable().Where(x => x.ID == contract_Saze_Chapkhane.NoeChapID).FirstOrDefault();
+
+                                if (noeChap != null)
+                                {
+                                    noeChapTitle = noeChap.Title;
+                                }
+
                                 count += contract_Saze_Chapkhane.MetrazhMoshtari;
                                 total += contract_Saze_Chapkhane.TotalMoshtari;
                             }
@@ -1297,7 +1384,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Credit = 0;
                 row.Date = invoice.DisplayDate;
                 row.Debit = total;
-                row.Description = "هزینه چاپ";
+                row.Description = " هزینه چاپ " + noeChapTitle + " "+ itemDesc ;
                 row.DocId = -1;
                 row.DocNum = 0;
                 row.DtName = string.Empty;
@@ -1311,7 +1398,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = total / count;// Convert.ToDecimal(invoiceItem.PriceChap);
                 row.Status = status;
-
+                row.Unit = "متر مربع";
                 rows.Add(row);
             }
 
@@ -1323,7 +1410,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Credit = 0;
                 row.Date = invoice.DisplayDate;
                 row.Debit = Convert.ToDecimal(invoiceItem.PriceNasab);
-                row.Description = "هزینه نصب";
+                row.Description = " هزینه نصب "+itemDesc;
                 row.DocId = -1;
                 row.DocNum = 0;
                 row.DtName = string.Empty;
@@ -1337,7 +1424,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = Convert.ToDecimal(invoiceItem.PriceNasab);
                 row.Status = status;
-
+                row.Unit = "فقره";
                 rows.Add(row);
             }
             if (invoiceItem.Discount != 0)
@@ -1348,7 +1435,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Credit = 0;
                 row.Date = invoice.DisplayDate;
                 row.Credit = invoiceItem.Discount;
-                row.Description = "تخفیف";
+                row.Description = " تخفیف "+itemDesc;
                 row.DocId = -1;
                 row.DocNum = 0;
                 row.DtName = string.Empty;
@@ -1362,6 +1449,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = invoiceItem.Discount;
                 row.Status = status;
+                row.Unit = "عدد";
 
                 rows.Add(row);
             }
@@ -1396,15 +1484,27 @@ namespace Zhivar.Web.Controllers.Accounting
 
                     if (bank != null)
                     {
+                        
                         if (status == NoeDoc.Recive)
                         {
                             desc = " واریز به حساب بانک ";
                             desc += bank.Name;
+
+                            if (!string.IsNullOrEmpty(detailPayRecevie.Reference))
+                            {
+                                desc += " به شماره فیش " + detailPayRecevie.Reference.ToString();
+                            }
                         }
                         else
                         {
                             desc = "  پرداخت از حساب بانک ";
                             desc += bank.Name;
+
+                            if (!string.IsNullOrEmpty(detailPayRecevie.Reference))
+                            {
+                                desc += " به شماره فیش " + detailPayRecevie.Reference.ToString();
+                            }
+
                         }
                     }
                 }
@@ -1433,6 +1533,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = detailPayRecevie.Amount;
                 row.Status = status;
+                row.Unit = "فقره";
 
                 rows.Add(row);
             }
@@ -1484,6 +1585,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = detailPayRecevie.Amount;
                 row.Status = status;
+                row.Unit = "فقره";
 
                 rows.Add(row);
             }
@@ -1499,13 +1601,37 @@ namespace Zhivar.Web.Controllers.Accounting
                     {
                         if (status == NoeDoc.Recive)
                         {
-                            desc = " دریافت چک بانک  ";
-                            desc += cheque.BankName;
+                            desc = " دریافت چک ";
+               
+
+                            if (!string.IsNullOrEmpty(cheque.ChequeNumber))
+                            {
+                                desc += " به شماره " + cheque.ChequeNumber;
+                            }
+
+                            desc += " بانک " +cheque.BankName;
+
+                            if (!string.IsNullOrEmpty(cheque.DisplayDate))
+                            {
+                                desc += " به تاریخ " + cheque.DisplayDate;
+                            }
                         }
                         else
                         {
-                            desc = " پرداخت چک بانک  ";
-                            desc += cheque.BankName;
+                            desc = " پرداخت چک  ";
+
+                            if (!string.IsNullOrEmpty(cheque.ChequeNumber))
+                            {
+                                desc += " به شماره " + cheque.ChequeNumber;
+                            }
+
+                            desc += " بانک " + cheque.BankName;
+
+                            if (!string.IsNullOrEmpty(cheque.DisplayDate))
+                            {
+                                desc += " به تاریخ " + cheque.DisplayDate;
+                            }
+
                         }
                       
                     }
@@ -1535,6 +1661,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = detailPayRecevie.Amount;
                 row.Status = status;
+                row.Unit = "فقره";
 
                 rows.Add(row);
             }
@@ -1591,6 +1718,7 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = detailPayRecevie.Amount;
                 row.Status = status;
+                row.Unit = "فقره";
 
                 rows.Add(row);
             }
@@ -1625,8 +1753,8 @@ namespace Zhivar.Web.Controllers.Accounting
                 row.Unit = string.Empty;
                 row.UnitPrice = costItem.Sum;
                 row.Status = NoeDoc.Cost;
-
-                rows.Add(row);
+            row.Unit = "فقره";
+            rows.Add(row);
             
 
      

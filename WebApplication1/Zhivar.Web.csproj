@@ -500,6 +500,7 @@
     <Content Include="App\views\cheques\cheques.html" />
     <Content Include="App\views\cheques\chequesController.js" />
     <Content Include="App\views\contract\contract.html" />
+    <Content Include="App\views\contract\contractController.js" />
     <Content Include="App\views\contract\contractProfile.html" />
     <Content Include="App\views\contract\contractProfileController.js" />
     <Content Include="App\views\contract\contracts.html" />

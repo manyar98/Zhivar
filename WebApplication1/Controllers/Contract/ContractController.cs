@@ -1209,7 +1209,7 @@ namespace Zhivar.Web.Controllers.Contract
                     if (contractStopsSub.Count > 0)
                         contract_Sazes = SplitContractSazeTime(contract_Sazes, contractStopsSub);
 
-
+                    
                     foreach (var contract_Saze in contract_Sazes)
                     {
                         var endDate = DateTime.Now.Date;
@@ -1351,6 +1351,8 @@ namespace Zhivar.Web.Controllers.Contract
                         var mainDiff = rockData.EndDate.Date - rockData.StartDate.Date;
                         var subDiff = reservation_Detail.EndDate.Date - reservation_Detail.StartDate.Date;
                         var percentDay = 100 / (mainDiff.TotalDays + 1);
+                        
+
 
                         if (reservation_Detail.StartDate.Date >= rockData.StartDate.Date && reservation_Detail.StartDate.Date <= rockData.EndDate.Date ||
                             reservation_Detail.EndDate.Date >= rockData.StartDate.Date && reservation_Detail.EndDate.Date <= rockData.EndDate.Date ||
@@ -1363,17 +1365,17 @@ namespace Zhivar.Web.Controllers.Contract
 
                             if (reservation_Detail.EndDate.Date <= rockData.EndDate.Date && reservation_Detail.StartDate.Date >= rockData.StartDate.Date)
                             {
-                                amount = subDiff.TotalDays * percentDay;
+                                amount = (subDiff.TotalDays+1) * percentDay;
                             }
                             else if (reservation_Detail.EndDate.Date > rockData.StartDate.Date && reservation_Detail.EndDate.Date <= rockData.EndDate.Date)
                             {
                                 subDiff = reservation_Detail.EndDate.Date - rockData.StartDate.Date;
-                                amount = subDiff.TotalDays * percentDay;
+                                amount = (subDiff.TotalDays+1) * percentDay;
                             }
                             else if (reservation_Detail.StartDate.Date >= rockData.StartDate.Date && reservation_Detail.StartDate.Date <= rockData.EndDate.Date)
                             {
                                 subDiff = rockData.EndDate.Date - reservation_Detail.StartDate.Date;
-                                amount = (subDiff.TotalDays + 1) * percentDay;
+                                amount = (subDiff.TotalDays+1)  * percentDay;
                             }
                             else if (reservation_Detail.StartDate.Date <= rockData.StartDate.Date && reservation_Detail.EndDate.Date >= rockData.EndDate.Date)
                             {
@@ -1464,7 +1466,7 @@ namespace Zhivar.Web.Controllers.Contract
                     rockData.StartDate = rockData.StartDate.Date;
                     rockData.EndDate = rockData.EndDate.Date;
                 var contractQuery = uow.Repository<Zhivar.DomainClasses.Contract.Contract>().Queryable().Where(x => x.OrganId == organId && x.ContractType == ContractType.RentFrom);
-                var contractSazeQuery = uow.RepositoryAsync<Contract_Saze>().Queryable().Where(x => x.TarikhPayan != null && x.SazeId == sazeId && x.TarikhShorou <= rockData.StartDate && x.TarikhPayan >= rockData.EndDate);
+                    var contractSazeQuery = uow.RepositoryAsync<Contract_Saze>().Queryable().Where(x => x.TarikhPayan != null && x.SazeId == sazeId);// && x.TarikhShorou <= rockData.StartDate && x.TarikhPayan >= rockData.EndDate);
 
                 var joinQuery = from contract in contractQuery
                                 join contractSaze in contractSazeQuery
@@ -1827,7 +1829,9 @@ namespace Zhivar.Web.Controllers.Contract
 
                         templateDate.ID = i;
                         templateDate.Title1 = temp.TitleDay;
-                        templateDate.Title2 = temp.Day + " " + temp.TitleMonth;
+                        templateDate.Title2 = temp.Day ;
+                        templateDate.Title3 = temp.TitleMonth;
+
                         templateDate.Date = PersianDateUtils.ToPersianDate(rockData.StartDate.AddDays(i));
                         
                         if (rockData.StartDate.AddDays(i).Date == DateTime.Now.Date)
@@ -2638,12 +2642,12 @@ namespace Zhivar.Web.Controllers.Contract
 
               //  contract = savePaymentForContract(contract, contractVM);
               if(SecurityManager.CurrentUserContext.Roles.Any(x => x.RoleCode == "Manager") && 
-                    contractVM.ContractType == ContractType.RentFrom)
+                    contractVM.ContractType == ContractType.RentFrom && contractVM.Status != Status.Temporary)
                 {
                     contract.Status = Status.ConfirmationContract;
                 }
                 else if (SecurityManager.CurrentUserContext.Roles.Any(x => x.RoleCode == "Manager") &&
-                    contractVM.ContractType == ContractType.PreContract)
+                    contractVM.ContractType == ContractType.PreContract  && contractVM.Status != Status.Temporary)
                 {
                     contract.Status = Status.ConfirmationPreContract;
 
@@ -2973,7 +2977,7 @@ namespace Zhivar.Web.Controllers.Contract
                 if (contractVM.ID <= 0)
                 {
                     if (SecurityManager.CurrentUserContext.Roles.Any(x => x.RoleCode == "Manager") &&
-                        contractVM.ContractType == ContractType.PreContract )
+                        contractVM.ContractType == ContractType.PreContract && contractVM.Status != Status.Temporary )
                     {
                         InvoiceRule invoiceRule = new InvoiceRule();
 
@@ -2985,10 +2989,20 @@ namespace Zhivar.Web.Controllers.Contract
                         await documentRule.InsertAsync(document, invoice.OrganId);
                         documentRule.SaveChanges();
 
+                        invoice.DocumentID = document.ID;
+                        invoiceRule.Update(invoice);
+                        await invoiceRule.SaveChangesAsync();
+
+                        contract.InvoiceId = invoice.ID;
+                        contract.DocumentID = document.ID;
                         contract.Status = Status.ConfirmationPreContract;
+
+                        this.BusinessRule.UnitOfWork.RepositoryAsync<DomainClasses.Contract.Contract>().Update(contract);
+                        await this.BusinessRule.UnitOfWork.SaveChangesAsync();
+
                     }
                     else if (SecurityManager.CurrentUserContext.Roles.Any(x => x.RoleCode == "Manager") &&
-                        contractVM.ContractType == ContractType.RentTo )
+                        contractVM.ContractType == ContractType.RentTo && contractVM.Status != Status.Temporary )
                     {
                         InvoiceRule invoiceRule = new InvoiceRule();
 
@@ -2998,12 +3012,21 @@ namespace Zhivar.Web.Controllers.Contract
 
                         DocumentRule documentRule = new DocumentRule();
                         await documentRule.InsertAsync(document, invoice.OrganId);
-                        documentRule.SaveChanges();
+                        await documentRule.SaveChangesAsync();
 
-                       
+                        invoice.DocumentID = document.ID;
+                        invoiceRule.Update(invoice);
+                        await invoiceRule.SaveChangesAsync();
+
+                        contract.InvoiceId = invoice.ID;
+                        contract.DocumentID = document.ID;
+
+                        this.BusinessRule.UnitOfWork.RepositoryAsync<DomainClasses.Contract.Contract>().Update(contract);
+                        await this.BusinessRule.UnitOfWork.SaveChangesAsync();
+
                     }
                     else if (SecurityManager.CurrentUserContext.Roles.Any(x => x.RoleCode == "Manager") &&
-                    contractVM.ContractType == ContractType.RentFrom)
+                    contractVM.ContractType == ContractType.RentFrom && contractVM.Status != Status.Temporary)
                     {
                         InvoiceRule invoiceRule = new InvoiceRule();
 
@@ -3013,9 +3036,17 @@ namespace Zhivar.Web.Controllers.Contract
 
                         DocumentRule documentRule = new DocumentRule();
                         await documentRule.InsertAsync(document, invoice.OrganId);
-                        documentRule.SaveChanges();
+                        await documentRule.SaveChangesAsync();
 
+                        invoice.DocumentID = document.ID;
+                        invoiceRule.Update(invoice);
+                        await invoiceRule.SaveChangesAsync();
 
+                        contract.InvoiceId = invoice.ID;
+                        contract.DocumentID = document.ID;
+
+                        this.BusinessRule.UnitOfWork.RepositoryAsync<DomainClasses.Contract.Contract>().Update(contract);
+                        await this.BusinessRule.UnitOfWork.SaveChangesAsync();
                     }
                     //if (SecurityManager.CurrentUserContext.Roles.Any(x => x.RoleCode == "Manager") &&
                     //   contractVM.ContractType == ContractType.PreContract)
@@ -3362,7 +3393,18 @@ namespace Zhivar.Web.Controllers.Contract
 
                                 DocumentRule documentRule = new DocumentRule();
                                 await documentRule.InsertAsync(document, invoice.OrganId);
-                                documentRule.SaveChanges();
+                                await documentRule.SaveChangesAsync();
+
+                                invoice.DocumentID = document.ID;
+                                invoiceRule.Update(invoice);
+                                await invoiceRule.SaveChangesAsync();
+
+                                contract.InvoiceId = invoice.ID;
+                                contract.DocumentID = document.ID;
+
+                                BusinessContext.GetBusinessRule<DomainClasses.Contract.Contract>(this.BusinessRule.OperationAccess, this.BusinessRule.UnitOfWork).Update(contract);
+                               // this.BusinessRule.UnitOfWork.RepositoryAsync<DomainClasses.Contract.Contract>().Update(contract);
+                                await BusinessContext.GetBusinessRule<DomainClasses.Contract.Contract>(this.BusinessRule.OperationAccess, this.BusinessRule.UnitOfWork).SaveChangesAsync();
                             }
                            
 
@@ -3498,7 +3540,13 @@ namespace Zhivar.Web.Controllers.Contract
 
                             DocumentRule documentRule = new DocumentRule();
                             await documentRule.InsertAsync(document, invoice.OrganId);
-                            documentRule.SaveChanges();
+                            await documentRule.SaveChangesAsync();
+
+                            contract.InvoiceId = invoice.ID;
+                            contract.DocumentID = document.ID;
+
+                            contractRule.Update(contract);
+                            await contractRule.SaveChangesAsync();
 
                             createdInvoice = true;
                         }
@@ -4182,6 +4230,8 @@ namespace Zhivar.Web.Controllers.Contract
                     var document = await costRule.RegisterDocument(costVM, contract.OrganId);
                     DocumentRule documentRule = new DocumentRule(uow);
                     await documentRule.InsertAsync(document, contract.OrganId);
+                    await documentRule.SaveChangesAsync();
+                    cost.DocumentId = document.ID;
 
                     await uow.SaveChangesAsync();
                     return failuers;
@@ -4222,7 +4272,7 @@ namespace Zhivar.Web.Controllers.Contract
                 using (var uow = new UnitOfWork())
                 {
 
-                    var contractsRentFromIds = await uow.RepositoryAsync<DomainClasses.Contract.Contract>().Queryable().Where(x => (x.ContractType == ContractType.RentFrom) && x.OrganId == organId ).Select(x => x.ID).ToListAsync2();
+                    var contractsRentFromIds = await uow.RepositoryAsync<DomainClasses.Contract.Contract>().Queryable().Where(x => (x.ContractType == ContractType.RentFrom) && x.OrganId == organId  ).Select(x => x.ID).ToListAsync2();
 
                     var allSazesRentFrom = uow.RepositoryAsync<Contract_Saze>().Queryable().Where(x => contractsRentFromIds.Contains(x.ContractID) && x.SazeId == hasRentVM.SazeID &&
                                                 ((x.TarikhShorou >= hasRentVM.StartDate.Date && x.TarikhShorou <= hasRentVM.EndDate.Date) ||
@@ -4237,7 +4287,7 @@ namespace Zhivar.Web.Controllers.Contract
                         return Request.CreateResponse(HttpStatusCode.OK, new { resultCode = ZhivarEnums.ResultCode.ValidationError, data = str });
                     }
 
-                    var contractsIds = await uow.RepositoryAsync<DomainClasses.Contract.Contract>().Queryable().Where(x => (x.ContractType == ContractType.PreContract || x.ContractType == ContractType.RentTo && x.ID != hasRentVM.ContractID) && x.OrganId == organId).Select(x => x.ID).ToListAsync2();
+                    var contractsIds = await uow.RepositoryAsync<DomainClasses.Contract.Contract>().Queryable().Where(x => (x.ContractType == ContractType.PreContract || x.ContractType == ContractType.RentTo ) && x.OrganId == organId && x.ID != hasRentVM.ContractID).Select(x => x.ID).ToListAsync2();
                     var allSazes = uow.RepositoryAsync<Contract_Saze>().Queryable().Where(x => contractsIds.Contains(x.ContractID) && x.SazeId == hasRentVM.SazeID &&
                                                 ((x.TarikhShorou >= hasRentVM.StartDate.Date && x.TarikhShorou <= hasRentVM.EndDate.Date) ||
                                                  (x.TarikhShorou <= hasRentVM.StartDate.Date && x.TarikhPayan >= hasRentVM.StartDate.Date) ||

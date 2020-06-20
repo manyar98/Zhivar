@@ -20,6 +20,9 @@
                     scope.actRow2 = {
                         Quantity: 0
                     };
+
+                    var invoiceDate2Obj = new AMIB.persianCalendar('invoiceDate2');
+
                     scope.invoiceItem = Hesabfa.newContractSazeItemObj();
 
                     scope.fileOptions = {
@@ -330,12 +333,119 @@
 
                 scope.moveRowEditor = function (index, $event) {
                     if (scope.actRow2 && scope.actRow2.RowNumber === index) return;
+
+                    if (index == -1)
+                        index = 0;
+
                     scope.actRow2 = scope.contractStop.ContractStopDetails[index];
+     
+
+
+                    var hideDiv = document.getElementById('hideme2');
+
+                    if (!$('#comboItemContractStop').length) {
+                        var comboItemContractStop = document.createElement('div');
+
+                        comboItemContractStop.setAttribute("id", "comboItemContractStop");
+
+                        $compile(comboItemContractStop)(scope);
+                        hideDiv.appendChild(comboItemContractStop);
+
+                        scope.comboItemContractStop = new HesabfaCombobox({
+                            items: [],
+                            containerEle: document.getElementById("comboItemContractStop"),
+                            toggleBtn: true,
+                            newBtn: true,
+                            deleteBtn: true,
+                            itemClass: "hesabfa-combobox-item",
+                            activeItemClass: "hesabfa-combobox-activeitem",
+                            itemTemplate: Hesabfa.comboSazeTemplate,
+                            inputClass: "form-control input-sm input-grid-factor",
+                            matchBy: "item.DetailAccount.Id",
+                            displayProperty: "{Title}",
+                            searchBy: ["Title", "DetailAccount.Code"],
+                            onSelect: scope.itemSelect,
+                            onNew: scope.newItem,
+                            onDelete: scope.deleteItem,
+                            divider: true
+                        });
+                    }
+
+                    if (!$('#inputStartDate2').length) {
+                        var inputStartDate2 = document.createElement('input');
+
+                        inputStartDate2.setAttribute("date-picker", "");
+                        inputStartDate2.setAttribute("display-numbers", "");
+                        inputStartDate2.setAttribute("ng-model", "actRow2.DisplayStartDate");
+                        inputStartDate2.setAttribute("data-toggle", "popover");
+                        inputStartDate2.setAttribute("data-placement", "top");
+                        inputStartDate2.setAttribute("data-trigger", "hover");
+                        inputStartDate2.setAttribute("data-content", "تاریخ شروع اکران...");
+                        inputStartDate2.setAttribute("type", "text");
+                        inputStartDate2.setAttribute("data-original-title", "");
+                        inputStartDate2.setAttribute("title", "");
+                        inputStartDate2.setAttribute("aria-describedby", "popover216080213");
+                        inputStartDate2.setAttribute("class", "pdate form-control input-sm ng-valid ng-pristine ng-not-empty ng-touched");
+                        inputStartDate2.setAttribute("id", "inputStartDate2");
+
+                        $compile(inputStartDate2)(scope);
+                        hideDiv.appendChild(inputStartDate2);
+                    }
+
+                    if (!$('#inputQuantity2').length) {
+                        var inputQuantity2 = document.createElement('input');
+
+                        inputQuantity2.setAttribute("display-numbers", "");
+                        inputQuantity2.setAttribute("keyboard-filter", "float");
+                        inputQuantity2.setAttribute("ng-model", "actRow2.Quantity");
+                        inputQuantity2.setAttribute("data-toggle", "popover");
+                        inputQuantity2.setAttribute("data-placement", "top");
+                        inputQuantity2.setAttribute("data-trigger", "hover");
+                        inputQuantity2.setAttribute("data-content", "مدت اجاره ...");
+                        inputQuantity2.setAttribute("type", "text");
+                        inputQuantity2.setAttribute("class", "input-grid-factor input-sm");
+                        inputQuantity2.setAttribute("id", "inputQuantity2");
+
+                        $compile(inputQuantity2)(scope);
+                        hideDiv.appendChild(inputQuantity2);
+                    }
+                    if (!$('#comboNoeEjareContractStop').length) {
+                        var comboNoeEjareContractStop = document.createElement('div');
+
+                        comboNoeEjareContractStop.setAttribute("id", "comboNoeEjareContractStop");
+
+                        $compile(comboNoeEjareContractStop)(scope);
+                        hideDiv.appendChild(comboNoeEjareContractStop);
+
+                        scope.comboNoeEjareContractStop = new HesabfaCombobox({
+                            items: [],
+                            containerEle: document.getElementById("comboNoeEjareContractStop"),
+                            toggleBtn: true,
+                            newBtn: true,
+                            deleteBtn: true,
+                            itemClass: "hesabfa-combobox-item",
+                            activeItemClass: "hesabfa-combobox-activeitem",
+                            itemTemplate: Hesabfa.comboNoeEjareTemplate,
+                            inputClass: "form-control input-sm input-grid-factor",
+                            matchBy: "ID",
+                            displayProperty: "{Title}",
+                            searchBy: ["Title"],
+                            onSelect: scope.noeEjareSelect,
+                            onNew: scope.newNoeEjare,
+                            // onDelete: scope.deleteItem,
+                            divider: true
+                        });
+                    }
+
                     $("#comboItemContractStop").prependTo("#tdItem2" + index);
                     $("#inputStartDate2").prependTo("#tdDate2" + index);
                     $("#inputQuantity2").prependTo("#tdStock2" + index);
                     $("#comboNoeEjareContractStop").prependTo("#tdNoeEjare2" + index);
- 
+
+
+                    var tdDate2 = document.getElementById("tdDate2" + index);
+                    var tdDate2Obj = new AMIB.persianCalendar(tdDate2);
+
                     if (scope.actRow2) {
                         scope.comboItemContractStop.setSelected(scope.actRow2.Saze);
                         scope.comboNoeEjareContractStop.setSelected(scope.actRow2.NoeEjare);
@@ -432,17 +542,17 @@
                     if (scope.contractStop.ContractStopDetails.length === 1) return;   // if only one remaind, do not delete
                     // prevent removing autocompletes from page
                     if (scope.actRow2.RowNumber === invoiceItem.RowNumber) {
-                        if (invoiceItem.RowNumber > 1)
-                            scope.moveRowEditor(invoiceItem.RowNumber - 2);
+                        if (invoiceItem.RowNumber > 0)
+                            scope.moveRowEditor(invoiceItem.RowNumber - 1);
                         else
-                            scope.moveRowEditor(invoiceItem.RowNumber);
+                            scope.moveRowEditor(-1);
                     }
 
                     // remove contract item from ContractStopDetails list
                     var items = scope.contractStop.ContractStopDetails;
                     findAndRemoveByPropertyValue(items, 'RowNumber', invoiceItem.RowNumber);
                     for (var i = 0; i < items.length; i++)  // add row numbers again
-                        items[i].RowNumber = i + 1;
+                        items[i].RowNumber = i;// + 1;
 
                     //scope.$apply();
                 };

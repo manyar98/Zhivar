@@ -10,7 +10,7 @@ using static OMF.Common.Enums;
 
 namespace Zhivar.DomainClasses.Accounting
 {
-    public class Invoice: LoggableEntity, IActivityLoggable
+    public class Invoice : LoggableEntity, IActivityLoggable
     {
         public ActionLog ActionsToLog => ActionLog.Insert | ActionLog.Update | ActionLog.Delete;
 
@@ -39,11 +39,13 @@ namespace Zhivar.DomainClasses.Accounting
         public decimal Rest { get; set; }
         public bool Returned { get; set; }
         public bool Sent { get; set; }
-        public ZhivarEnums.NoeInsertFactor Status{get;set;}
+        public ZhivarEnums.NoeInsertFactor Status { get; set; }
         public decimal Sum { get; set; }
         public string Tag { get; set; }
         // public Contact Contact { get; set; }
         public bool? IsContract { get; set; }
+
+        public int? DocumentID { get; set;}
 
 
     }

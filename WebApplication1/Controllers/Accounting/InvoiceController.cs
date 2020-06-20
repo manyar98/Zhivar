@@ -574,7 +574,13 @@ namespace Zhivar.Web.Controllers.Accounting
 
                     DocumentRule documentRule = new DocumentRule();
                     await documentRule.InsertAsync(document, organId);
-                    
+                    await documentRule.SaveChangesAsync();
+
+                    invoice.DocumentID = document.ID;
+                    this.BusinessRule.UnitOfWork.RepositoryAsync<Invoice>().Update(invoice);
+                    //await this.BusinessRule.UnitOfWork.SaveChangesAsync();
+
+
                 }
                 await this.BusinessRule.UnitOfWork.SaveChangesAsync();
                 // await RegisterDocument(invoice, organId);

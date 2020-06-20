@@ -34,5 +34,6 @@ namespace Zhivar.DomainClasses.Contract
         public List<Contract_PayRecevies> Contract_PayRecevies { get; set; }
         public ZhivarEnums.ContractType ContractType { get; set; }
         public bool? AutoTax { get; set; }
+        public int? DocumentID { get; set; }
     }
 }

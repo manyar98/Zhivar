@@ -177,7 +177,7 @@ namespace Zhivar.DataLayer.Validation
                 {
                     using (var uow = new UnitOfWork())
                     {
-                        var contractsIds = uow.RepositoryAsync<Contract>().Queryable().Where(x => (x.ContractType == ContractType.PreContract || x.ContractType == ContractType.RentTo) && x.OrganId == entity.OrganId).Select(x => x.ID).ToList();
+                        var contractsIds = uow.RepositoryAsync<Contract>().Queryable().Where(x => (x.ContractType == ContractType.PreContract || x.ContractType == ContractType.RentTo) && x.OrganId == entity.OrganId && x.ID != entity.ID).Select(x => x.ID).ToList();
                         var reservationsIds = uow.RepositoryAsync<Reservation>().Queryable().Where(x => x.OrganID == entity.OrganId).Select(x => x.ID).ToList();
 
                         foreach (var contract_Saze in contract_Sazes)
@@ -197,9 +197,9 @@ namespace Zhivar.DataLayer.Validation
                             if (allSazes.Any() && !contractStopDetails.Any())
                                 return false;
 
-                            if (allSazes.Any())
+                            if (allSazes.Any() && contractStopDetails.Any())
                             {
-                                return false;
+                                return true;
                             }
                             else
                             {

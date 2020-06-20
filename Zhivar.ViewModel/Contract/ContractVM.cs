@@ -42,5 +42,7 @@ namespace Zhivar.ViewModel.Contract
         public ZhivarEnums.ContractType ContractType { get; set; }
 
         public bool? AutoTax { get; set; }
+        public int? DocumentID { get; set; }
+        public string CreateBy { get; set; }
     }
 }

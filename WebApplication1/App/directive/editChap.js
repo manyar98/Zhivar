@@ -21,7 +21,7 @@
                 listchapkhanes: '=?',
                 listnoechaps: '=?',
                 semat: '=?',
-                metrazh:'=?'
+                metrazh: '=?'
  
             },
             link: function (scope, element, attrs) {
@@ -54,7 +54,7 @@
                     //                itemClass: "hesabfa-combobox-item",
                     //                activeItemClass: "hesabfa-combobox-activeitem",
                     //                itemTemplate: Hesabfa.comboPersonalTemplate,
-                    //                divider: true,
+                    //                divider: truFe,
                     //                matchBy: "user.Id",
                     //                displayProperty: "{Name}",
                     //                searchBy: ["Name"],
@@ -77,27 +77,111 @@
                         if (scope.semat === 7 && scope.bazareabs.length === 0)
                         {
                             scope.addBazareab();
+
+                            if (scope.tarahs.length > 0) {
+                                scope.editTarah();
+                            }
+                            if (scope.chapkhanes.length > 0) {
+                                scope.editChapkhane();
+                            }
+                            if (scope.nasabs.length > 0) {
+                                scope.editNasab();
+                            }
                         }
                         else if (scope.semat === 7 && scope.bazareabs.length > 0) {
                             scope.editBazareab();
+
+                            if (scope.tarahs.length > 0) {
+                                scope.editTarah();
+                            }
+                            if (scope.chapkhanes.length > 0) {
+                                scope.editChapkhane();
+                            }
+                            if (scope.nasabs.length > 0) {
+                                scope.editNasab();
+                            }
                         }
                         else if (scope.semat === 8 && scope.tarahs.length === 0) {
                             scope.addTarah();
+
+                            if (scope.bazareabs.length > 0) {
+                                scope.editBazareab();
+                            }
+                            if (scope.chapkhanes.length > 0) {
+                                scope.editChapkhane();
+                            }
+                            if (scope.nasabs.length > 0) {
+                                scope.editNasab();
+                            }
                         }
                         else if (scope.semat === 8 && scope.tarahs.length> 0) {
                             scope.editTarah();
+
+                            if (scope.bazareabs.length > 0) {
+                                scope.editBazareab();
+                            }
+                            if (scope.chapkhanes.length > 0) {
+                                scope.editChapkhane();
+                            }
+                            if (scope.nasabs.length > 0) {
+                                scope.editNasab();
+                            }
                         }
                         else if (scope.semat === 9 && scope.chapkhanes.length === 0) {
                             scope.addChapkhane();
+
+                            if (scope.bazareabs.length > 0) {
+                                scope.editBazareab();
+                            }
+                            if (scope.tarahs.length > 0) {
+                                scope.editTarah();
+                            }
+                        
+                            if (scope.nasabs.length > 0) {
+                                scope.editNasab();
+                            }
                         }
                         else if (scope.semat === 9 && scope.chapkhanes.length > 0) {
                             scope.editChapkhane();
+
+                            if (scope.bazareabs.length > 0) {
+                                scope.editBazareab();
+                            }
+                            if (scope.tarahs.length > 0) {
+                                scope.editTarah();
+                            }
+                           
+                            if (scope.nasabs.length > 0) {
+                                scope.editNasab();
+                            }
                         }
                         else if (scope.semat === 10 && scope.nasabs.length === 0) {
                             scope.addNasab();
+
+                            if (scope.bazareabs.length > 0) {
+                                scope.editBazareab();
+                            }
+                            if (scope.tarahs.length > 0) {
+                                scope.editTarah();
+                            }
+                            if (scope.chapkhanes.length > 0) {
+                                scope.editChapkhane();
+                            }
+                           
                         }
                         else if (scope.semat === 10 && scope.nasabs.length > 0) {
                             scope.editNasab();
+
+                            if (scope.bazareabs.length > 0) {
+                                scope.editBazareab();
+                            }
+                            if (scope.tarahs.length > 0) {
+                                scope.editTarah();
+                            }
+                            if (scope.chapkhanes.length > 0) {
+                                scope.editChapkhane();
+                            }
+                            
                         }
 
                     }
@@ -468,9 +552,10 @@
                         });
 
 
+                        scope.chapkhanes[index].createdcomboChapkhane = true;
+
                     }, 0);
 
-                   
                     
                     
                 };
@@ -515,59 +600,65 @@
 
 
                             if (!scope.comboChapkhanes) scope.comboChapkhanes = [];
-                            scope.comboChapkhanes[index] = new HesabfaCombobox({
-                                items: scope.listchapkhanes,
-                                containerEle: document.getElementById("chapkhanehSelect" + index),
-                                toggleBtn: true,
-                                newBtn: true,
-                                deleteBtn: true,
-                                itemClass: "hesabfa-combobox-item",
-                                activeItemClass: "hesabfa-combobox-activeitem",
-                                itemTemplate: Hesabfa.comboPersonalTemplate,
-                                divider: true,
-                                matchBy: "user.Id",
-                                displayProperty: "{Name}",
-                                searchBy: ["Name"],
-                                onSelect: function (user) {
-                                    newItem.User = user;
-                                    if (user !== null) {
-                                        document.getElementById("divMainChap1" + index).style.display = "block";
-                                        document.getElementById("divMainChap2" + index).style.display = "block";
-                                        document.getElementById("divMainChap3" + index).style.display = "block";
-                                    }
+                            
+                            if (angular.isUndefined(scope.chapkhanes[key].createdcomboChapkhane) || scope.chapkhanes[key].createdcomboChapkhane === null || scope.chapkhanes[key].createdcomboChapkhane === false) {
 
-                                    else {
-                                        document.getElementById("divMainChap1" + index).style.display = "none";
-                                        document.getElementById("divMainChap2" + index).style.display = "none";
-                                        document.getElementById("divMainChap3" + index).style.display = "none";
-                                    }
-                                },
-                                onNew: function () {
-                                    scope.newUser(9);
-                                }
-                            });
+                                scope.comboChapkhanes[index] = new HesabfaCombobox({
+                                    items: scope.listchapkhanes,
+                                    containerEle: document.getElementById("chapkhanehSelect" + index),
+                                    toggleBtn: true,
+                                    newBtn: true,
+                                    deleteBtn: true,
+                                    itemClass: "hesabfa-combobox-item",
+                                    activeItemClass: "hesabfa-combobox-activeitem",
+                                    itemTemplate: Hesabfa.comboPersonalTemplate,
+                                    divider: true,
+                                    matchBy: "user.Id",
+                                    displayProperty: "{Name}",
+                                    searchBy: ["Name"],
+                                    onSelect: function (user) {
+                                        newItem.User = user;
+                                        if (user !== null) {
+                                            document.getElementById("divMainChap1" + index).style.display = "block";
+                                            document.getElementById("divMainChap2" + index).style.display = "block";
+                                            document.getElementById("divMainChap3" + index).style.display = "block";
+                                        }
 
-                            if (!scope.comboNoeChaps) scope.comboNoeChaps = [];
-                            scope.comboNoeChaps[index] = new HesabfaCombobox({
-                                items: scope.listnoechaps,
-                                containerEle: document.getElementById("noeChapSelect" + index),
-                                toggleBtn: true,
-                                newBtn: true,
-                                deleteBtn: true,
-                                itemClass: "hesabfa-combobox-item",
-                                activeItemClass: "hesabfa-combobox-activeitem",
-                                itemTemplate: "<div> &nbsp; {Title} </div>",
-                                matchBy: "noeChap.Id",
-                                displayProperty: "{Title}",
-                                searchBy: ["Title"],
-                                onSelect: function (noeChap) {
-                                    newItem.NoeChap = noeChap;
-                                    newItem.NoeChapID = noeChap.ID;
-                                },
-                                onNew: function () {
-                                    scope.newNoeChap(index, newItem);
-                                }
-                            });
+                                        else {
+                                            document.getElementById("divMainChap1" + index).style.display = "none";
+                                            document.getElementById("divMainChap2" + index).style.display = "none";
+                                            document.getElementById("divMainChap3" + index).style.display = "none";
+                                        }
+                                    },
+                                    onNew: function () {
+                                        scope.newUser(9);
+                                    }
+                                });
+
+                                if (!scope.comboNoeChaps) scope.comboNoeChaps = [];
+                                scope.comboNoeChaps[index] = new HesabfaCombobox({
+                                    items: scope.listnoechaps,
+                                    containerEle: document.getElementById("noeChapSelect" + index),
+                                    toggleBtn: true,
+                                    newBtn: true,
+                                    deleteBtn: true,
+                                    itemClass: "hesabfa-combobox-item",
+                                    activeItemClass: "hesabfa-combobox-activeitem",
+                                    itemTemplate: "<div> &nbsp; {Title} </div>",
+                                    matchBy: "noeChap.Id",
+                                    displayProperty: "{Title}",
+                                    searchBy: ["Title"],
+                                    onSelect: function (noeChap) {
+                                        newItem.NoeChap = noeChap;
+                                        newItem.NoeChapID = noeChap.ID;
+                                    },
+                                    onNew: function () {
+                                        scope.newNoeChap(index, newItem);
+                                    }
+                                });
+
+                                scope.chapkhanes[key].createdcomboChapkhane = true;
+                            }
 
                             if (newItem.User !== null)
                                 scope.comboChapkhanes[index].setSelected(newItem.User);
@@ -617,6 +708,8 @@
                                 scope.newUser(8);
                             }
                         });
+
+                        scope.tarahs[index].createdcomboTarah = true;
                     }, 0);
                 };
                 scope.editTarah = function () {
@@ -641,36 +734,41 @@
 
 
                             if (!scope.comboTarahs) scope.comboTarahs = [];
-                            scope.comboTarahs[index] = new HesabfaCombobox({
-                                items: scope.listtarahs,
-                                containerEle: document.getElementById("tarahSelect" + index),
-                                toggleBtn: true,
-                                newBtn: true,
-                                deleteBtn: true,
-                                itemClass: "hesabfa-combobox-item",
-                                activeItemClass: "hesabfa-combobox-activeitem",
-                                itemTemplate: Hesabfa.comboPersonalTemplate,
-                                divider: true,
-                                matchBy: "user.Id",
-                                displayProperty: "{Name}",
-                                searchBy: ["Name"],
-                                onSelect: function (user) {
-                                    newItem.User = user;
-                                    if (user !== null) {
-                                        document.getElementById("divMainTarah1" + index).style.display = "block";
-                                        document.getElementById("divMainTarah2" + index).style.display = "block";
-                                    }
 
-                                    else {
-                                        document.getElementById("divMainTarah1" + index).style.display = "none";
-                                        document.getElementById("divMainTarah2" + index).style.display = "none";
-                                    }
-                                },
-                                onNew: function () {
-                                    scope.newUser(8);
-                                }
-                            });
+                            if (angular.isUndefined(scope.tarahs[key].createdcomboTarah) || scope.tarahs[key].createdcomboTarah === null || scope.tarahs[key].createdcomboTarah === false) {
 
+                                scope.comboTarahs[index] = new HesabfaCombobox({
+                                    items: scope.listtarahs,
+                                    containerEle: document.getElementById("tarahSelect" + index),
+                                    toggleBtn: true,
+                                    newBtn: true,
+                                    deleteBtn: true,
+                                    itemClass: "hesabfa-combobox-item",
+                                    activeItemClass: "hesabfa-combobox-activeitem",
+                                    itemTemplate: Hesabfa.comboPersonalTemplate,
+                                    divider: true,
+                                    matchBy: "user.Id",
+                                    displayProperty: "{Name}",
+                                    searchBy: ["Name"],
+                                    onSelect: function (user) {
+                                        newItem.User = user;
+                                        if (user !== null) {
+                                            document.getElementById("divMainTarah1" + index).style.display = "block";
+                                            document.getElementById("divMainTarah2" + index).style.display = "block";
+                                        }
+
+                                        else {
+                                            document.getElementById("divMainTarah1" + index).style.display = "none";
+                                            document.getElementById("divMainTarah2" + index).style.display = "none";
+                                        }
+                                    },
+                                    onNew: function () {
+                                        scope.newUser(8);
+                                    }
+                                });
+
+                                scope.tarahs[index].createdcomboTarah = true;
+                            }
                             if (newItem.User !== null)
                                 scope.comboTarahs[index].setSelected(newItem.User);
 
@@ -685,6 +783,8 @@
 
                     setTimeout(function () {
                         var index = scope.nasabs.length - 1;
+
+                     
 
                         if (!scope.comboNasabs) scope.comboNasabs = [];
                         scope.comboNasabs[index] = new HesabfaCombobox({
@@ -716,6 +816,8 @@
                                 scope.newUser(10);
                             }
                         });
+
+                        scope.nasabs[index].createdcomboNasab = true;
                     }, 0);
 
                 };
@@ -728,6 +830,8 @@
                         setTimeout(function () {
 
                             var index = key;
+
+                          
 
                             if (newItem.User !== null) {
                                 document.getElementById("divMainNasab1" + index).style.display = "block";
@@ -821,6 +925,9 @@
                                 scope.newUser(7);
                             }
                         });
+
+                        scope.bazareabs[index].createdcomboBazryab = true;
+
                     }, 0);
 
                 };
@@ -844,33 +951,42 @@
 
 
                             if (!scope.comboBazareabs) scope.comboBazareabs = [];
-                            scope.comboBazareabs[index] = new HesabfaCombobox({
-                                items: scope.listbazareabs,
-                                containerEle: document.getElementById("bazaryabSelect" + index),
-                                toggleBtn: true,
-                                newBtn: true,
-                                deleteBtn: true,
-                                itemClass: "hesabfa-combobox-item",
-                                activeItemClass: "hesabfa-combobox-activeitem",
-                                itemTemplate: Hesabfa.comboPersonalTemplate,
-                                divider: true,
-                                matchBy: "user.Id",
-                                displayProperty: "{Name}",
-                                searchBy: ["Name"],
-                                onSelect: function (user) {
-                                    newItem.User = user;
-                                    if (user !== null) {
-                                        document.getElementById("divMainBazryab" + index).style.display = "block";
-                                    }
 
-                                    else {
-                                        document.getElementById("divMainBazryab" + index).style.display = "none";
+                            if (angular.isUndefined(scope.bazareabs[key].createdcomboBazryab) || scope.bazareabs[key].createdcomboBazryab === null || scope.bazareabs[key].createdcomboBazryab === false) {
+
+                                scope.comboBazareabs[index] = new HesabfaCombobox({
+                                    items: scope.listbazareabs,
+                                    containerEle: document.getElementById("bazaryabSelect" + index),
+                                    toggleBtn: true,
+                                    newBtn: true,
+                                    deleteBtn: true,
+                                    itemClass: "hesabfa-combobox-item",
+                                    activeItemClass: "hesabfa-combobox-activeitem",
+                                    itemTemplate: Hesabfa.comboPersonalTemplate,
+                                    divider: true,
+                                    matchBy: "user.Id",
+                                    displayProperty: "{Name}",
+                                    searchBy: ["Name"],
+                                    onSelect: function (user) {
+                                        newItem.User = user;
+                                        if (user !== null) {
+                                            document.getElementById("divMainBazryab" + index).style.display = "block";
+                                        }
+
+                                        else {
+                                            document.getElementById("divMainBazryab" + index).style.display = "none";
+                                        }
+                                    },
+                                    onNew: function () {
+                                        scope.newUser(7);
                                     }
-                                },
-                                onNew: function () {
-                                    scope.newUser(7);
-                                }
-                            });
+                                });
+
+                                scope.bazareabs[index].createdcomboBazryab = true;
+                            }
+
+                
+
 
                             if (newItem.User !== null)
                                 scope.comboBazareabs[index].setSelected(newItem.User);

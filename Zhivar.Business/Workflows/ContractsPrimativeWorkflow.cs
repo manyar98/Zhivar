@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using Zhivar.Business.Accounting;
 using Zhivar.Business.Contract;
 using Zhivar.DomainClasses.Contract;
@@ -38,6 +39,11 @@ namespace Zhivar.Business.Workflows
 
                 if (actionMethodParams.ContinueInfo.ActionId == (int)WorkFlowActionType.TabdelPishghrardadBeGharardad)
                 {
+
+                    using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required))
+                    {
+                
+
                     using (var uow = new UnitOfWork())
                     {
                         contract.Status = Status.ConfirmationPreContract;
@@ -66,7 +72,8 @@ namespace Zhivar.Business.Workflows
                     DocumentRule documentRule = new DocumentRule();
                     documentRule.Insert(document, invoice.OrganId);
                     documentRule.SaveChanges();
-
+                        scope.Complete();
+                    }
                 }
                 return ex;
             }

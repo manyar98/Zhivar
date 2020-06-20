@@ -181,6 +181,7 @@
                         //},
                         //{ caption: 'استان', dataField: 'State', width: 60, hidingPriority: 1 },
                         //{ caption: 'شهر', dataField: 'City', width: 60, hidingPriority: 0 },
+                        { caption: 'تنظیم کننده سند', dataField: 'CreateBy', width: 100, printWidth: 3 },
                         {
                             caption: 'عملیات', dataField: '', width: 70, printVisible: false, cellTemplate: function (cellElement, cellInfo) {
                                 if (cellInfo.data.Status === 0) {

@@ -95,10 +95,30 @@
 
                 $scope.curentRowIndex = rowIndex;
 
+                if ($scope.LastIndex != rowIndex)
+                {
+                    angular.forEach($scope.bazareabs, function (value, key) {
+                        value.createdcomboBazryab = false;
+                    });
+
+                    angular.forEach($scope.tarahs, function (value, key) {
+                        value.createdcomboTarah = false;
+                    });
+
+                    angular.forEach($scope.chapkhanes, function (value, key) {
+                        value.createdcomboChapkhane = false;
+                    });
+
+                    angular.forEach($scope.nasabs, function (value, key) {
+                        value.createdcomboNasab = false;
+                    });
+                }
+                
+
                 $scope.editChapModal = data;
                 $scope.semat = index;
                 //$scope.$apply();
-
+                $scope.LastIndex = rowIndex;
             };
 
             $scope.init = function () {
@@ -674,9 +694,17 @@
                     var hazineh = 0;
                     var darsad = 0;
                     angular.forEach($scope.bazareabs, function (value, key) {
-                        darsad += parseFloat(value.Darsad);
+                        if (angular.isDefined(value.Darsad)) {
+                            darsad += parseFloat(value.Darsad);
+                            value.Hazine = (parseFloat(darsad) * ($scope.contract.Contract_Sazes[$scope.curentRowIndex].Quantity * $scope.contract.Contract_Sazes[$scope.curentRowIndex].UnitPrice));
+                        }
+                        else
+                        {
+                            value.Hazine = 0;
+                        }
+                      
                         value.UserID = value.User.ID;
-                        value.Hazine = (parseFloat(darsad) * ($scope.contract.Contract_Sazes[$scope.curentRowIndex].Quantity * $scope.contract.Contract_Sazes[$scope.curentRowIndex].UnitPrice));
+                        
                     });
 
                     $scope.contract.Contract_Sazes[$scope.curentRowIndex].PriceBazareab = (parseFloat(darsad) * ($scope.contract.Contract_Sazes[$scope.curentRowIndex].Quantity * $scope.contract.Contract_Sazes[$scope.curentRowIndex].UnitPrice));
@@ -844,17 +872,25 @@
                 if ($scope.contract.Contract_Sazes.length === 1) return;   // if only one remaind, do not delete
                 // prevent removing autocompletes from page
                 if ($scope.actRow.RowNumber === invoiceItem.RowNumber) {
-                    if (invoiceItem.RowNumber > 1)
-                        $scope.moveRowEditor(invoiceItem.RowNumber - 2);
+                    if (invoiceItem.RowNumber > 0)
+                        $scope.moveRowEditor(invoiceItem.RowNumber - 1);
                     else
                         $scope.moveRowEditor(invoiceItem.RowNumber);
+                }
+
+                if (invoiceItem.RowNumber === $scope.LastIndex)
+                {
+                    if ($scope.LastIndex > 0)
+                        $scope.LastIndex = $scope.LastIndex - 1;
+                    else
+                        $scope.LastIndex = -1;
                 }
 
                 // remove contract item from Contract_Sazes list
                 var items = $scope.contract.Contract_Sazes;
                 findAndRemoveByPropertyValue(items, 'RowNumber', invoiceItem.RowNumber);
                 for (var i = 0; i < items.length; i++)  // add row numbers again
-                    items[i].RowNumber = i + 1;
+                    items[i].RowNumber = i;// + 1;
                 $scope.calculateInvoice();  // recalculate contract
                 //$scope.$apply();
             };
@@ -903,7 +939,7 @@
 
                     if (res.resultCode === 1) {
                         questionbox({
-                            content: "در لیست رسانه ها تاریخ شروع اکران رسانه ی بزرگتر یا مساوی تاریخ روز است. آیا از این کار مطمین هستید؟",
+                            content: "در لیست رسانه ها، رسانه ی است که تاریخ شروع اکران رسانه ی کوکتر از تاریخ روز است. آیا از این کار مطمئن هستید؟",
                             onBtn1Click: function () {
                                 if (command === "save" || command === "saveAndContinueEdit") {
                                     questionbox({
@@ -917,12 +953,27 @@
                                         }
                                     });
 
-                                } 
+                                }
                             },
                             onBtn2Click: function () {
                                 return;
                             }
                         });
+                    }
+                    else {
+                        if (command === "save" || command === "saveAndContinueEdit") {
+                            questionbox({
+                                content: "در صورتی که پیش قرارداد را به صورت موقت ذخیره کنید، پیش قرارداد برای مدیر ارشد ارسال نمی شود ولی قابل ویرایش خواهد بود. آیا از این کار مطمین هستید؟",
+                                onBtn1Click: function () {
+                                    $scope.contract.Status = 0;
+                                    $scope.saveInvoice(command);
+                                },
+                                onBtn2Click: function () {
+                                    return;
+                                }
+                            });
+
+                        } 
                     }
 
                     
@@ -1473,6 +1524,117 @@
                 }
                       
 
+            };
+
+            $scope.print = function (reset) {
+                if (reset)
+
+                    $scope.invoiceSettings = {
+                        allowApproveWithoutStock: false,
+                        autoAddTax: true,
+                        bottomMargin: "20",
+                        businessLogo: "",
+                        font: "Iransans",
+                        fontSize: "Medium",
+                        footerNote: "",
+                        footerNoteDraft: "",
+                        hideZeroItems: false,
+                        onlineInvoiceEnabled: false,
+                        pageSize: "A4portrait",
+                        payReceiptTitle: "رسید پرداخت وجه / چک",
+                        purchaseInvoiceTitle: "فاکتور خرید",
+                        receiveReceiptTitle: "رسید دریافت وجه / چک",
+                        rowPerPage: "18",
+                        saleDraftInvoiceTitle: "پیش فاکتور",
+                        saleInvoiceTitle: "صورتحساب فروش کالا و خدمات",
+                        showAmountInWords: false,
+                        showCustomerBalance: false,
+                        showItemUnit: false,
+                        showSignaturePlace: true,
+                        showTransactions: true,
+                        showVendorInfo: true,
+                        topMargin: "10",
+                        updateBuyPrice: false,
+                        updateSellPrice: false,
+
+                    };
+                // angular.copy($scope.invoiceSettingsCopy, $scope.invoiceSettings);
+                //callws(DefaultUrl.MainWebService + 'GetBusinessFullInfo', {})
+                //success(function (business) {
+                var settings = jQuery.extend(true, {}, $scope.invoiceSettings);
+                settings.footerNote = $scope.invoice.Note + "\n" + settings.footerNote;
+                settings.footerNoteDraft = $scope.invoice.Note + "\n" + settings.footerNoteDraft;
+
+                var business = {
+                    Name: "ژیور",
+                    LegalName: "ژیور",
+                    Address: "",
+                    PostalCode: "",
+                    Fax: ""
+                };
+                printInvoice($scope.invoice, settings, $scope.totalDiscount, $scope.totalTax, $scope.payments, business, $scope.getCurrency());
+                //})
+                //.fail(function (error) {
+                //    if ($scope.accessError(error)) return;
+                //    alertbox({ content: error });
+                //})
+                //.loginFail(function () {
+                //    window.location = DefaultUrl.login;
+                //});
+            };
+            $scope.generatePDF = function (asString, doAfterRead) {
+                // callws(DefaultUrl.MainWebService + 'GetBusinessFullInfo', {})
+                //.success(function (business) {
+                $scope.invoiceSettings = {
+                    allowApproveWithoutStock: false,
+                    autoAddTax: true,
+                    bottomMargin: "20",
+                    businessLogo: "",
+                    font: "Iransans",
+                    fontSize: "Medium",
+                    footerNote: "",
+                    footerNoteDraft: "",
+                    hideZeroItems: false,
+                    onlineInvoiceEnabled: false,
+                    pageSize: "A4portrait",
+                    payReceiptTitle: "رسید پرداخت وجه / چک",
+                    purchaseInvoiceTitle: "فاکتور خرید",
+                    receiveReceiptTitle: "رسید دریافت وجه / چک",
+                    rowPerPage: "18",
+                    saleDraftInvoiceTitle: "پیش فاکتور",
+                    saleInvoiceTitle: "صورتحساب فروش کالا و خدمات",
+                    showAmountInWords: false,
+                    showCustomerBalance: false,
+                    showItemUnit: false,
+                    showSignaturePlace: true,
+                    showTransactions: true,
+                    showVendorInfo: true,
+                    topMargin: "10",
+                    updateBuyPrice: false,
+                    updateSellPrice: false,
+
+                };
+
+                var business = {
+                    Name: "ژیور",
+                    LegalName: "ژیور",
+                    Address: "",
+                    PostalCode: "",
+                    Fax: ""
+                };
+                var settings = jQuery.extend(true, {}, $scope.invoiceSettings);
+                settings.footerNote = $scope.invoice.Note + "\n" + settings.footerNote;
+                settings.footerNoteDraft = $scope.invoice.Note + "\n" + settings.footerNoteDraft;
+
+                generateInvoicePDF($scope.invoice, settings, $scope.totalDiscount, $scope.totalTax, asString, doAfterRead, $scope.payments, null, null, business, $scope.getCurrency());
+                //})
+                //.fail(function (error) {
+                //    if ($scope.accessError(error)) return;
+                //    alertbox({ content: error });
+                //})
+                //.loginFail(function () {
+                //    window.location = DefaultUrl.login;
+                //});
             };
 
             function applyScope($scope) {
