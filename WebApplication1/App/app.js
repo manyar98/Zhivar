@@ -1,4 +1,4 @@
-﻿//13:23
+﻿//13:27
 "use strict";
 define(['angularAMD', 'angular-ui-route', 'ui-bootstrap', 'angular-sanitize', 'ncy-angular-breadcrumb', 'blockUI', 'animate', 'moment', 'momentJalaali', 'infoWindow', 'preApp', 'dataService', 'helperFactory'],
     function (angularAMD) {
