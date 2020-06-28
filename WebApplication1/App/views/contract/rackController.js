@@ -13,6 +13,9 @@
             $scope.lstSaze = [{}];
             $scope.typeName = "هفته";
 
+            var orginalListGoroheSaze = [{}];
+            var listGoroheSaze2 = [{}];
+
             $scope.model = {
                 TempleteType: 1,
                 IsDefault: true
@@ -120,6 +123,7 @@
                 $scope.loadRockData();
             };
 
+            var tt = [];
             $scope.loadRockData = function () {
                 $scope.calling = true;
 
@@ -133,11 +137,36 @@
                         $scope.calling = false;
                         var result = res.data;
 
-
                         // $scope.comboItem.items = result.Sazes;
-
+                  
                         $scope.listGoroheSaze = result.listGoroheSaze;
+                        
+                        tt = [];
+                        for (var i = 0; i < result.listGoroheSaze.length; i++) {
+                            var gorheSazeTemp =
+                            {
+                                ID: result.listGoroheSaze[i].ID,
+                                Title: result.listGoroheSaze[i].Title,
+                                OrganID: result.listGoroheSaze[i].OrganID,
+                                Occupy: result.listGoroheSaze[i].Occupy,
+                                CostRentTo: result.listGoroheSaze[i].CostRentTo,
+                                CostRentFrom: result.listGoroheSaze[i].CostRentFrom,
+                                CountOfRent: result.listGoroheSaze[i].CountOfRent,
+                                ShowCostFrom: result.listGoroheSaze[i].ShowCostFrom
+                            };
+                          
+                            var items = result.listGoroheSaze[i].Items;
+                            gorheSazeTemp.Items = [];
+                            for (var j = 0; j < items.length ; j++) {
 
+                                    gorheSazeTemp.Items.push(items[j]);
+                                
+                            }
+                            tt.push(gorheSazeTemp);
+                        }
+
+               
+                      
                         $scope.totalCountOfRent = 0;
                         $scope.totalOccupy = 0;
                         $scope.totalCostRentTo = 0;
@@ -813,7 +842,7 @@
         //            var gorheSazeTemp = value1;
         //            //gorheSazeTemp.Items = [{}];
 
-        //            angular.forEach(gorheSazeTemp.Items, function (value2, key) {
+        //            angular.forEach(value1.Items, function (value2, key) {
 
         //                if (angular.isDefined(value2.Title))
         //                {
@@ -831,10 +860,42 @@
         //        $scope.listGoroheSaze = $scope.tempGroheSaze;
         //    }
 
-        //}]);
 
-    
 
+
+
+            $scope.my = { search: "" };
+            $scope.Tmoniar = function () {
+                var h = $scope.my.search;    
+                $scope.tempGroheSaze = [];          
+                for (var i = 0; i < tt.length; i++) {
+                    var gorheSazeTemp =
+                    {
+                        ID: tt[i].ID,
+                        Title: tt[i].Title,
+                        OrganID: tt[i].OrganID,
+                        Occupy: tt[i].Occupy,
+                        CostRentTo: tt[i].CostRentTo,
+                        CostRentFrom: tt[i].CostRentFrom,
+                        CountOfRent: tt[i].CountOfRent,
+                        ShowCostFrom: tt[i].ShowCostFrom
+                    };
+                    var items = tt[i].Items;
+                    gorheSazeTemp.Items = [];
+                    var tempj = 0;
+                    for (var j = tempj;j < items.length; j++) {
+                        if (angular.isDefined(items[j].Title))
+                            var n = items[j].Title.includes(h);
+                        if (n == true) 
+                            gorheSazeTemp.Items.push(items[j]);                            
+                    }
+                    if ( gorheSazeTemp.Items.length > 0)
+                        $scope.tempGroheSaze.push(gorheSazeTemp);
+                }
+                $scope.listGoroheSaze = $scope.tempGroheSaze;             
+                }
+            
+        }]);    
 
 
 
