@@ -13,17 +13,31 @@
         z-index: 10000;
     }
 
-    .timeline {
-        border: 1px solid #cccccc;
-        border-radius: 3px;
-        box-shadow: 0 0 15px #c3c3c3;
-        background: white;
-        flex: 1;
-        overflow: hidden;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
+    .style-btn-search {
+        background:white ; 
+        color:black ;
+        user-select:none !important;
+        outline:none !important ;
+        position:absolute !important ;
+        border:none !important ; 
+        top:27px;
+        left:25px; 
     }
+        .style-btn-search:hover{
+            opacity:0.5
+        }
+
+        .timeline {
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+            box-shadow: 0 0 15px #c3c3c3;
+            background: white;
+            flex: 1;
+            overflow: hidden;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
         .timeline .timeline-chart-col {
             overflow: hidden;
         }
@@ -36,7 +50,7 @@
             font-weight: bold;
             padding: 15px 5px;
             overflow: hidden;
-            height:104px;
+            height:120px;
             border-bottom: 1px solid #ccc;
             flex:1;
         }
@@ -188,7 +202,7 @@
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background-color: lime;
+       /* background-color: lime;*/
         position: absolute;
         left: 0px;
         top: 8px;
@@ -201,14 +215,13 @@
         color: #f1f1f1;
         text-align: center;
     }
-    .timeline .timeline-def-col-header {
-        line-height: 40px;
-    }
+/*    .timeline .timeline-def-col-header {
+        line-height: 10px;
+    }*/
     .timeline .timeline-header > div, .timeline .timeline-def-col-header {
         font-weight: bold;
         padding: 15px 5px;
         overflow: hidden;
-        height: 104px;
         border-bottom: 1px solid #ccc;
     }
     .timeline .timeline-header, .timeline .timeline-roomtype-header {
@@ -350,8 +363,12 @@
                 <div class="timeline">
                     <div id="rowfexed">
                         <div class="timeline-chart-col col-xs-2">
-                            <div class="timeline-def-col">
-                                <div class="timeline-def-col-header">‌گروه رسانه ها</div>
+                            <div class="timeline-def-col timeline-def-col-header" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                <div style="margin-top:7px">‌گروه رسانه ها</div>
+                                <div style="position:relative !important">
+                                    <input type="text" class="form-control text-right " ng-model="my.search" placeholder="جست و جو ..." style="margin-top:16px ;border-radius:3px ;width:90%;">
+                                    <button class="fa fa-search style-btn-search" ng-click="Tmoniar()"></button>
+                                </div>
                             </div>
                         </div>
                         <div class="timeline-header col-xs-10">
@@ -359,7 +376,7 @@
                                 <span class="timeline-header-day-of-week" style="display:block"> {{templateDate.Title1}}</span>
                                 
                                 <span class="timeline-header-date" style="display:block" > {{templateDate.Title2 |number}} </span>
-                                
+                               
                                 <span class="timeline-header-date" style="display:block" > {{templateDate.Title3 |number}} </span>
                             </div>
                         </div>
@@ -373,19 +390,20 @@
                                 <div style="display: block;" id="group{{goroheSaze.ID}}">
 
                                     <div class="timeline-def-col-room" ng-repeat="item in goroheSaze.Items" ng-mousemove="showTooltipSaze(item.ID,1)" ng-mouseleave="showTooltipSaze(item.ID,0)">
+
                                         {{item.Title.substr(0,30)}}
-                                        <span data-tip="نظافت شده" class="room-status" currentitem="false" style="background-color: lime;"></span>
+                                      
+
+                                        <span data-tip="نظافت شده" class="room-status " ng-show="item.IsUsed" style="background-color:red" currentitem="false"></span>
+                                        <span data-tip="نظافت شده" class="room-status " ng-hide="item.IsUsed" style="background-color:lime" currentitem="false"></span>
 
                                         <div class="__react_component_tooltip place-top type-dark timelineBarToolTip" id="tooltipSaze{{item.ID}}" style="position:fixed">
-
                                             <div style="margin: 7px 0px;"><span> نام سازه: {{item.Title}}  </span></div>
                                             <div style="margin: 7px 0px;"><span>آدرس: {{item.Address}}  </span></div>
                                             <div style="margin: 7px 0px;"><span> طول: {{item.Tol |digitGroup}}  </span></div>
                                             <div style="margin: 7px 0px;"><span>عرض: {{item.Arz |digitGroup}} </span></div>
                                             <div style="margin: 7px 0px;"><span>مساحت: {{(item.Tol*item.Arz) |digitGroup}} </span></div>
                                             <div style="margin: 7px 0px;"><span>نور دارد: {{item.NoorDard}}  </span></div>
-
-
                                         </div>
 
                                     </div>
@@ -396,6 +414,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="col-xs-10">
                             <div ng-repeat="goroheSaze in listGoroheSaze">
                                 <div class="timeline-roomtype-header">
@@ -478,13 +498,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
 
 
@@ -628,15 +644,7 @@
                                             </div>
                                         </div>
                                     </div>
-
-
-
-
-
                                 </div>
-
-
-
                             </div>
 
                         </div>

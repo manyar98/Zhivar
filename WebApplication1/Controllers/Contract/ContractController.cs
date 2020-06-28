@@ -856,6 +856,14 @@ namespace Zhivar.Web.Controllers.Contract
                     foreach (var KalaKhadmat in itemGroup.Items)
                     {
                         KalaKhadmat.SazeOfContractInTimes = list.Where(x => x.SazeID == KalaKhadmat.ID).ToList();
+                        if(KalaKhadmat.SazeOfContractInTimes.Any(x => x.IsUsed == true))
+                        {
+                            KalaKhadmat.IsUsed = true;
+                        }
+                        else
+                        {
+                            KalaKhadmat.IsUsed = false;
+                        }
                     }
                 }
 
@@ -1179,6 +1187,7 @@ namespace Zhivar.Web.Controllers.Contract
 
             }
             catch (Exception ex)
+
             {
 
                 throw;
@@ -1209,7 +1218,7 @@ namespace Zhivar.Web.Controllers.Contract
                     if (contractStopsSub.Count > 0)
                         contract_Sazes = SplitContractSazeTime(contract_Sazes, contractStopsSub);
 
-                    
+
                     foreach (var contract_Saze in contract_Sazes)
                     {
                         var endDate = DateTime.Now.Date;
@@ -1241,7 +1250,20 @@ namespace Zhivar.Web.Controllers.Contract
                         double percentCostRentTo = 0;
 
                         if (subDiff.TotalDays > 0)
-                             percentCostRentTo = ((mainDiff.TotalDays + 1) * 100) / subDiff.TotalDays;
+                            percentCostRentTo = ((mainDiff.TotalDays + 1) * 100) / subDiff.TotalDays;
+
+
+
+
+                        var isUsed = false;
+
+
+                        if (contract_Saze.TarikhShorou <= DateTime.Now && endDate.Date >= DateTime.Now)
+                        {
+                            isUsed = true;
+                        }
+                        
+
 
                         if (contract_Saze.TarikhShorou.Date >= rockData.StartDate.Date && contract_Saze.TarikhShorou.Date <= rockData.EndDate ||
                             endDate.Date >= rockData.StartDate.Date && endDate.Date < rockData.EndDate.Date ||
@@ -1288,6 +1310,8 @@ namespace Zhivar.Web.Controllers.Contract
                             sazeOfContractInTime.Type = contract.ContractType;
                             sazeOfContractInTime.Amount = amount;
                             sazeOfContractInTime.Distance = distance;
+
+                            sazeOfContractInTime.IsUsed = isUsed;
 
                             var amountStr = amount.ToString() + "%";
                             sazeOfContractInTime.Styles = new Dictionary<string, string>();
@@ -1829,7 +1853,7 @@ namespace Zhivar.Web.Controllers.Contract
 
                         templateDate.ID = i;
                         templateDate.Title1 = temp.TitleDay;
-                        templateDate.Title2 = temp.Day ;
+                        templateDate.Title2 = temp.Day;
                         templateDate.Title3 = temp.TitleMonth;
 
                         templateDate.Date = PersianDateUtils.ToPersianDate(rockData.StartDate.AddDays(i));

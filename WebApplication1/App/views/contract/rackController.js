@@ -801,5 +801,43 @@
                 }
                 return false;
             }
-        }]);
+
+
+        //    $scope.my = { search: "" };
+        //    $scope.Tmoniar = function () {
+        //        //console.log($scope.my.search);
+        //        var h = $scope.my.search;
+        //        $scope.tempGroheSaze = [{}];
+
+        //        angular.forEach($scope.listGoroheSaze, function (value1, key) {
+        //            var gorheSazeTemp = value1;
+        //            //gorheSazeTemp.Items = [{}];
+
+        //            angular.forEach(gorheSazeTemp.Items, function (value2, key) {
+
+        //                if (angular.isDefined(value2.Title))
+        //                {
+        //                    var n = value2.Title.includes(h);
+
+        //                    if (n == true) {
+        //                        gorheSazeTemp.Items.push(value2);
+        //                    }
+        //                }
+        //            });  
+
+        //            $scope.tempGroheSaze.push(gorheSazeTemp);
+        //        });  
+
+        //        $scope.listGoroheSaze = $scope.tempGroheSaze;
+        //    }
+
+        //}]);
+
+    
+
+
+
+
+
+
 }); 
